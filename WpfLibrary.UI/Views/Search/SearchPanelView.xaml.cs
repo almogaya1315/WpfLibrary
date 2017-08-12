@@ -12,17 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfLibrary.UI.ViewModel;
 
-namespace WpfLibrary.UI
+namespace WpfLibrary.UI.Views.Search
 {
-    public partial class MainWindow : Window
+    public partial class SearchPanelView : UserControl
     {
-        public MainWindow()
+        public SearchPanelView()
         {
             InitializeComponent();
-
-            DataContext = new SearchViewModel();
         }
     }
 }

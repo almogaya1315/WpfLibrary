@@ -12,17 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfLibrary.UI.ViewModel;
 
-namespace WpfLibrary.UI
+namespace WpfLibrary.UI.Views.AddBook
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Interaction logic for AddBookFormView.xaml
+    /// </summary>
+    public partial class AddBookFormView : UserControl
     {
-        public MainWindow()
+        public AddBookFormView()
         {
             InitializeComponent();
-
-            DataContext = new SearchViewModel();
         }
     }
 }
