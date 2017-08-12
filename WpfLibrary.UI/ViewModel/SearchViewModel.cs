@@ -6,7 +6,7 @@ namespace WpfLibrary.UI.ViewModel
     {
         public SearchViewModel()
         {
-          
+            
         }
     }
 }

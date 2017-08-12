@@ -8,7 +8,7 @@
              mc:Ignorable="d"
              d:DesignHeight="800"
              d:DesignWidth="1200">
-    <Grid >
+    <Grid b:GridBehavior.ColumnsWidth="0.2*,9*,0.2*">
 
         <local:SearchPanelView />
         <local:SearchResultView />
