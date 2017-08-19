@@ -1,12 +1,14 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Main
+namespace Main.ViewModel
 {
-    public class Person
+    public class PersonViewModel : ViewModelBase
     {
         public bool IsAdult
         {
@@ -27,18 +29,19 @@ namespace Main
 
         public int Year { get; set; }
 
-        IList<Person> _relatives;
-        public IList<Person> Relatives
+        ObservableCollection<PersonViewModel> _relatives;
+        public ObservableCollection<PersonViewModel> Relatives
         {
             get
             {
                 if (_relatives == null)
-                    _relatives = new List<Person>();
+                    _relatives = new ObservableCollection<PersonViewModel>();
                 return _relatives;
             }
             set
             {
                 _relatives = value;
+                RaisePropertyChanged();
             }
         }
     }

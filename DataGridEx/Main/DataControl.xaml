@@ -3,62 +3,59 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Main"
+             xmlns:local="clr-namespace:Main.ViewModel"
              mc:Ignorable="d"
              d:DesignHeight="500"
              d:DesignWidth="800">
     <DataGrid AutoGenerateColumns="False"
-              ItemsSource="{Binding People}">
+              ItemsSource="{Binding People}"
+              CanUserAddRows="False">
         <DataGrid.Columns>
             <DataGridCheckBoxColumn Header="Is Adult?"
                                     Width="0.5*"
                                     Binding="{Binding IsAdult}"
-                                    IsReadOnly="True"/>
+                                    IsReadOnly="True" />
             <DataGridTextColumn Header="Id"
-                                Width="0.3*" 
-                                Binding="{Binding Id}"/>
+                                Width="0.3*"
+                                Binding="{Binding Id}" />
             <DataGridTextColumn Header="Name"
-                                Width="1.5*" 
-                                Binding="{Binding Name}"/>
+                                Width="1.5*"
+                                Binding="{Binding Name}" />
             <DataGridTextColumn Header="Age"
-                                Width="1*" 
-                                Binding="{Binding Age}"/>
+                                Width="1*"
+                                Binding="{Binding Age}" />
             <DataGridTextColumn Header="Year"
-                                Width="1*" 
-                                Binding="{Binding Year}"/>
+                                Width="1*"
+                                Binding="{Binding Year}" />
             <DataGridTemplateColumn Header="Relatives"
                                     Width="1.3*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <ComboBox ItemsSource="{Binding Relatives}"
-                                  DisplayMemberPath="Name"/>
+                                  DisplayMemberPath="Name" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
+
             <DataGridComboBoxColumn Header="Relatives"
                                     Width="1.3*"
-                                    DisplayMemberPath="Name"
-                                    SelectedValueBinding="{Binding Person}">
-                
-            </DataGridComboBoxColumn>
-            <!--<DataGridComboBoxColumn Header="Relatives"
-                                    Width="1.3*"
-                                    SelectedValueBinding="{Binding Id}"
-                                    SelectedValuePath="Id"
+                                    SelectedItemBinding="{Binding SelectedPerson}"
                                     DisplayMemberPath="Name">
                 <DataGridComboBoxColumn.ElementStyle>
-                    <Style TargetType="ComboBox">
+                    <Style TargetType="{x:Type ComboBox}">
                         <Setter Property="ItemsSource"
-                                Value="{Binding Relatives}"/>
+                                Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=DataContext.Relatives}" />
+                        
                     </Style>
                 </DataGridComboBoxColumn.ElementStyle>
                 <DataGridComboBoxColumn.EditingElementStyle>
-                    <Style TargetType="ComboBox">
+                    <Style TargetType="{x:Type ComboBox}">
                         <Setter Property="ItemsSource"
-                                Value="{Binding Relatives}"/>
+                                Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ComboBoxItem}}, Path=DataContext.Relatives}" />
+                        
                     </Style>
                 </DataGridComboBoxColumn.EditingElementStyle>
-            </DataGridComboBoxColumn>-->
+            </DataGridComboBoxColumn>
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>
