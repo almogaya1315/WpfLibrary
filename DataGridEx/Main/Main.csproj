@@ -75,11 +75,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataControl.xaml.cs">
-      <DependentUpon>DataControl.xaml</DependentUpon>
+    <Compile Include="Custom\DsDataGrid.cs" />
+    <Compile Include="Custom\DsDataGridColumn.cs" />
+    <Compile Include="Enums\Templates.cs" />
+    <Compile Include="ViewModel\CellViewModel.cs" />
+    <Compile Include="ViewModel\ColumnViewModel.cs" />
+    <Compile Include="ViewModel\DataViewModel.cs" />
+    <Compile Include="Views\DataControlView.xaml.cs">
+      <DependentUpon>DataControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\PersonViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="Views\IControlViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -92,7 +99,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="DataControl.xaml">
+    <Page Include="Resources\DataGridTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,6 +136,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

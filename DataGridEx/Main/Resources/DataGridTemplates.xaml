@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="TextColumnTemplate">
+        <TextBlock Text="{Binding Value}"/>
+    </DataTemplate>
+    <DataTemplate x:Key="EditingTextColumnTemplate">
+        <TextBox Text="{Binding Value}" />
+    </DataTemplate>
+    <DataTemplate x:Key="BoolColumnTemplate">
+        <CheckBox Content="{Binding Value}" />
+    </DataTemplate>
+    <DataTemplate x:Key="DateTimeColumnTemplate">
+        <DatePicker Text="{Binding Value}" />
+    </DataTemplate>
+    <DataTemplate x:Key="ListColumnTemplate">
+        <ComboBox ItemsSource="{Binding Value}"
+                  DisplayMemberPath="Value.Value"/>
+    </DataTemplate>
+</ResourceDictionary>

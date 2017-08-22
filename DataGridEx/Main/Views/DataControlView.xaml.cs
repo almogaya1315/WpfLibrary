@@ -13,11 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Main
+namespace Main.Views
 {
-    public partial class DataControl : UserControl
+    public partial class DataControlView : UserControl
     {
-        public DataControl()
+        public DataControlView()
         {
             InitializeComponent();
         }
