@@ -19,7 +19,7 @@ namespace Editor
 {
     public partial class MainWindow : Window
     {
-        ViewModelBase View { get; set; }
+        public ViewModelBase View { get; set; }
 
         public MainWindow()
         {

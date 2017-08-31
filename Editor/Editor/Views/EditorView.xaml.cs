@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Editor.Views
 {
-    /// <summary>
-    /// Interaction logic for EditorView.xaml
-    /// </summary>
     public partial class EditorView : UserControl
     {
         public EditorView()
