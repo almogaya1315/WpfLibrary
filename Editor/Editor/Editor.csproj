@@ -78,6 +78,7 @@
     <Compile Include="Controls\DataGrid\CellDefinition.cs" />
     <Compile Include="Controls\DataGrid\ColumnDefinition.cs" />
     <Compile Include="Controls\DataGrid\MyTemplateColumn.cs" />
+    <Compile Include="Models\BallModel.cs" />
     <Compile Include="ViewModels\BallViewModel.cs" />
     <Compile Include="ViewModels\CheckedItemViewModel.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />

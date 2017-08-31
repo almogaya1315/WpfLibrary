@@ -54,8 +54,8 @@ namespace Editor.Controls.DataGrid
                     CellTemplate = (DataTemplate)grid.FindResource(c.DataTemplateName),
                 };
 
-                if (c.EditingDataTemplateName != null)
-                    column.CellEditingTemplate = (DataTemplate)grid.FindResource(c.EditingDataTemplateName);
+                if (c.EditingTemplateName != null)
+                    column.CellEditingTemplate = (DataTemplate)grid.FindResource(c.EditingTemplateName);
                 else column.IsReadOnly = true;
 
                 grid.Columns.Add(column);

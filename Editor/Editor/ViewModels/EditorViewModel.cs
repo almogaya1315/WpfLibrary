@@ -11,12 +11,14 @@ namespace Editor.ViewModels
     public class EditorViewModel : ViewModelBase
     {
         public List<ColumnDefinition> Columns { get; set; }
+        private List<ColumnDefinition> _expandedColumns { get; set; }
+        private List<ColumnDefinition> _collapsedColumns { get; set; }
 
         public List<BallViewModel> Balls { get; set; }
 
         public EditorViewModel()
         {
-                    
+                           
         }
     }
 }

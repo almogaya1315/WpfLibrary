@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Editor.Controls.DataGrid;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,30 +10,28 @@ namespace Editor.ViewModels
 {
     public class BallViewModel : ViewModelBase
     {
-        public int Inning { get; set; }
+        public CellDefinition Code { get; set; }
 
-        public int Over { get; set; }
+        public CellDefinition IsFlagged { get; set; }
 
-        public int BallNumber { get; set; }
+        public CellDefinition IsCanceled { get; set; }
 
-        public int IllegalBalls { get; set; }
+        public CellDefinition Bowler { get; set; }
 
-        public int BowlerId { get; set; }
+        public CellDefinition Batsman { get; set; }
 
-        public int BatsmanId { get; set; }
+        public CellDefinition NonStriker { get; set; }
 
-        public int NonStrikerId { get; set; }
+        public CellDefinition Runs { get; set; }
 
-        public int Runs { get; set; }
+        public CellDefinition RunType1 { get; set; }
 
-        public int RunType1 { get; set; }
+        public CellDefinition RunType2 { get; set; }
 
-        public int RunType2 { get; set; }
+        public CellDefinition RunType3 { get; set; }
 
-        public int RunType3 { get; set; }
+        public CellDefinition Wicket { get; set; }
 
-        public bool Wicket { get; set; }
-
-        public int WicketTypeId { get; set; }
+        public CellDefinition WicketTypeId { get; set; }
     }
 }
