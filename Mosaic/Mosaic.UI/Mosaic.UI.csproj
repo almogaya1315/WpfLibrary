@@ -80,6 +80,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\MyItemsControl.cs" />
+    <Compile Include="Converters\ZeroToEmptyStringConverter.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Mosaic.UI
 {

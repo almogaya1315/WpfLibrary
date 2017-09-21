@@ -12,6 +12,8 @@ namespace Mosaic.UI.Main.ViewModels
 {
     public class MosaicViewModel : ViewModelBase
     {
+        private int _cardsCount;
+
         public string RangeValue { get; set; }
         public int Rows { get; set; }
 
@@ -49,6 +51,57 @@ namespace Mosaic.UI.Main.ViewModels
             }
         }
 
+        private CardViewModel _emptyCard;
+        public CardViewModel EmptyCard
+        {
+            get { return _emptyCard; }
+            set
+            {
+                _emptyCard = value;
+                RaisePropertyChanged();
+            }
+        }
+        private CardViewModel _leftCard;
+        public CardViewModel LeftCard
+        {
+            get { return _leftCard; }
+            set
+            {
+                _leftCard = value;
+                RaisePropertyChanged();
+            }
+        }
+        private CardViewModel _rightCard;
+        public CardViewModel RightCard
+        {
+            get { return _rightCard; }
+            set
+            {
+                _rightCard = value;
+                RaisePropertyChanged();
+            }
+        }
+        private CardViewModel _upCard;
+        public CardViewModel UpCard
+        {
+            get { return _upCard; }
+            set
+            {
+                _upCard = value;
+                RaisePropertyChanged();
+            }
+        }
+        private CardViewModel _downCard;
+        public CardViewModel DownCard
+        {
+            get { return _downCard; }
+            set
+            {
+                _downCard = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private int _attempts;
         public int Attempts
         {
@@ -68,15 +121,15 @@ namespace Mosaic.UI.Main.ViewModels
 
             Cards = new List<CardViewModel>();
 
-            Start = new RelayCommand(StartNewGame, CanStart);
+            Start = new RelayCommand(StartNewGame, () => Rows > 0);
         }
 
         private void StartNewGame()
         {
             Cards.Clear();
 
-            var cardsCount = Math.Pow(Rows, 2);
-            for (int i = 1; i < cardsCount; i++)
+            _cardsCount = Convert.ToInt32(Math.Pow(Rows, 2));
+            for (int i = 1; i < _cardsCount; i++)
             {
                 Cards.Add(new CardViewModel()
                 {
@@ -88,11 +141,71 @@ namespace Mosaic.UI.Main.ViewModels
             Cards.Add(new CardViewModel() { TemplateName = "HiddenCardTemplate" });
 
             Cards = Cards.Shuffle().ToList();
+
+            FindMoveableCards();
+
+            if (UpCard != null) Cards.First(c => c.Value == UpCard.Value).TemplateName = "MoveableCardTemplate";
+            if (DownCard != null) Cards.First(c => c.Value == DownCard.Value).TemplateName = "MoveableCardTemplate";
+            if (LeftCard != null) Cards.First(c => c.Value == LeftCard.Value).TemplateName = "MoveableCardTemplate";
+            if (RightCard != null) Cards.First(c => c.Value == RightCard.Value).TemplateName = "MoveableCardTemplate";
         }
 
-        private bool CanStart()
+        private void FindMoveableCards()
         {
-            return Rows > 0;
+            EmptyCard = Cards.First(c => c.Value == 0);
+            var emptyIndex = Cards.IndexOf(EmptyCard);
+
+            bool isLeft = true;
+            for (int i = 0; i < _cardsCount; i += Rows)
+            {
+                if (emptyIndex != i) continue;
+                else
+                {
+                    isLeft = false;
+                    break;
+                }
+            }
+            LeftCard = isLeft ? Cards.ElementAt(emptyIndex - 1) : null;
+            var leftIndex = Cards.IndexOf(LeftCard);
+
+            bool isRight = true;
+            for (int i = Rows - 1; i < _cardsCount; i += Rows)
+            {
+                if (emptyIndex != i) continue;
+                else
+                {
+                    isRight = false;
+                    break;
+                }
+            }
+            RightCard = isRight ? Cards.ElementAt(emptyIndex + 1) : null;
+            var rightIndex = Cards.IndexOf(RightCard);
+
+            bool isUp = true;
+            for (int i = 0; i <= Rows - 1; i++)
+            {
+                if (emptyIndex != i) continue;
+                else
+                {
+                    isUp = false;
+                    break;
+                }
+            }
+            UpCard = isUp ? Cards.ElementAt(emptyIndex + 1) : null;
+            var upIndex = Cards.IndexOf(UpCard);
+
+            bool isDown = true;
+            for (int i = _cardsCount - Rows; i < _cardsCount; i++)
+            {
+                if (emptyIndex != i) continue;
+                else
+                {
+                    isDown = false;
+                    break;
+                }
+            }
+            DownCard = isDown ? Cards.ElementAt(emptyIndex + 1) : null;
+            var downIndex = Cards.IndexOf(DownCard);
         }
     }
 }

@@ -16,4 +16,32 @@
         <Border Margin="5" />
     </DataTemplate>
 
+    <DataTemplate x:Key="MoveableCardTemplate">
+        <Button>
+            <Button.Template>
+                <ControlTemplate>
+                    <Border BorderBrush="Teal"
+                            BorderThickness="5"
+                            Margin="5">
+                        <TextBlock Text="{Binding}"
+                                   Padding="10"
+                                   TextAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="true">
+                                            <Setter Property="Background"
+                                                    Value="Red"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </DataTemplate>
+
 </ResourceDictionary>

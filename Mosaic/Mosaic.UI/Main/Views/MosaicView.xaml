@@ -23,7 +23,10 @@
                        Padding="10 1"
                        Margin="5"
                        FontSize="20" />
-            <c:MyTextBox Text="{Binding Rows, UpdateSourceTrigger=PropertyChanged}"
+            <c:MyTextBox Text="{Binding Rows, 
+                                        UpdateSourceTrigger=PropertyChanged, 
+                                        Converter={StaticResource 
+                                        ResourceKey=ZeroToEmpry}}"
                          Margin="5"
                          Width="40"
                          FontSize="20"
