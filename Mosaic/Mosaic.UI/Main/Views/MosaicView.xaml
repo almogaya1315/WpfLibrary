@@ -46,19 +46,6 @@
                     <UniformGrid />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-
-            <!--<ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="Teal"
-                            BorderThickness="5"
-                            Margin="5">
-                        <TextBlock Text="{Binding Value}"
-                                   Padding="10"
-                                   TextAlignment="Center" />
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>-->
-
         </c:MyItemsControl>
 
     </StackPanel>

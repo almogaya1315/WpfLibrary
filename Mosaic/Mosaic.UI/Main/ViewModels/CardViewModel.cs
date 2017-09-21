@@ -11,5 +11,7 @@ namespace Mosaic.UI.Main.ViewModels
         public int Value { get; set; }
 
         public string TemplateName { get; set; }
+
+        public string DataContextPath { get; set; }
     }
 }

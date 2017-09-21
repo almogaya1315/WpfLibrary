@@ -82,13 +82,10 @@ namespace Mosaic.UI.Main.ViewModels
                 {
                     Value = i,
                     TemplateName = "VisibleCardTemplate",
+                    DataContextPath = "Value",
                 });
             }
-            Cards.Add(new CardViewModel()
-            {
-                Value = 0,
-                TemplateName = "HiddenCardTemplate",
-            });
+            Cards.Add(new CardViewModel() { TemplateName = "HiddenCardTemplate" });
 
             Cards = Cards.Shuffle().ToList();
         }

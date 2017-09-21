@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 
 namespace Mosaic.UI.Controls
 {
@@ -31,13 +32,23 @@ namespace Mosaic.UI.Controls
             var cards = (List<CardViewModel>)d.GetValue(ItemsSourceBindingsProperty);
             if (cards.Count == 0) return;
 
+            grid.Items.Clear();
             foreach (var card in cards)
             {
-                grid.Items.Add(new MyContentPresenter()
+                var contentPresenter = new ContentPresenter()
                 {
                     ContentTemplate = (DataTemplate)grid.FindResource(card.TemplateName),
-                    DataContext = card,
-                });
+                };
+
+                var binding = new Binding()
+                {
+                    Source = card,
+                    Path = new PropertyPath(card.DataContextPath),
+                    Mode = BindingMode.OneWay
+                };
+                var contentBinding = BindingOperations.SetBinding(contentPresenter, ContentPresenter.ContentProperty, binding);
+
+                grid.Items.Add(contentPresenter);
             }
         }
     }
