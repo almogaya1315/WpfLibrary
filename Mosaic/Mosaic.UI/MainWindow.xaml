@@ -17,5 +17,5 @@
         </DataTemplate>
     </Window.Resources>
 
-    <ContentPresenter Content="{Binding View}"/>
+    <ContentPresenter Content="{Binding View}" />
 </Window>

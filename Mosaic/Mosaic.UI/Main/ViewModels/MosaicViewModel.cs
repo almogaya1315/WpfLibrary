@@ -6,6 +6,7 @@ using Mosaic.UI.Extensions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace Mosaic.UI.Main.ViewModels
 {
@@ -83,11 +84,11 @@ namespace Mosaic.UI.Main.ViewModels
                     TemplateName = "VisibleCardTemplate",
                 });
             }
-            Cards.Add(new CardViewModel()
-            {
-                Value = 0,
-                TemplateName = "HiddenCardTemplate",
-            });
+            //Cards.Add(new CardViewModel()
+            //{
+            //    Value = 0,
+            //    TemplateName = "HiddenCardTemplate",
+            //});
 
             Cards = Cards.Shuffle().ToList();
         }

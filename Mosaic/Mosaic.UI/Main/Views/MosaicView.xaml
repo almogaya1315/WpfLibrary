@@ -8,9 +8,9 @@
              d:DesignHeight="300"
              d:DesignWidth="500">
     <UserControl.Resources>
-        <ResourceDictionary Source="E:\Git_Code\WpfLibrary\Mosaic\Mosaic.UI\Templates.xaml"/>
+        <ResourceDictionary Source="E:\Git_Code\WpfLibrary\Mosaic\Mosaic.UI\Templates.xaml" />
     </UserControl.Resources>
-    
+
     <StackPanel>
         <StackPanel Orientation="Horizontal"
                     Margin="50 10">
@@ -39,15 +39,15 @@
                        FontSize="20" />
         </StackPanel>
 
-        <c:MyItemsControl ItemsSourceBindings="{Binding Cards}"
-                          Margin="10">
+        <ItemsControl ItemsSource="{Binding Cards}"
+                      Margin="10">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
-            <!--<ItemsControl.ItemTemplate>
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Teal"
                             BorderThickness="5"
@@ -57,8 +57,9 @@
                                    TextAlignment="Center" />
                     </Border>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>-->
+            </ItemsControl.ItemTemplate>
 
-        </c:MyItemsControl>
+        </ItemsControl>
+        
     </StackPanel>
 </UserControl>

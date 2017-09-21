@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Mosaic.UI">
+    
     <DataTemplate x:Key="VisibleCardTemplate">
         <Border BorderBrush="Teal"
                 BorderThickness="5"
@@ -10,9 +11,11 @@
                        TextAlignment="Center" />
         </Border>
     </DataTemplate>
+    
     <DataTemplate x:Key="HiddenCardTemplate">
-        <Border BorderBrush="Teal"
-                BorderThickness="5"
+        <Border BorderBrush="Black"
+                BorderThickness="1"
                 Margin="5" />
     </DataTemplate>
+    
 </ResourceDictionary>

@@ -80,7 +80,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\MyControlColumn.cs" />
-    <Compile Include="Controls\MyItemsControl.cs" />
+    <Compile Include="Controls\MyUniformGrid.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +89,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Main\ViewModels\CardViewModel.cs" />
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="Main\ViewModels\MosaicViewModel.cs" />
     <Compile Include="Main\Views\MosaicView.xaml.cs">
       <DependentUpon>MosaicView.xaml</DependentUpon>
