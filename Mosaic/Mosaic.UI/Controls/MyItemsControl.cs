@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace Mosaic.UI.Controls
 {
-    public class MyUniformGrid : UniformGrid
+    public class MyItemsControl : ItemsControl
     {
         public List<CardViewModel> ItemsSourceBindings
         {
@@ -19,23 +20,24 @@ namespace Mosaic.UI.Controls
 
         public static readonly DependencyProperty ItemsSourceBindingsProperty =
             DependencyProperty.Register("ItemsSourceBindings", 
-                typeof(List<CardViewModel>), typeof(MyUniformGrid), 
+                typeof(List<CardViewModel>), typeof(MyItemsControl), 
                 new PropertyMetadata(null, ItemsSourceBindingsPropertyChanged));
 
         private static void ItemsSourceBindingsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (MyUniformGrid)d;
-            if (control == null) return;
+            var grid = (MyItemsControl)d;
+            if (grid == null) return;
 
             var cards = (List<CardViewModel>)d.GetValue(ItemsSourceBindingsProperty);
             if (cards.Count == 0) return;
 
             foreach (var card in cards)
             {
-                //control.Children.Add(new  //Items.Add(new MyControlColumn()
-                //{
-                //    //CellTemplate = (DataTemplate)control.FindResource(card.TemplateName),
-                //});
+                grid.Items.Add(new MyContentPresenter()
+                {
+                    ContentTemplate = (DataTemplate)grid.FindResource(card.TemplateName),
+                    DataContext = card,
+                });
             }
         }
     }

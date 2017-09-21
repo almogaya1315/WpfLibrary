@@ -28,8 +28,8 @@ namespace Mosaic.UI.Controls
         }
 
         public static readonly DependencyProperty InputModeProperty =
-            DependencyProperty.Register("InputMode", 
-                typeof(InputMode), typeof(MyTextBox), 
+            DependencyProperty.Register("InputMode",
+                typeof(InputMode), typeof(MyTextBox),
                 new PropertyMetadata(InputMode.Numeric, OnInputModePropertyChanged));
 
         private static void OnInputModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
@@ -114,5 +114,7 @@ namespace Mosaic.UI.Controls
     public enum InputMode
     {
         Numeric,
+        Hebrew,
+        English,
     }
 }

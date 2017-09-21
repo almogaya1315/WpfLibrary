@@ -39,15 +39,15 @@
                        FontSize="20" />
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding Cards}"
-                      Margin="10">
+        <c:MyItemsControl ItemsSourceBindings="{Binding Cards}"
+                          Margin="10">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
-            <ItemsControl.ItemTemplate>
+            <!--<ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Teal"
                             BorderThickness="5"
@@ -57,9 +57,9 @@
                                    TextAlignment="Center" />
                     </Border>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            </ItemsControl.ItemTemplate>-->
 
-        </ItemsControl>
-        
+        </c:MyItemsControl>
+
     </StackPanel>
 </UserControl>

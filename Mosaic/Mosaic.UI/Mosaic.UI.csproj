@@ -79,8 +79,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\MyControlColumn.cs" />
-    <Compile Include="Controls\MyUniformGrid.cs" />
+    <Compile Include="Controls\MyContentPresenter.cs" />
+    <Compile Include="Controls\MyItemsControl.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

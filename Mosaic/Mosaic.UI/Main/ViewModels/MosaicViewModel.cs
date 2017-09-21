@@ -19,7 +19,7 @@ namespace Mosaic.UI.Main.ViewModels
         {
             get
             {
-                string min = string.Empty; ; 
+                string min = string.Empty; ;
                 int startIndex = 0;
 
                 foreach (var c in RangeValue)
@@ -84,11 +84,11 @@ namespace Mosaic.UI.Main.ViewModels
                     TemplateName = "VisibleCardTemplate",
                 });
             }
-            //Cards.Add(new CardViewModel()
-            //{
-            //    Value = 0,
-            //    TemplateName = "HiddenCardTemplate",
-            //});
+            Cards.Add(new CardViewModel()
+            {
+                Value = 0,
+                TemplateName = "HiddenCardTemplate",
+            });
 
             Cards = Cards.Shuffle().ToList();
         }
