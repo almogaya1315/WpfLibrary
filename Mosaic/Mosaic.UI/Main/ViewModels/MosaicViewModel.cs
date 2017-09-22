@@ -210,18 +210,13 @@ namespace Mosaic.UI.Main.ViewModels
         private void MoveCardToEmpty(int value)
         {
             var card = Cards.First(c => c.Value == value);
-            var tempCard = new CardViewModel()
-            {
-                Value = card.Value,
-                TemplateName = card.TemplateName,
-                DataContextPath = card.DataContextPath,
-                Type = card.Type,
-                Index = card.Index,
-            };
-            var emptyCard = _moveableCards[CardType.EmptyCard];
+            var emptyCard = Cards.First(c => c.Type == CardType.EmptyCard);
 
-            card = emptyCard;
-            emptyCard = tempCard;
+            Cards.RemoveAt(card.Index);
+            Cards.Insert(card.Index, emptyCard);
+
+            Cards.RemoveAt(emptyCard.Index);
+            Cards.Insert(emptyCard.Index, card);
 
             FindMoveableCards();
         }
