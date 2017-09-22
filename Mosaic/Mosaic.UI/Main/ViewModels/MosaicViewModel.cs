@@ -136,23 +136,30 @@ namespace Mosaic.UI.Main.ViewModels
                     Value = i,
                     TemplateName = "VisibleCardTemplate",
                     DataContextPath = "Value",
+                    Type = CardType.None,
                 });
             }
-            Cards.Add(new CardViewModel() { TemplateName = "HiddenCardTemplate" });
+            Cards.Add(new CardViewModel()
+            {
+                TemplateName = "HiddenCardTemplate",
+                Type = CardType.None,
+            });
 
             Cards = Cards.Shuffle().ToList();
 
             FindMoveableCards();
 
-            if (UpCard != null) Cards.First(c => c.Value == UpCard.Value).TemplateName = "MoveableCardTemplate";
-            if (DownCard != null) Cards.First(c => c.Value == DownCard.Value).TemplateName = "MoveableCardTemplate";
-            if (LeftCard != null) Cards.First(c => c.Value == LeftCard.Value).TemplateName = "MoveableCardTemplate";
-            if (RightCard != null) Cards.First(c => c.Value == RightCard.Value).TemplateName = "MoveableCardTemplate";
+            
+            
+            
+            
         }
 
         private void FindMoveableCards()
         {
             EmptyCard = Cards.First(c => c.Value == 0);
+            EmptyCard.TemplateName = "HiddenCardTemplate";
+            EmptyCard.Type = CardType.None;
             var emptyIndex = Cards.IndexOf(EmptyCard);
 
             bool isLeft = true;
@@ -166,7 +173,12 @@ namespace Mosaic.UI.Main.ViewModels
                 }
             }
             LeftCard = isLeft ? Cards.ElementAt(emptyIndex - 1) : null;
-            var leftIndex = Cards.IndexOf(LeftCard);
+            if (LeftCard != null)
+            {
+                LeftCard.TemplateName = "MoveableCardTemplate"; // Cards.First(c => c.Value == LeftCard.Value)
+                LeftCard.Type = CardType.LeftCard;
+                var leftIndex = Cards.IndexOf(LeftCard);
+            }
 
             bool isRight = true;
             for (int i = Rows - 1; i < _cardsCount; i += Rows)
@@ -179,7 +191,12 @@ namespace Mosaic.UI.Main.ViewModels
                 }
             }
             RightCard = isRight ? Cards.ElementAt(emptyIndex + 1) : null;
-            var rightIndex = Cards.IndexOf(RightCard);
+            if (RightCard != null)
+            {
+                RightCard.TemplateName = "MoveableCardTemplate"; // Cards.First(c => c.Value == RightCard.Value)
+                RightCard.Type = CardType.RightCard;
+                var rightIndex = Cards.IndexOf(RightCard);
+            }
 
             bool isUp = true;
             for (int i = 0; i <= Rows - 1; i++)
@@ -192,7 +209,12 @@ namespace Mosaic.UI.Main.ViewModels
                 }
             }
             UpCard = isUp ? Cards.ElementAt(emptyIndex + 1) : null;
-            var upIndex = Cards.IndexOf(UpCard);
+            if (UpCard != null)
+            {
+                UpCard.TemplateName = "MoveableCardTemplate"; // Cards.First(c => c.Value == UpCard.Value)
+                UpCard.Type = CardType.UpCard;
+                var upIndex = Cards.IndexOf(UpCard);
+            }
 
             bool isDown = true;
             for (int i = _cardsCount - Rows; i < _cardsCount; i++)
@@ -205,7 +227,22 @@ namespace Mosaic.UI.Main.ViewModels
                 }
             }
             DownCard = isDown ? Cards.ElementAt(emptyIndex + 1) : null;
-            var downIndex = Cards.IndexOf(DownCard);
+            if (DownCard != null)
+            {
+                DownCard.TemplateName = "MoveableCardTemplate"; // Cards.First(c => c.Value == DownCard.Value)
+                DownCard.Type = CardType.DownCard;
+                var downIndex = Cards.IndexOf(DownCard);
+            }
+
+            foreach (var card in Cards)
+            {
+                if (card.Value == UpCard.Value || card.Value == DownCard.Value ||
+                    card.Value == LeftCard.Value || card.Value == RightCard.Value || card.Value == EmptyCard.Value)
+                {
+                    card.TemplateName = "VisibleCardTemplate";
+                    card.Type = CardType.None;
+                }
+            }
         }
     }
 }

@@ -13,5 +13,16 @@ namespace Mosaic.UI.Main.ViewModels
         public string TemplateName { get; set; }
 
         public string DataContextPath { get; set; }
+
+        public CardType Type { get; set; }
+    }
+
+    public enum CardType
+    {
+        UpCard,
+        DownCard,
+        LeftCard,
+        RightCard,
+        None,
     }
 }
