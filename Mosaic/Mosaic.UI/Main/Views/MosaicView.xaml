@@ -44,6 +44,7 @@
 
         <c:MyItemsControl ItemsSourceBindings="{Binding Cards}"
                           Margin="10">
+
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid />

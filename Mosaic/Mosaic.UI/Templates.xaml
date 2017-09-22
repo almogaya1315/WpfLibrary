@@ -13,11 +13,14 @@
     </DataTemplate>
 
     <DataTemplate x:Key="HiddenCardTemplate">
-        <Border Margin="5" />
+        <Border Margin="5" 
+                BorderBrush="Black"
+                BorderThickness="1"/>
     </DataTemplate>
 
     <DataTemplate x:Key="MoveableCardTemplate">
-        <Button>
+        <Button Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.MoveCard}"
+                CommandParameter="{Binding}">
             <Button.Template>
                 <ControlTemplate>
                     <Border BorderBrush="Teal"

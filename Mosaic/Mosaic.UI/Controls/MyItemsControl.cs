@@ -35,11 +35,6 @@ namespace Mosaic.UI.Controls
             grid.Items.Clear();
             foreach (var card in cards)
             {
-                if (card.TemplateName == "MoveableCardTemplate")
-                {
-
-                }
-
                 var contentPresenter = new ContentPresenter()
                 {
                     ContentTemplate = (DataTemplate)grid.FindResource(card.TemplateName),

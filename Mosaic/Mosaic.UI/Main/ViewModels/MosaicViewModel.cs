@@ -5,8 +5,6 @@ using System.Windows.Input;
 using Mosaic.UI.Extensions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
 
 namespace Mosaic.UI.Main.ViewModels
 {
@@ -119,6 +117,7 @@ namespace Mosaic.UI.Main.ViewModels
         }
 
         public ICommand Start { get; set; }
+        public ICommand MoveCard { get; set; }
 
         public MosaicViewModel()
         {
@@ -128,6 +127,7 @@ namespace Mosaic.UI.Main.ViewModels
             _moveableCards = new Dictionary<CardType, CardViewModel>();
 
             Start = new RelayCommand(StartNewGame, () => Rows > 0);
+            MoveCard = new RelayCommand<int>(MoveCardToEmpty);
         }
 
         private void StartNewGame()
@@ -145,11 +145,7 @@ namespace Mosaic.UI.Main.ViewModels
                     Type = CardType.None,
                 });
             }
-            Cards.Add(new CardViewModel()
-            {
-                TemplateName = "HiddenCardTemplate",//**
-                Type = CardType.EmptyCard,//**
-            });
+            Cards.Add(new CardViewModel() { Value = 0 });
 
             Cards.Shuffle();
 
@@ -158,92 +154,76 @@ namespace Mosaic.UI.Main.ViewModels
 
         private void FindMoveableCards()
         {
-            var emptyCard = _moveableCards[CardType.EmptyCard] = Cards.First(c => c.Type == CardType.EmptyCard);//**
-            emptyCard.TemplateName = "HiddenCardTemplate";//**
-            emptyCard.Type = CardType.EmptyCard;//**
-            var emptyIndex = Cards.IndexOf(emptyCard);
+            var emptyCard = _moveableCards[CardType.EmptyCard] = Cards.First(c => c.Value == 0);
+            emptyCard.TemplateName = "HiddenCardTemplate";
+            emptyCard.Type = CardType.EmptyCard;
+            emptyCard.Index = Cards.IndexOf(emptyCard);
 
-            bool isLeft = true;
-            for (int i = 0; i < _cardsCount; i += Rows)
-            {
-                if (emptyIndex != i) continue;
-                else
-                {
-                    isLeft = false;
-                    break;
-                }
-            }
-            var leftCard = _moveableCards[CardType.LeftCard] = isLeft ? Cards.ElementAt(emptyIndex - 1) : null;
-            if (leftCard != null)
-            {
-                leftCard.TemplateName = "MoveableCardTemplate"; 
-                leftCard.Type = CardType.LeftCard;
-                var leftIndex = Cards.IndexOf(leftCard);
-            }
+            var leftCard = SetMoveableCard(CardType.LeftCard, emptyCard.Index - 1, emptyCard.Index, 0, _cardsCount, Rows);
 
-            bool isRight = true;
-            for (int i = Rows - 1; i < _cardsCount; i += Rows)
-            {
-                if (emptyIndex != i) continue;
-                else
-                {
-                    isRight = false;
-                    break;
-                }
-            }
-            var rightCard = _moveableCards[CardType.RightCard] = isRight ? Cards.ElementAt(emptyIndex + 1) : null;
-            if (rightCard != null)
-            {
-                rightCard.TemplateName = "MoveableCardTemplate";
-                rightCard.Type = CardType.RightCard;
-                var rightIndex = Cards.IndexOf(rightCard);
-            }
+            var rightCard = SetMoveableCard(CardType.RightCard, emptyCard.Index + 1, emptyCard.Index, Rows - 1, _cardsCount, Rows);
 
-            bool isUp = true;
-            for (int i = 0; i <= Rows - 1; i++)
-            {
-                if (emptyIndex != i) continue;
-                else
-                {
-                    isUp = false;
-                    break;
-                }
-            }
-            var upCard = _moveableCards[CardType.UpCard] = isUp ? Cards.ElementAt(emptyIndex + 1) : null;
-            if (upCard != null)
-            {
-                upCard.TemplateName = "MoveableCardTemplate";
-                upCard.Type = CardType.UpCard;
-                var upIndex = Cards.IndexOf(upCard);
-            }
+            var upCard = SetMoveableCard(CardType.UpCard, emptyCard.Index - Rows, emptyCard.Index, 0, Rows - 1, 1);
 
-            bool isDown = true;
-            for (int i = _cardsCount - Rows; i < _cardsCount; i++)
-            {
-                if (emptyIndex != i) continue;
-                else
-                {
-                    isDown = false;
-                    break;
-                }
-            }
-            var downCard = _moveableCards[CardType.DownCard] = isDown ? Cards.ElementAt(emptyIndex + 1) : null;
-            if (downCard != null)
-            {
-                downCard.TemplateName = "MoveableCardTemplate";
-                downCard.Type = CardType.DownCard;
-                var downIndex = Cards.IndexOf(downCard);
-            }
+            var downCard = SetMoveableCard(CardType.DownCard, emptyCard.Index + Rows, emptyCard.Index, _cardsCount - Rows, _cardsCount, 1);
 
             foreach (var card in Cards)
             {
-                if (card.Value == upCard.Value || card.Value == downCard.Value ||
-                    card.Value == leftCard.Value || card.Value == rightCard.Value || card.Value == emptyCard.Value)
+                if (card.Value == emptyCard.Value) continue;
+                if (upCard != null) if (card.Value == upCard.Value) continue;
+                if (downCard != null) if (card.Value == downCard.Value) continue;
+                if (leftCard != null) if (card.Value == leftCard.Value) continue;
+                if (rightCard != null) if (card.Value == rightCard.Value) continue;
+
+                card.TemplateName = "VisibleCardTemplate";
+                card.Type = CardType.None;
+                card.Index = Cards.IndexOf(card);
+            }
+
+            var cards = Cards;
+            Cards = new List<CardViewModel>(cards);
+        }
+
+        private CardViewModel SetMoveableCard(CardType type, int cardIndex, int emptyIndex, int indexStart, int indexCondition, int indexAddition)
+        {
+            bool hasValue = true;
+            for (int i = indexStart; i < indexCondition; i += indexAddition)
+            {
+                if (emptyIndex != i) continue;
+                else
                 {
-                    card.TemplateName = "VisibleCardTemplate";
-                    card.Type = CardType.None;
+                    hasValue = false;
+                    break;
                 }
             }
+            var card = _moveableCards[type] = hasValue ? Cards.ElementAt(cardIndex) : null;
+            if (card != null)
+            {
+                card.TemplateName = "MoveableCardTemplate";
+                card.Type = type;
+                card.Index = Cards.IndexOf(card);
+            }
+
+            return card;
+        }
+
+        private void MoveCardToEmpty(int value)
+        {
+            var card = Cards.First(c => c.Value == value);
+            var tempCard = new CardViewModel()
+            {
+                Value = card.Value,
+                TemplateName = card.TemplateName,
+                DataContextPath = card.DataContextPath,
+                Type = card.Type,
+                Index = card.Index,
+            };
+            var emptyCard = _moveableCards[CardType.EmptyCard];
+
+            card = emptyCard;
+            emptyCard = tempCard;
+
+            FindMoveableCards();
         }
     }
 }
