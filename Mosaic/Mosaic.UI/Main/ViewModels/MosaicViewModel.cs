@@ -13,6 +13,7 @@ namespace Mosaic.UI.Main.ViewModels
     public class MosaicViewModel : ViewModelBase
     {
         private int _cardsCount;
+        private Dictionary<CardType, CardViewModel> _moveableCards;
 
         public string RangeValue { get; set; }
         public int Rows { get; set; }
@@ -51,6 +52,8 @@ namespace Mosaic.UI.Main.ViewModels
             }
         }
 
+        #region
+        /*
         private CardViewModel _emptyCard;
         public CardViewModel EmptyCard
         {
@@ -101,6 +104,8 @@ namespace Mosaic.UI.Main.ViewModels
                 RaisePropertyChanged();
             }
         }
+        */
+        #endregion
 
         private int _attempts;
         public int Attempts
@@ -120,6 +125,7 @@ namespace Mosaic.UI.Main.ViewModels
             RangeValue = "4 10";
 
             Cards = new List<CardViewModel>();
+            _moveableCards = new Dictionary<CardType, CardViewModel>();
 
             Start = new RelayCommand(StartNewGame, () => Rows > 0);
         }
@@ -141,26 +147,21 @@ namespace Mosaic.UI.Main.ViewModels
             }
             Cards.Add(new CardViewModel()
             {
-                TemplateName = "HiddenCardTemplate",
-                Type = CardType.None,
+                TemplateName = "HiddenCardTemplate",//**
+                Type = CardType.EmptyCard,//**
             });
 
-            Cards = Cards.Shuffle().ToList();
+            Cards.Shuffle();
 
             FindMoveableCards();
-
-            
-            
-            
-            
         }
 
         private void FindMoveableCards()
         {
-            EmptyCard = Cards.First(c => c.Value == 0);
-            EmptyCard.TemplateName = "HiddenCardTemplate";
-            EmptyCard.Type = CardType.None;
-            var emptyIndex = Cards.IndexOf(EmptyCard);
+            var emptyCard = _moveableCards[CardType.EmptyCard] = Cards.First(c => c.Type == CardType.EmptyCard);//**
+            emptyCard.TemplateName = "HiddenCardTemplate";//**
+            emptyCard.Type = CardType.EmptyCard;//**
+            var emptyIndex = Cards.IndexOf(emptyCard);
 
             bool isLeft = true;
             for (int i = 0; i < _cardsCount; i += Rows)
@@ -172,12 +173,12 @@ namespace Mosaic.UI.Main.ViewModels
                     break;
                 }
             }
-            LeftCard = isLeft ? Cards.ElementAt(emptyIndex - 1) : null;
-            if (LeftCard != null)
+            var leftCard = _moveableCards[CardType.LeftCard] = isLeft ? Cards.ElementAt(emptyIndex - 1) : null;
+            if (leftCard != null)
             {
-                LeftCard.TemplateName = "MoveableCardTemplate"; // Cards.First(c => c.Value == LeftCard.Value)
-                LeftCard.Type = CardType.LeftCard;
-                var leftIndex = Cards.IndexOf(LeftCard);
+                leftCard.TemplateName = "MoveableCardTemplate"; 
+                leftCard.Type = CardType.LeftCard;
+                var leftIndex = Cards.IndexOf(leftCard);
             }
 
             bool isRight = true;
@@ -190,12 +191,12 @@ namespace Mosaic.UI.Main.ViewModels
                     break;
                 }
             }
-            RightCard = isRight ? Cards.ElementAt(emptyIndex + 1) : null;
-            if (RightCard != null)
+            var rightCard = _moveableCards[CardType.RightCard] = isRight ? Cards.ElementAt(emptyIndex + 1) : null;
+            if (rightCard != null)
             {
-                RightCard.TemplateName = "MoveableCardTemplate"; // Cards.First(c => c.Value == RightCard.Value)
-                RightCard.Type = CardType.RightCard;
-                var rightIndex = Cards.IndexOf(RightCard);
+                rightCard.TemplateName = "MoveableCardTemplate";
+                rightCard.Type = CardType.RightCard;
+                var rightIndex = Cards.IndexOf(rightCard);
             }
 
             bool isUp = true;
@@ -208,12 +209,12 @@ namespace Mosaic.UI.Main.ViewModels
                     break;
                 }
             }
-            UpCard = isUp ? Cards.ElementAt(emptyIndex + 1) : null;
-            if (UpCard != null)
+            var upCard = _moveableCards[CardType.UpCard] = isUp ? Cards.ElementAt(emptyIndex + 1) : null;
+            if (upCard != null)
             {
-                UpCard.TemplateName = "MoveableCardTemplate"; // Cards.First(c => c.Value == UpCard.Value)
-                UpCard.Type = CardType.UpCard;
-                var upIndex = Cards.IndexOf(UpCard);
+                upCard.TemplateName = "MoveableCardTemplate";
+                upCard.Type = CardType.UpCard;
+                var upIndex = Cards.IndexOf(upCard);
             }
 
             bool isDown = true;
@@ -226,18 +227,18 @@ namespace Mosaic.UI.Main.ViewModels
                     break;
                 }
             }
-            DownCard = isDown ? Cards.ElementAt(emptyIndex + 1) : null;
-            if (DownCard != null)
+            var downCard = _moveableCards[CardType.DownCard] = isDown ? Cards.ElementAt(emptyIndex + 1) : null;
+            if (downCard != null)
             {
-                DownCard.TemplateName = "MoveableCardTemplate"; // Cards.First(c => c.Value == DownCard.Value)
-                DownCard.Type = CardType.DownCard;
-                var downIndex = Cards.IndexOf(DownCard);
+                downCard.TemplateName = "MoveableCardTemplate";
+                downCard.Type = CardType.DownCard;
+                var downIndex = Cards.IndexOf(downCard);
             }
 
             foreach (var card in Cards)
             {
-                if (card.Value == UpCard.Value || card.Value == DownCard.Value ||
-                    card.Value == LeftCard.Value || card.Value == RightCard.Value || card.Value == EmptyCard.Value)
+                if (card.Value == upCard.Value || card.Value == downCard.Value ||
+                    card.Value == leftCard.Value || card.Value == rightCard.Value || card.Value == emptyCard.Value)
                 {
                     card.TemplateName = "VisibleCardTemplate";
                     card.Type = CardType.None;

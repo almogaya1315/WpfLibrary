@@ -11,7 +11,7 @@ namespace Mosaic.UI.Extensions
 {
     public static class ListExtensions
     {
-        public static IList<T> Shuffle<T>(this IList<T> list)
+        public static void Shuffle<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
             int n = list.Count;
@@ -26,8 +26,6 @@ namespace Mosaic.UI.Extensions
                 list[k] = list[n];
                 list[n] = value;
             }
-
-            return list;
         }
 
         public static ObservableCollection<T> ToObservableCollection<T>(this IList<T> list)

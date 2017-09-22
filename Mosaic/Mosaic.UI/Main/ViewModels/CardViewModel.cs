@@ -19,6 +19,7 @@ namespace Mosaic.UI.Main.ViewModels
 
     public enum CardType
     {
+        EmptyCard,
         UpCard,
         DownCard,
         LeftCard,
