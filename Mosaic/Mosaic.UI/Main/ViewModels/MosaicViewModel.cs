@@ -132,7 +132,7 @@ namespace Mosaic.UI.Main.ViewModels
 
         public MosaicViewModel()
         {
-            RangeValue = "2 10";
+            RangeValue = "3 10";
 
             Cards = new List<CardViewModel>();
             _moveableCards = new Dictionary<CardType, CardViewModel>();
