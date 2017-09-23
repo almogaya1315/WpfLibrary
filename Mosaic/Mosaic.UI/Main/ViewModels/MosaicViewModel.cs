@@ -61,61 +61,6 @@ namespace Mosaic.UI.Main.ViewModels
             }
         }
 
-        #region
-        /*
-        private CardViewModel _emptyCard;
-        public CardViewModel EmptyCard
-        {
-            get { return _emptyCard; }
-            set
-            {
-                _emptyCard = value;
-                RaisePropertyChanged();
-            }
-        }
-        private CardViewModel _leftCard;
-        public CardViewModel LeftCard
-        {
-            get { return _leftCard; }
-            set
-            {
-                _leftCard = value;
-                RaisePropertyChanged();
-            }
-        }
-        private CardViewModel _rightCard;
-        public CardViewModel RightCard
-        {
-            get { return _rightCard; }
-            set
-            {
-                _rightCard = value;
-                RaisePropertyChanged();
-            }
-        }
-        private CardViewModel _upCard;
-        public CardViewModel UpCard
-        {
-            get { return _upCard; }
-            set
-            {
-                _upCard = value;
-                RaisePropertyChanged();
-            }
-        }
-        private CardViewModel _downCard;
-        public CardViewModel DownCard
-        {
-            get { return _downCard; }
-            set
-            {
-                _downCard = value;
-                RaisePropertyChanged();
-            }
-        }
-        */
-        #endregion
-
         private int _attempts;
         public int Attempts
         {
