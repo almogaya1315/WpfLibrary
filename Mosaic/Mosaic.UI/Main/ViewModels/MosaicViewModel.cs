@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Mosaic.UI.Extensions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Windows;
 
 namespace Mosaic.UI.Main.ViewModels
 {
@@ -14,7 +15,17 @@ namespace Mosaic.UI.Main.ViewModels
         private Dictionary<CardType, CardViewModel> _moveableCards;
 
         public string RangeValue { get; set; }
-        public int Rows { get; set; }
+
+        private int _rows;
+        public int Rows
+        {
+            get { return _rows; }
+            set
+            {
+                _rows = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public string Message
         {
@@ -121,7 +132,7 @@ namespace Mosaic.UI.Main.ViewModels
 
         public MosaicViewModel()
         {
-            RangeValue = "4 10";
+            RangeValue = "2 10";
 
             Cards = new List<CardViewModel>();
             _moveableCards = new Dictionary<CardType, CardViewModel>();
@@ -133,6 +144,7 @@ namespace Mosaic.UI.Main.ViewModels
         private void StartNewGame()
         {
             Cards.Clear();
+            Attempts = 0;
 
             _cardsCount = Convert.ToInt32(Math.Pow(Rows, 2));
             for (int i = 1; i < _cardsCount; i++)
@@ -187,7 +199,7 @@ namespace Mosaic.UI.Main.ViewModels
         private CardViewModel SetMoveableCard(CardType type, int cardIndex, int emptyIndex, int indexStart, int indexCondition, int indexAddition)
         {
             bool hasValue = true;
-            for (int i = indexStart; i < indexCondition; i += indexAddition)
+            for (int i = indexStart; i <= indexCondition; i += indexAddition)
             {
                 if (emptyIndex != i) continue;
                 else
@@ -219,6 +231,33 @@ namespace Mosaic.UI.Main.ViewModels
             Cards.Insert(emptyCard.Index, card);
 
             FindMoveableCards();
+
+            Attempts++;
+
+            CheckValuesOdrer();
+        }
+
+        private void CheckValuesOdrer()
+        {
+            if (Cards.Last().Type == CardType.EmptyCard)
+            {
+                for (int i = 0; i < _cardsCount; i++)
+                {
+                    if (Cards[i].Value == 0) continue;
+
+                    if (Cards[i].Value == Cards[_cardsCount - 2].Value) continue;
+
+                    if (Cards[i].Value == Cards[i + 1].Value - 1) continue;
+
+                    return;
+                }
+
+                MessageBox.Show($"Total moves: {Attempts}", "Game completed!", MessageBoxButton.OK);
+
+                Cards = new List<CardViewModel>();
+                Rows = 0;
+                Attempts = 0;
+            }
         }
     }
 }

@@ -30,7 +30,6 @@ namespace Mosaic.UI.Controls
             if (grid == null) return;
 
             var cards = (List<CardViewModel>)d.GetValue(ItemsSourceBindingsProperty);
-            if (cards.Count == 0) return;
 
             grid.Items.Clear();
             foreach (var card in cards)
