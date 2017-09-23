@@ -8,8 +8,8 @@
         xmlns:local="clr-namespace:Mosaic.UI"
         mc:Ignorable="d"
         Title="MainWindow"
-        ResizeMode="NoResize"
-        Height="800"
+        ResizeMode="CanResizeWithGrip"
+        Height="auto"
         Width="auto">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:MosaicViewModel}">

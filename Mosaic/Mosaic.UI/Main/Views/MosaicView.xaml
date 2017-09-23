@@ -8,10 +8,15 @@
              d:DesignHeight="300"
              d:DesignWidth="500">
     <UserControl.Resources>
-        <ResourceDictionary Source="E:\Git_Code\WpfLibrary\Mosaic\Mosaic.UI\Templates.xaml" />
+        <ResourceDictionary Source="../../Templates.xaml" />
     </UserControl.Resources>
 
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
         <StackPanel Orientation="Horizontal"
                     Margin="50 10">
             <Button Content="Start"
@@ -41,16 +46,18 @@
                        Margin="5"
                        FontSize="20" />
         </StackPanel>
-
-        <c:MyItemsControl ItemsSourceBindings="{Binding Cards}"
-                          Margin="10">
-
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </c:MyItemsControl>
-
-    </StackPanel>
+        
+        <ScrollViewer Grid.Row="1">
+            <c:MyItemsControl ItemsSourceBindings="{Binding Cards}"
+                              Margin="10"
+                              HorizontalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </c:MyItemsControl>
+        </ScrollViewer>
+        
+    </Grid>
 </UserControl>

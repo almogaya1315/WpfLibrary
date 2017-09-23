@@ -7,8 +7,10 @@
                 BorderThickness="5"
                 Margin="5">
             <TextBlock Text="{Binding}"
-                       Padding="10"
-                       TextAlignment="Center" />
+                       Padding="25"
+                       TextAlignment="Center"
+                       FontWeight="ExtraBlack"
+                       FontSize="18" />
         </Border>
     </DataTemplate>
 
@@ -27,8 +29,10 @@
                             BorderThickness="5"
                             Margin="5">
                         <TextBlock Text="{Binding}"
-                                   Padding="10"
-                                   TextAlignment="Center">
+                                   Padding="25"
+                                   TextAlignment="Center"
+                                   FontWeight="ExtraBlack"
+                                   FontSize="18">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
