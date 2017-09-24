@@ -10,7 +10,7 @@
         Title="MainWindow"
         ResizeMode="CanResizeWithGrip"
         Height="auto"
-        Width="auto">
+        Width="1000">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:MosaicViewModel}">
             <v:MosaicView />

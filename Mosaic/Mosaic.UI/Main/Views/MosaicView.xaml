@@ -47,7 +47,8 @@
                        FontSize="20" />
         </StackPanel>
         
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1" 
+                      VerticalAlignment="Top">
             <c:MyItemsControl ItemsSourceBindings="{Binding Cards}"
                               Margin="10"
                               HorizontalAlignment="Center">
