@@ -4,9 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Solitare.UI"
+        xmlns:menuViewModels="clr-namespace:Solitare.UI.Menu.ViewModels"
+        xmlns:menuViews="clr-namespace:Solitare.UI.Menu.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="S O L I T A R E"
+        Height="auto"
+        Width="auto"
+        ResizeMode="CanResizeWithGrip"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type menuViewModels:MenuViewModel}">
+            <menuViews:MenuView />
+        </DataTemplate>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush />
+    </Window.Background>
+
+    <ContentPresenter Content="{Binding CurrentView}"/>
+
 </Window>

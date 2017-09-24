@@ -13,15 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Solitare.UI
+namespace Solitare.UI.Menu.Views
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Interaction logic for MenuView.xaml
+    /// </summary>
+    public partial class MenuView : UserControl
     {
-        public MainWindow()
+        public MenuView()
         {
             InitializeComponent();
-
-            DataContext = new MainViewModel();
         }
     }
 }
