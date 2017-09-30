@@ -1,11 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Solitare.UI.Game.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Solitare.UI.Options.ViewModels;
 using System.Windows.Input;
 
 namespace Solitare.UI.Menu.ViewModels
@@ -15,27 +11,31 @@ namespace Solitare.UI.Menu.ViewModels
         readonly private MainViewModel _mainViewModel;
 
         public ICommand NewGame { get; set; }
-
         public ICommand Options { get; set; }
-
         public ICommand Exit { get; set; }
 
         public MenuViewModel(MainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;
 
-            NewGame = new RelayCommand(StartNewGame);
             Exit = new RelayCommand(ExitGame);
+            Options = new RelayCommand(NavigateToOptionsView);
+            NewGame = new RelayCommand(StartNewGame);
+        }
+
+        private void ExitGame()
+        {
+            _mainViewModel.CloseFromMenu();
+        }
+
+        private void NavigateToOptionsView()
+        {
+            _mainViewModel.SwitchToOptionsView(new OptionsViewModel(_mainViewModel.RuleSetViewModel));
         }
 
         private void StartNewGame()
         {
             _mainViewModel.SwitchToGameView(new GameViewModel());
-        }
-
-        private void ExitGame()
-        {
-            throw new NotImplementedException();
         }
     }
 }

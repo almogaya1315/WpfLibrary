@@ -83,6 +83,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Enums\InitialDraw.cs" />
     <Compile Include="Game\ViewModels\GameViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -93,11 +94,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Options\Views\OptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Menu\ViewModels\MenuViewModel.cs" />
     <Compile Include="Menu\Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Options\ViewModels\OptionsViewModel.cs" />
+    <Compile Include="Options\ViewModels\RuleSetViewModel.cs" />
+    <Compile Include="Options\Views\OptionsView.xaml.cs">
+      <DependentUpon>OptionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -127,8 +137,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Game\Views\" />
     <Folder Include="Images\" />
-    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
