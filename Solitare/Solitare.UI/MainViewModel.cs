@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using Solitare.UI.Game.ViewModels;
 using Solitare.UI.Menu.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,12 @@ namespace Solitare.UI
 
         public MainViewModel()
         {
-            CurrentView = new MenuViewModel();
+            CurrentView = new MenuViewModel(this);
+        }
+
+        public void SwitchToGameView(GameViewModel gameViewModel)
+        {
+            CurrentView = gameViewModel;
         }
     }
 }

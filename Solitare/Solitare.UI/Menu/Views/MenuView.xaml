@@ -5,10 +5,100 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Solitare.UI.Menu.Views"
              mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="900"
+             d:DesignWidth="900">
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Width="Auto"
+                Height="Auto"
+                Margin="300 200">
         
+        <TextBlock Text="S O L I T A R E"
+                   Foreground="#ff1a1a"
+                   FontWeight="Heavy"
+                   Margin="10"
+                   FontSize="30"/>
 
-    </Grid>
+        <Button Command="{Binding NewGame}"
+                Margin="10">
+            <Button.Template>
+                <ControlTemplate>
+                    <Border>
+                        <TextBlock Text="New game"
+                                   TextAlignment="Center"
+                                   FontSize="25">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground"
+                                            Value="#0066ff" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="true">
+                                            <Setter Property="Foreground"
+                                                    Value="#ff1a1a"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Button Command="{Binding Options}"
+                Margin="10">
+            <Button.Template>
+                <ControlTemplate>
+                    <Border>
+                        <TextBlock Text="Options"
+                                   TextAlignment="Center"
+                                   FontSize="25">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground"
+                                            Value="#0066ff" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="true">
+                                            <Setter Property="Foreground"
+                                                    Value="#ff1a1a" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Button Command="{Binding Exit}"
+                Margin="10">
+            <Button.Template>
+                <ControlTemplate>
+                    <Border>
+                        <TextBlock Text="Exit"
+                                   TextAlignment="Center"
+                                   FontSize="25">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground"
+                                            Value="#0066ff" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="true">
+                                            <Setter Property="Foreground"
+                                                    Value="#ff1a1a" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+    </StackPanel>
 </UserControl>

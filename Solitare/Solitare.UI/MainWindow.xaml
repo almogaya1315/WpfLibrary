@@ -13,16 +13,17 @@
         ResizeMode="CanResizeWithGrip"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="ToolWindow">
+        Background="#FF0E8F1A"
+        WindowStyle="ToolWindow"
+        MinHeight="700"
+        MinWidth="1000">
+    
     <Window.Resources>
         <DataTemplate DataType="{x:Type menuViewModels:MenuViewModel}">
             <menuViews:MenuView />
         </DataTemplate>
     </Window.Resources>
-    <Window.Background>
-        <ImageBrush />
-    </Window.Background>
-
+    
     <ContentPresenter Content="{Binding CurrentView}"/>
 
 </Window>
