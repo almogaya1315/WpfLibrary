@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Solitare.UI.Options.Views"
              xmlns:enum="clr-namespace:Solitare.UI.Enums"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d"
              d:DesignHeight="900"
              d:DesignWidth="900">
@@ -28,6 +29,42 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <DataTemplate x:Key="ToggleButtonUnCheckedTemplate">
+            <Border CornerRadius="3"
+                    BorderBrush="White"
+                    BorderThickness="1">
+                <TextBlock Text=" Enable  "
+                           Background="White"
+                           Foreground="#0066ff" />
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="ToggleButtonCheckedTemplate">
+            <Border CornerRadius="3"
+                    BorderBrush="#ff1a1a"
+                    BorderThickness="1">
+                <TextBlock Name="DisableTextBlock"
+                           Text=" Disable "
+                           Background="#ff1a1a" />
+            </Border>
+        </DataTemplate>
+
+        <Style TargetType="ToggleButton"
+               x:Key="ToggleButtonStyle">
+            <Style.Triggers>
+                <Trigger Property="IsChecked"
+                         Value="true">
+                    <Setter Property="ContentTemplate"
+                            Value="{StaticResource ToggleButtonCheckedTemplate}" />
+                </Trigger>
+                <Trigger Property="IsChecked"
+                         Value="false">
+                    <Setter Property="ContentTemplate"
+                            Value="{StaticResource ToggleButtonUnCheckedTemplate}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </UserControl.Resources>
 
     <StackPanel HorizontalAlignment="Center"
@@ -47,6 +84,13 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
             <TextBlock Text="Draw"
                        FontSize="25"
@@ -54,10 +98,11 @@
                        Foreground="#0066ff" />
 
             <RadioButton Grid.Column="1"
-                         IsChecked="True"
                          GroupName="DrawOptions"
+                         IsChecked="{Binding IsOneCard}"
                          Content="One card"
                          Margin="0 10 0 0"
+                         FontSize="12"
                          Command="{Binding SetDraw}"
                          CommandParameter="{x:Static enum:InitialDraw.OneCard}">
                 <RadioButton.Style>
@@ -67,10 +112,11 @@
             </RadioButton>
 
             <RadioButton Grid.Column="1"
-                         Grid.Row="0"
                          GroupName="DrawOptions"
+                         IsChecked="{Binding IsThreeCards}"
                          Content="Three cards"
                          Margin="0 30 0 0"
+                         FontSize="12"
                          Command="{Binding SetDraw}"
                          CommandParameter="{x:Static enum:InitialDraw.ThreeCards}">
                 <RadioButton.Style>
@@ -79,6 +125,77 @@
                 </RadioButton.Style>
             </RadioButton>
 
+            <TextBlock Text="Score"
+                       Grid.Row="1"
+                       FontSize="25"
+                       Margin="10"
+                       Foreground="#0066ff" />
+
+            <ToggleButton Grid.Row="1"
+                          Grid.Column="1"
+                          IsChecked="{Binding ScoreEnabled}"
+                          BorderBrush="White"
+                          BorderThickness="0"
+                          Background="White"
+                          Margin="0 17 47 17">
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton" 
+                           BasedOn="{StaticResource ToggleButtonStyle}"/>
+                </ToggleButton.Style>
+            </ToggleButton>
+
+            <TextBlock Text="Timer"
+                       Grid.Row="2"
+                       FontSize="25"
+                       Margin="10"
+                       Foreground="#0066ff" />
+
+            <ToggleButton Grid.Row="2"
+                          Grid.Column="1"
+                          IsChecked="{Binding TimerEnabled}"
+                          BorderBrush="White"
+                          BorderThickness="0"
+                          Background="White"
+                          Margin="0 17 47 17">
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton"
+                           BasedOn="{StaticResource ToggleButtonStyle}" />
+                </ToggleButton.Style>
+            </ToggleButton>
+
+            <TextBlock Text="Clues"
+                       Grid.Row="3"
+                       FontSize="25"
+                       Margin="10"
+                       Foreground="#0066ff" />
+
+            <ToggleButton Grid.Row="3"
+                          Grid.Column="1"
+                          IsChecked="{Binding CluesEnabled}"
+                          BorderBrush="White"
+                          BorderThickness="0"
+                          Background="White"
+                          Margin="0 17 47 17">
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton"
+                           BasedOn="{StaticResource ToggleButtonStyle}" />
+                </ToggleButton.Style>
+            </ToggleButton>
+
+            <Button Grid.Row="4"
+                    Content="Back"
+                    Margin="20"
+                    BorderBrush="#ff1a1a"
+                    Background="#ff1a1a"
+                    Command="{Binding BackToMenu}"/>
+
+            <Button Grid.Row="4"
+                    Grid.Column="1"
+                    Content="Save"
+                    Margin="20"
+                    BorderBrush="#0066ff"
+                    Background="#0066ff"
+                    Command="{Binding Save}" />
         </Grid>
     </StackPanel>
 </UserControl>

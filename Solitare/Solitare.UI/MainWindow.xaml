@@ -15,7 +15,7 @@
         ResizeMode="CanResizeWithGrip"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        Background="#FF0E8F1A"
+        Background="White"
         WindowStyle="ToolWindow"
         MinHeight="700"
         MinWidth="1000">

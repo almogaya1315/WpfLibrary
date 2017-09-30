@@ -30,7 +30,7 @@ namespace Solitare.UI.Menu.ViewModels
 
         private void NavigateToOptionsView()
         {
-            _mainViewModel.SwitchToOptionsView(new OptionsViewModel(_mainViewModel.RuleSetViewModel));
+            _mainViewModel.SwitchToOptionsView(new OptionsViewModel(_mainViewModel, this));
         }
 
         private void StartNewGame()
