@@ -79,6 +79,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Game\Views\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,8 +91,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Enums\CardName.cs" />
+    <Compile Include="Enums\CardShape.cs" />
     <Compile Include="Enums\InitialDraw.cs" />
+    <Compile Include="Game\ViewModels\CardViewModel.cs" />
     <Compile Include="Game\ViewModels\GameViewModel.cs" />
+    <Compile Include="Game\Views\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -141,8 +151,31 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Game\Views\" />
-    <Folder Include="Images\" />
+    <Resource Include="Images\BackCard.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\Clubs\" />
+    <Folder Include="Images\Diamonds\" />
+    <Folder Include="Images\Hearts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Spades\AceOfSpades.jpg" />
+    <Resource Include="Images\Spades\BlackJoker.jpg" />
+    <Resource Include="Images\Spades\EightOfSpades.jpg" />
+    <Resource Include="Images\Spades\FiveOfSpades.jpg" />
+    <Resource Include="Images\Spades\FourOfSpades.jpg" />
+    <Resource Include="Images\Spades\JackOfSpades.jpg" />
+    <Resource Include="Images\Spades\KingOfSpades.jpg" />
+    <Resource Include="Images\Spades\NineOfSpades.jpg" />
+    <Resource Include="Images\Spades\QueenOfSpades.jpg" />
+    <Resource Include="Images\Spades\SevenOfSpades.jpg" />
+    <Resource Include="Images\Spades\SixOfSpades.jpg" />
+    <Resource Include="Images\Spades\TenOfSpades.jpg" />
+    <Resource Include="Images\Spades\ThreeOfSpades.jpg" />
+    <Resource Include="Images\Spades\TwoOfSpades.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,246 @@
+﻿<UserControl x:Class="Solitare.UI.Game.Views.GameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Solitare.UI.Game.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="900"
+             d:DesignWidth="1600">
+    <UserControl.Resources>
+        <Style x:Key="BorderStyle"
+               TargetType="Border">
+            <Setter Property="BorderBrush"
+                    Value="White" />
+            <Setter Property="CornerRadius"
+                    Value="5" />
+            <Setter Property="BorderThickness"
+                    Value="3" />
+            <Setter Property="Height"
+                    Value="165" />
+            <Setter Property="Width"
+                    Value="130" />
+            <Setter Property="VerticalAlignment"
+                    Value="Top" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".2*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width=".1*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width=".1*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width=".1*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width=".1*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width=".1*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width=".1*" />
+            <ColumnDefinition />
+            <ColumnDefinition Width=".2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".1*" />
+            <RowDefinition Height=".4*" />
+            <RowDefinition Height=".1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height=".1*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height=".1*" />
+            <RowDefinition Height=".4*" />
+            <RowDefinition Height=".1*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="3"
+                Grid.Column="1">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+            <Button Command="{Binding Switch}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="{Binding MainStackCard}"
+                               Margin="5"
+                               Opacity="1">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="OpacityMask"
+                                                    Value="AliceBlue"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Border>
+
+        <Border Grid.Row="3"
+                Grid.Column="3">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+            <Button Command="{Binding Deal}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="{Binding OpenStackCard}"
+                               Margin="5"
+                               Opacity="1">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="OpacityMask"
+                                                    Value="AliceBlue" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Border>
+
+        <Border Grid.Row="3"
+                Grid.Column="11">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+            <Button>
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock Text="&#9825;"
+                                   FontSize="100"
+                                   TextAlignment="Center"
+                                   Padding="0 15"
+                                   Foreground="Red" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Border>
+
+        <Border Grid.Row="3"
+                Grid.Column="9">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+            <Button>
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock Text="&#9831;"
+                                   FontSize="70"
+                                   TextAlignment="Center"
+                                   Padding="0 30" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Border>
+
+        <Border Grid.Row="3"
+                Grid.Column="7">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+            <Button>
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock Text="&#9826;"
+                                   FontSize="70"
+                                   TextAlignment="Center"
+                                   Padding="0 30"
+                                   Foreground="Red" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Border>
+
+        <Border Grid.Row="3"
+                Grid.Column="13">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+            <Button>
+                <Button.Template>
+                    <ControlTemplate>
+                        <TextBlock Text="&#9828;"
+                                   FontSize="70"
+                                   TextAlignment="Center"
+                                   Padding="0 30" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Border>
+
+        <Border Grid.Row="5"
+                Grid.Column="1">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+        </Border>
+
+        <Border Grid.Row="5"
+                Grid.Column="3">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+        </Border>
+
+        <Border Grid.Row="5"
+                Grid.Column="5">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+        </Border>
+
+        <Border Grid.Row="5"
+                Grid.Column="7">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+        </Border>
+
+        <Border Grid.Row="5"
+                Grid.Column="9">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+        </Border>
+
+        <Border Grid.Row="5"
+                Grid.Column="11">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+        </Border>
+
+        <Border Grid.Row="5"
+                Grid.Column="13">
+            <Border.Style>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource BorderStyle}" />
+            </Border.Style>
+        </Border>
+    </Grid>
+</UserControl>

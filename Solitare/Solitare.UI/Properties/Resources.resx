@@ -126,4 +126,7 @@
   <data name="ExitComfirmation" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
+  <data name="BackCardPath" xml:space="preserve">
+    <value>/Images/BackCard.jpg</value>
+  </data>
 </root>

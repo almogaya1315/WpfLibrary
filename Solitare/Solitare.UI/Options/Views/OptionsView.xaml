@@ -71,7 +71,7 @@
                 VerticalAlignment="Center"
                 Width="Auto"
                 Height="Auto"
-                Margin="300 200">
+                Margin="300 150">
 
         <TextBlock Text="O P T I O N S"
                    Foreground="#ff1a1a"

@@ -8,6 +8,8 @@
         xmlns:menuViews="clr-namespace:Solitare.UI.Menu.Views"
         xmlns:optionsViewModels="clr-namespace:Solitare.UI.Options.ViewModels"
         xmlns:optionsViews="clr-namespace:Solitare.UI.Options.Views"
+        xmlns:gameViewModels="clr-namespace:Solitare.UI.Game.ViewModels"
+        xmlns:gameViews="clr-namespace:Solitare.UI.Game.Views"
         mc:Ignorable="d"
         Title="S O L I T A R E"
         Height="auto"
@@ -15,10 +17,9 @@
         ResizeMode="CanResizeWithGrip"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        Background="White"
         WindowStyle="ToolWindow"
-        MinHeight="700"
-        MinWidth="1000">
+        MinHeight="950"
+        MinWidth="1350">
     <Window.Resources>
         <DataTemplate DataType="{x:Type menuViewModels:MenuViewModel}">
             <menuViews:MenuView />
@@ -27,7 +28,14 @@
         <DataTemplate DataType="{x:Type optionsViewModels:OptionsViewModel}">
             <optionsViews:OptionsView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type gameViewModels:GameViewModel}">
+            <gameViews:GameView />
+        </DataTemplate>
     </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="Images/MainBackground.jpg"/>
+    </Window.Background>
     
     <ContentPresenter Content="{Binding CurrentView}"/>
 

@@ -61,6 +61,15 @@ namespace Solitare.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /Images/BackCard.jpg.
+        /// </summary>
+        internal static string BackCardPath {
+            get {
+                return ResourceManager.GetString("BackCardPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ddd.
         /// </summary>
         internal static string ddd {
