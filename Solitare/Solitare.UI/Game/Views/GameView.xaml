@@ -61,10 +61,10 @@
                 <Style TargetType="Border"
                        BasedOn="{StaticResource BorderStyle}" />
             </Border.Style>
-            <Button Command="{Binding Switch}">
+            <Button Command="{Binding Deal}">
                 <Button.Template>
                     <ControlTemplate>
-                        <Image Source="{Binding MainStackCard}"
+                        <Image Source="{Binding MainStackCard.Path}"
                                Margin="5"
                                Opacity="1">
                             <Image.Style>
@@ -90,10 +90,10 @@
                 <Style TargetType="Border"
                        BasedOn="{StaticResource BorderStyle}" />
             </Border.Style>
-            <Button Command="{Binding Deal}">
+            <Button Command="">
                 <Button.Template>
                     <ControlTemplate>
-                        <Image Source="{Binding OpenStackCard}"
+                        <Image Source="{Binding OpenStackCard.Path}"
                                Margin="5"
                                Opacity="1">
                             <Image.Style>
