@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Solitare.UI.Game.Views"
+             xmlns:cardControls="clr-namespace:Solitare.UI.Controls.Image"
              mc:Ignorable="d"
              d:DesignHeight="900"
              d:DesignWidth="1600">
@@ -62,9 +63,20 @@
                        BasedOn="{StaticResource BorderStyle}" />
             </Border.Style>
             <Button Command="{Binding Deal}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        Value="Transparent" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
                 <Button.Template>
                     <ControlTemplate>
-                        <Image Source="{Binding MainStackCard.Path}"
+                        <Image Source="{Binding MainDeckCard.Path}"
                                Margin="5"
                                Opacity="1">
                             <Image.Style>
@@ -73,7 +85,7 @@
                                         <Trigger Property="IsMouseOver"
                                                  Value="True">
                                             <Setter Property="OpacityMask"
-                                                    Value="AliceBlue"/>
+                                                    Value="AliceBlue" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -90,7 +102,27 @@
                 <Style TargetType="Border"
                        BasedOn="{StaticResource BorderStyle}" />
             </Border.Style>
-            <Button Command="">
+
+            <Canvas x:Name="OpenDeckCard"
+                    AllowDrop="True"
+                    Drop="DropCard">
+                <Canvas.Resources>
+                    <Style TargetType="{x:Type cardControls:Card}">
+                        <EventSetter Event="MouseLeftButtonDown"
+                                     Handler="DragCard" />
+                    </Style>
+                </Canvas.Resources>
+
+                <cardControls:Card Source="{Binding OpenDeckCard.Path}"
+                                   Path="{Binding OpenDeckCard.Path}"
+                                   CardName="{Binding OpenDeckCard.Name}"
+                                   CardShape="{Binding OpenDeckCard.Shape}"
+                                   CurrentDeck="{Binding Name, ElementName=OpenDeckCard}"
+                                   Margin="5"
+                                   Opacity="1" />
+            </Canvas>
+
+            <!--<Button Command="">
                 <Button.Template>
                     <ControlTemplate>
                         <Image Source="{Binding OpenStackCard.Path}"
@@ -110,7 +142,7 @@
                         </Image>
                     </ControlTemplate>
                 </Button.Template>
-            </Button>
+            </Button>-->
         </Border>
 
         <Border Grid.Row="3"
@@ -156,7 +188,30 @@
                 <Style TargetType="Border"
                        BasedOn="{StaticResource BorderStyle}" />
             </Border.Style>
-            <Button>
+
+            <Canvas x:Name="DiamondsDeckCard"
+                    AllowDrop="True"
+                    Drop="DropCard">
+                <Canvas.Resources>
+                    <Style TargetType="{x:Type Image}">
+                        <EventSetter Event="MouseLeftButtonDown"
+                                     Handler="DragCard" />
+                    </Style>
+                </Canvas.Resources>
+
+                <Image Source="{Binding DiamondsDeckCard.Path}"
+                       Margin="5"
+                       Opacity="1"
+                       Panel.ZIndex="1" />
+
+                <TextBlock Text="&#9826;"
+                           FontSize="70"
+                           Foreground="Red"
+                           Canvas.Left="20"
+                           Canvas.Top="30" />
+            </Canvas>
+
+            <!--<Button>
                 <Button.Template>
                     <ControlTemplate>
                         <TextBlock Text="&#9826;"
@@ -166,7 +221,7 @@
                                    Foreground="Red" />
                     </ControlTemplate>
                 </Button.Template>
-            </Button>
+            </Button>-->
         </Border>
 
         <Border Grid.Row="3"

@@ -1,10 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Solitare.UI.Enums;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Linq;
+using Solitare.UI.Extensions;
 using System.Windows.Input;
 
 namespace Solitare.UI.Game.ViewModels
@@ -12,81 +11,89 @@ namespace Solitare.UI.Game.ViewModels
     public class GameViewModel : ViewModelBase
     {
         private CardViewModel _backCard;
+        private CardViewModel _emptyCard;
         private List<CardViewModel> _mainCards;
         private List<CardViewModel> _openCards;
 
+        private Dictionary<DeckName, List<CardViewModel>> _closedStacks;
+
         public ICommand Deal { get; set; }
 
-        private CardViewModel _mainStackCard;
-        public CardViewModel MainStackCard
+        private CardViewModel _mainDeckCard;
+        public CardViewModel MainDeckCard
         {
-            get { return _mainStackCard; }
+            get { return _mainDeckCard; }
             set
             {
-                _mainStackCard = value;
+                _mainDeckCard = value;
                 RaisePropertyChanged();
             }
         }
 
-        private CardViewModel _openStackCard;
-        public CardViewModel OpenStackCard
+        private CardViewModel _openDeckCard;
+        public CardViewModel OpenDeckCard
         {
-            get { return _openStackCard; }
+            get { return _openDeckCard; }
             set
             {
-                _openStackCard = value;
+                _openDeckCard = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private CardViewModel _diamondsDeckCard;
+        public CardViewModel DiamondsDeckCard
+        {
+            get { return _diamondsDeckCard; }
+            set
+            {
+                _diamondsDeckCard = value;
                 RaisePropertyChanged();
             }
         }
 
         public GameViewModel()
         {
+            _emptyCard = new CardViewModel() { Path = Properties.Resources.EmptyCardPath };
             _backCard = new CardViewModel() { Path = Properties.Resources.BackCardPath };
             _openCards = new List<CardViewModel>();
 
-            MainStackCard = _backCard;
-            OpenStackCard = new CardViewModel() { Path = string.Empty };
+            MainDeckCard = _backCard;
+            OpenDeckCard = new CardViewModel() { Path = string.Empty };
             CreateDeck();
 
             Deal = new RelayCommand(DealCard);
         }
 
+        public void MoveCard(string sourceDeck, string targetDeck, string cardName, string cardShape)
+        {
+            
+
+            // TODO..
+        }
+
         private void DealCard()
         {
-            if (MainStackCard.Path == Properties.Resources.BackCardPath)
+            if (MainDeckCard.Path == Properties.Resources.BackCardPath)
             {
-                SetMainStackCard();
+                MainDeckCard = _mainCards.Last();
                 return;
             }
-            else if (MainStackCard.Path != string.Empty)
+            else if (MainDeckCard.Path != Properties.Resources.EmptyCardPath)
             {
-                OpenStackCard = MainStackCard;
-                _mainCards.Remove(MainStackCard);
-                _openCards.Add(OpenStackCard);
-                SetMainStackCard();
+                OpenDeckCard = MainDeckCard;
+                _mainCards.Remove(MainDeckCard);
+                _openCards.Add(OpenDeckCard);
+                MainDeckCard = _mainCards.LastOrDefault() ?? _emptyCard;
                 return;
             }
             else
             {
-                OpenStackCard = new CardViewModel() { Path = string.Empty };
-                _openCards.Where(op => op.Shape == CardShape.Hearts || op.Shape == CardShape.Clubs || 
-                                       op.Shape == CardShape.Spades || op.Shape == CardShape.Diamonds).ToList().ForEach(op => _mainCards.Add(op));
-                MainStackCard = _backCard;
+                OpenDeckCard = new CardViewModel() { Path = string.Empty };
+                _openCards.ForEach(op => _mainCards.Add(op));
+                _openCards.Clear();
+                MainDeckCard = _backCard;
             }
-        }
-
-        private void SetMainStackCard()
-        {
-            var randomShape = Enum.GetValues(typeof(CardShape)).Cast<CardShape>().First(e => (int)e == new Random().Next(1, 2));
-            var randomName = Enum.GetValues(typeof(CardName)).Cast<CardName>().First(e => (int)e == new Random().Next(0, _mainCards.Count(c => c.Shape == randomShape)));
-
-            while (!_mainCards.Exists(c => c.Shape == randomShape && c.Name == randomName))
-            {
-                randomShape = Enum.GetValues(typeof(CardShape)).Cast<CardShape>().First(e => (int)e == new Random().Next(1, 2));
-                randomName = Enum.GetValues(typeof(CardName)).Cast<CardName>().First(e => (int)e == new Random().Next(0, _mainCards.Count(c => c.Shape == randomShape)));
-            }
-            
-            MainStackCard = _mainCards.First(c => c.Shape == randomShape && c.Name == randomName);
         }
 
         private void CreateDeck()
@@ -105,6 +112,8 @@ namespace Solitare.UI.Game.ViewModels
             _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Queen, Value = 12, Path = "/Images/Spades/QueenOfSpades.jpg" });
             _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.King, Value = 13, Path = "/Images/Spades/KingOfSpades.jpg" });
             _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Ace, Value = 14, Path = "/Images/Spades/AceOfSpades.jpg" });
+
+            _mainCards.Shuffle();
         }
     }
 }

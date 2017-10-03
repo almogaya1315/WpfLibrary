@@ -92,9 +92,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\Image\Card.cs" />
     <Compile Include="Enums\CardName.cs" />
     <Compile Include="Enums\CardShape.cs" />
+    <Compile Include="Enums\DeckName.cs" />
     <Compile Include="Enums\InitialDraw.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Game\ViewModels\CardViewModel.cs" />
     <Compile Include="Game\ViewModels\GameViewModel.cs" />
     <Compile Include="Game\Views\GameView.xaml.cs">
@@ -177,6 +180,9 @@
     <Resource Include="Images\Spades\TenOfSpades.jpg" />
     <Resource Include="Images\Spades\ThreeOfSpades.jpg" />
     <Resource Include="Images\Spades\TwoOfSpades.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\EmptyCard.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
