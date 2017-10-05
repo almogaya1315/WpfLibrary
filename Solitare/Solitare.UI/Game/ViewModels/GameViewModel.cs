@@ -65,9 +65,14 @@ namespace Solitare.UI.Game.ViewModels
             Deal = new RelayCommand(DealCard);
         }
 
-        public void MoveCard(string sourceDeck, string targetDeck, string cardName, string cardShape)
+        public CardViewModel GetCardBehindCurrent(CardName name, CardShape shape, DeckName deck)
         {
-            
+            return _backCard;
+        }
+
+        public void MoveCard(DeckName sourceDeck, DeckName targetDeck, CardName cardName, CardShape cardShape)
+        {
+
 
             // TODO..
         }
