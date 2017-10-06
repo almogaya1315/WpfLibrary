@@ -106,15 +106,12 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <Canvas x:Name="OpenDeckCard"
-                        AllowDrop="True">
-
-                    <!--Drop="DropCard"-->
+                <Canvas x:Name="OpenDeckCard">
 
                     <Canvas.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
-                                         Handler="DragCard" />
+                                         Handler="TakeCard" />
                         </Style>
                     </Canvas.Resources>
 
@@ -123,31 +120,9 @@
                                        CardName="{Binding OpenDeckCard.Name}"
                                        CardShape="{Binding OpenDeckCard.Shape}"
                                        CurrentDeck="{Binding Name, ElementName=OpenDeckCard}"
-                                       Height="149" 
-                                       Margin="14 5"/>
+                                       Height="149"
+                                       Margin="14 5" />
                 </Canvas>
-
-                <!--<Button Command="">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Image Source="{Binding OpenStackCard.Path}"
-                               Margin="5"
-                               Opacity="1">
-                            <Image.Style>
-                                <Style TargetType="Image">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver"
-                                                 Value="True">
-                                            <Setter Property="OpacityMask"
-                                                    Value="AliceBlue" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Image.Style>
-                        </Image>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>-->
             </Border>
 
             <Border Grid.Row="3"
@@ -194,13 +169,11 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <Canvas x:Name="DiamondsDeckCard"
-                        AllowDrop="True"
-                        Drop="DropCard">
+                <Canvas x:Name="DiamondsDeckCard">
                     <Canvas.Resources>
                         <Style TargetType="{x:Type Image}">
                             <EventSetter Event="MouseLeftButtonDown"
-                                         Handler="DragCard" />
+                                         Handler="TakeCard" />
                         </Style>
                     </Canvas.Resources>
 

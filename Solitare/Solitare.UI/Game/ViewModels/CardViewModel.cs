@@ -1,15 +1,23 @@
 ﻿using GalaSoft.MvvmLight;
 using Solitare.UI.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Solitare.UI.Game.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
+        public CardViewModel()
+        {
+
+        }
+
+        public CardViewModel(CardViewModel card)
+        {
+            Value = card.Value;
+            Shape = card.Shape;
+            Name = card.Name;
+            Path = card.Path;
+        }
+
         public int Value { get; set; }
 
         public CardShape Shape { get; set; }

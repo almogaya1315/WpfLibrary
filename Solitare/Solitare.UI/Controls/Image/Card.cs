@@ -24,6 +24,7 @@ namespace Solitare.UI.Controls.Image
             CardShape = card.CardShape;
             CurrentDeck = card.CurrentDeck;
             Source = card.Source;
+            Height = 149;
         }
 
         public string Path

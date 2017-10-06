@@ -6,19 +6,25 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Solitare.UI.Game.Views
 {
     public partial class GameView : UserControl
     {
         private GameViewModel _gameViewModel;
-        private Canvas _mainCanvas;
+
+        private DropData _currentDrag;
         private bool _isDrag;
+
+        private Canvas _mainCanvas;
         private Card _moveableCard;
 
         public GameView()
         {
             InitializeComponent();
+            DataContext = new GameViewModel();
+            _gameViewModel = (GameViewModel)DataContext;
 
             _mainCanvas = MainCanvas;
 
@@ -29,55 +35,53 @@ namespace Solitare.UI.Game.Views
         {
             if (_isDrag)
             {
-                Canvas.SetLeft(_moveableCard, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
-                Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
+                SetCardPosition(args);
+
+
+                var DiamondsDeckCardPoint = DiamondsDeckCard.TransformToAncestor(Application.Current.MainWindow)
+                                                            .Transform(new Point(0, 0));
+
+                if (args.GetPosition(_mainCanvas).X >= DiamondsDeckCardPoint.X && args.GetPosition(_mainCanvas).X <= DiamondsDeckCardPoint.X + DiamondsDeckCard.ActualWidth &&
+                    args.GetPosition(_mainCanvas).Y >= DiamondsDeckCardPoint.Y && args.GetPosition(_mainCanvas).Y <= DiamondsDeckCardPoint.Y + DiamondsDeckCard.ActualHeight)
+                {
+                    DiamondsDeckCard.Background = Brushes.Red;
+                }
             }
         }
 
-        private void InitializeGameViewModel()
+        public void TakeCard(object sender, MouseButtonEventArgs args)
         {
-            if (_gameViewModel == null) _gameViewModel = new GameViewModel();
-        }
-
-        public void DragCard(object sender, MouseButtonEventArgs args)
-        {
-            InitializeGameViewModel();
-
             var cardBase = args.Source as Card;
-            //var cardCanvas = (Canvas)cardBase.Parent;
 
-            var moveableCard = new Card(cardBase);
-            _moveableCard = moveableCard;
-            //var cardBehind = _gameViewModel.GetCardBehindCurrent(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
-            //var currentCard = _gameViewModel.GetCurrentCard(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
-            //cardBase = SetCard(cardBase, cardBehind);
+            _moveableCard = new Card(cardBase);
+
+            _gameViewModel.SetMoveableCardBinding(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
 
             _isDrag = true;
 
-            Canvas.SetLeft(moveableCard, args.GetPosition(cardBase).X);
-            Canvas.SetTop(moveableCard, args.GetPosition(cardBase).Y);
-            _mainCanvas.Children.Add(moveableCard);
+            SetCardPosition(args);
+            _mainCanvas.Children.Add(_moveableCard);
 
-            var dropData = new DropData(cardBase.CurrentDeck, cardBase);
+            _currentDrag = new DropData(cardBase.CurrentDeck, cardBase);
 
-            var dataObject = new DataObject(typeof(DropData), dropData);
-
-            DragDrop.DoDragDrop(cardBase, dataObject, DragDropEffects.Move);
+            //var dropObject = new DataObject(typeof(DropData), dropData);
+            //DragDrop.DoDragDrop(cardBase, dataObject, DragDropEffects.Move);
         }
 
-        private Card SetCard(Card card, CardViewModel cardViewModel)
+        private void SetCardPosition(MouseEventArgs args)
         {
-            card.Path = cardViewModel.Path;
-            card.CardName = cardViewModel.Name;
-            card.CardShape = cardViewModel.Shape;
-            return card;
+            Canvas.SetLeft(_moveableCard, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
+            Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
         }
 
-        private void DropCard(object sender, DragEventArgs args)
+        public void ValidateDrop(object sender, MouseEventArgs args)
         {
-            var canvas = (Canvas)sender;
 
-            var dropData = (DropData)args.Data.GetData(typeof(DropData));
+        }
+
+        private void DropCard(Canvas canvas)
+        {
+            //var dropData = (DropData)args.Data.GetData(typeof(DropData));
 
             //Image image = new Image() { Width = imageSource.Width, Height = imageSource.Height, Source = imageSource };
 
@@ -89,10 +93,8 @@ namespace Solitare.UI.Game.Views
 
             //canvas.Children.Add(image);
 
-            InitializeGameViewModel();
-
             var targetDeck = Enum.GetNames(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == canvas.Name);
-            _gameViewModel.MoveCard(dropData.SourceDeck, targetDeck, dropData.MovedCard.CardName, dropData.MovedCard.CardShape);
+            _gameViewModel.MoveCard(_currentDrag.SourceDeck, targetDeck, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape);
         }
     }
 

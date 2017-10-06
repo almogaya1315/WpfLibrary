@@ -11,11 +11,12 @@ namespace Solitare.UI.Game.ViewModels
     public class GameViewModel : ViewModelBase
     {
         private CardViewModel _backCard;
-        private CardViewModel _emptyCard;
+        private CardViewModel _transparentCard;
+        private CardViewModel _moveableCard;
         private List<CardViewModel> _mainCards;
         private List<CardViewModel> _openCards;
 
-        private Dictionary<DeckName, List<CardViewModel>> _closedStacks;
+        private Dictionary<DeckName, List<CardViewModel>> _closedDecks;
 
         public ICommand Deal { get; set; }
 
@@ -54,20 +55,34 @@ namespace Solitare.UI.Game.ViewModels
 
         public GameViewModel()
         {
-            _emptyCard = new CardViewModel() { Path = Properties.Resources.EmptyCardPath };
+            // _emptyCard
+            _transparentCard = new CardViewModel() { Path = string.Empty }; // new CardViewModel() { Path = Properties.Resources.EmptyCardPath };
             _backCard = new CardViewModel() { Path = Properties.Resources.BackCardPath };
             _openCards = new List<CardViewModel>();
 
             MainDeckCard = _backCard;
-            OpenDeckCard = new CardViewModel() { Path = string.Empty };
+
+            OpenDeckCard = _transparentCard;
+
             CreateDeck();
 
             Deal = new RelayCommand(DealCard);
         }
 
-        public CardViewModel GetCardBehindCurrent(CardName name, CardShape shape, DeckName deck)
+        public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, DeckName targetDeck)
         {
-            return _backCard;
+            switch (targetDeck)
+            {
+                case DeckName.MainDeckCard:
+                    break;
+                case DeckName.OpenDeckCard:
+                    OpenDeckCard = new CardViewModel(_transparentCard);
+                    break;
+                case DeckName.DiamondsDeckCard:
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void MoveCard(DeckName sourceDeck, DeckName targetDeck, CardName cardName, CardShape cardShape)
@@ -89,7 +104,7 @@ namespace Solitare.UI.Game.ViewModels
                 OpenDeckCard = MainDeckCard;
                 _mainCards.Remove(MainDeckCard);
                 _openCards.Add(OpenDeckCard);
-                MainDeckCard = _mainCards.LastOrDefault() ?? _emptyCard;
+                MainDeckCard = _mainCards.LastOrDefault() ?? _transparentCard;
                 return;
             }
             else
