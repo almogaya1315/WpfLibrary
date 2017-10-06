@@ -29,8 +29,8 @@ namespace Solitare.UI.Game.Views
         {
             if (_isDrag)
             {
-                Canvas.SetLeft(_moveableCard, args.GetPosition(_mainCanvas).X);
-                Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y);
+                Canvas.SetLeft(_moveableCard, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
+                Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
             }
         }
 
@@ -44,12 +44,13 @@ namespace Solitare.UI.Game.Views
             InitializeGameViewModel();
 
             var cardBase = args.Source as Card;
-            var cardCanvas = (Canvas)cardBase.Parent;
+            //var cardCanvas = (Canvas)cardBase.Parent;
 
             var moveableCard = new Card(cardBase);
             _moveableCard = moveableCard;
-            var cardViewModel = _gameViewModel.GetCardBehindCurrent(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
-            cardBase = SetCard(cardBase, cardViewModel);
+            var cardBehind = _gameViewModel.GetCardBehindCurrent(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
+            //var currentCard = _gameViewModel.GetCurrentCard(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
+            cardBase = SetCard(cardBase, cardBehind);
 
             _isDrag = true;
 
@@ -67,9 +68,8 @@ namespace Solitare.UI.Game.Views
         private Card SetCard(Card card, CardViewModel cardViewModel)
         {
             card.Path = cardViewModel.Path;
-            card.Path = cardViewModel.Path;
-            card.Path = cardViewModel.Path;
-            card.Path = cardViewModel.Path;
+            card.CardName = cardViewModel.Name;
+            card.CardShape = cardViewModel.Shape;
             return card;
         }
 

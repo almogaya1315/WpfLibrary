@@ -107,8 +107,10 @@
                 </Border.Style>
 
                 <Canvas x:Name="OpenDeckCard"
-                        AllowDrop="True"
-                        Drop="DropCard">
+                        AllowDrop="True">
+
+                    <!--Drop="DropCard"-->
+
                     <Canvas.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
@@ -121,8 +123,8 @@
                                        CardName="{Binding OpenDeckCard.Name}"
                                        CardShape="{Binding OpenDeckCard.Shape}"
                                        CurrentDeck="{Binding Name, ElementName=OpenDeckCard}"
-                                       Margin="5"
-                                       Opacity="1" />
+                                       Height="149" 
+                                       Margin="14 5"/>
                 </Canvas>
 
                 <!--<Button Command="">
