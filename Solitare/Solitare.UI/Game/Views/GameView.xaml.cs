@@ -48,9 +48,9 @@ namespace Solitare.UI.Game.Views
 
             var moveableCard = new Card(cardBase);
             _moveableCard = moveableCard;
-            var cardBehind = _gameViewModel.GetCardBehindCurrent(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
+            //var cardBehind = _gameViewModel.GetCardBehindCurrent(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
             //var currentCard = _gameViewModel.GetCurrentCard(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
-            cardBase = SetCard(cardBase, cardBehind);
+            //cardBase = SetCard(cardBase, cardBehind);
 
             _isDrag = true;
 
