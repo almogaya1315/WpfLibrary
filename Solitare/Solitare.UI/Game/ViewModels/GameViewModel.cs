@@ -85,7 +85,7 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
-        public void MoveCard(DeckName sourceDeck, DeckName targetDeck, CardName cardName, CardShape cardShape)
+        public void DropCard(DeckName sourceDeck, DeckName targetDeck, CardName cardName, CardShape cardShape)
         {
 
 

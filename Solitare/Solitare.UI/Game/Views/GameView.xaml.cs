@@ -27,11 +27,21 @@ namespace Solitare.UI.Game.Views
             _gameViewModel = (GameViewModel)DataContext;
 
             _mainCanvas = MainCanvas;
+            //_moveableCard.MouseLeftButtonDown += MoveableCard_MouseLeftButtonDown;
 
             AddHandler(MouseMoveEvent, new MouseEventHandler(OnMouseMoveChanged));
         }
 
-        private void OnMouseMoveChanged(Object sender, MouseEventArgs args)
+        private void MoveableCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs args)
+        {
+            if (_moveableCard.IsOverDiamondsDeck)
+            {
+                var targetDeck = Enum.GetNames(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == "DiamondsDeckCard");
+                _gameViewModel.DropCard(_currentDrag.SourceDeck, targetDeck, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape);
+            }
+        }
+
+        private void OnMouseMoveChanged(object sender, MouseEventArgs args)
         {
             if (_isDrag)
             {
@@ -44,7 +54,17 @@ namespace Solitare.UI.Game.Views
                 if (args.GetPosition(_mainCanvas).X >= DiamondsDeckCardPoint.X && args.GetPosition(_mainCanvas).X <= DiamondsDeckCardPoint.X + DiamondsDeckCard.ActualWidth &&
                     args.GetPosition(_mainCanvas).Y >= DiamondsDeckCardPoint.Y && args.GetPosition(_mainCanvas).Y <= DiamondsDeckCardPoint.Y + DiamondsDeckCard.ActualHeight)
                 {
+                    // TODO: deck match validation
+
                     DiamondsDeckCard.Background = Brushes.Red;
+
+                    _moveableCard.IsOverDiamondsDeck = true;
+                }
+                else
+                {
+                    DiamondsDeckCard.Background = null;
+
+                    _moveableCard.IsOverDiamondsDeck = false;
                 }
             }
         }
@@ -74,28 +94,23 @@ namespace Solitare.UI.Game.Views
             Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
         }
 
-        public void ValidateDrop(object sender, MouseEventArgs args)
-        {
+        //private void DropCard(Canvas canvas)
+        //{
+        //    //var dropData = (DropData)args.Data.GetData(typeof(DropData));
 
-        }
+        //    //Image image = new Image() { Width = imageSource.Width, Height = imageSource.Height, Source = imageSource };
 
-        private void DropCard(Canvas canvas)
-        {
-            //var dropData = (DropData)args.Data.GetData(typeof(DropData));
+        //    //(canvas.Children[0] as Image).Source = imageSource;
 
-            //Image image = new Image() { Width = imageSource.Width, Height = imageSource.Height, Source = imageSource };
+        //    //Canvas.SetLeft(image, e.GetPosition(canvas).X);
 
-            //(canvas.Children[0] as Image).Source = imageSource;
+        //    //Canvas.SetTop(image, e.GetPosition(canvas).Y);
 
-            //Canvas.SetLeft(image, e.GetPosition(canvas).X);
+        //    //canvas.Children.Add(image);
 
-            //Canvas.SetTop(image, e.GetPosition(canvas).Y);
-
-            //canvas.Children.Add(image);
-
-            var targetDeck = Enum.GetNames(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == canvas.Name);
-            _gameViewModel.MoveCard(_currentDrag.SourceDeck, targetDeck, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape);
-        }
+        //    var targetDeck = Enum.GetNames(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == canvas.Name);
+        //    _gameViewModel.MoveCard(_currentDrag.SourceDeck, targetDeck, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape);
+        //}
     }
 
     public class DropData

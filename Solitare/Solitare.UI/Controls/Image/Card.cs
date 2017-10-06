@@ -12,6 +12,9 @@ namespace Solitare.UI.Controls.Image
 {
     public class Card : System.Windows.Controls.Image
     {
+        public bool isOverOpenDeck { get; set; }
+        public bool IsOverDiamondsDeck { get; set; }
+
         public Card()
         {
 
