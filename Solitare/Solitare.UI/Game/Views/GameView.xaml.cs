@@ -38,8 +38,7 @@ namespace Solitare.UI.Game.Views
                 _gameViewModel.DropCard(_currentDrag.SourceDeck, DeckName.DiamondsDeckCard, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape, _currentDrag.MovedCard.Path);
 
                 DiamondsDeckCard.Background = null;
-                _moveableCard.IsOverDiamondsDeck = false;
-
+                _mainCanvas.Children.Remove(_moveableCard);
                 _moveableCard = null;
                 _isDrag = false;
             }

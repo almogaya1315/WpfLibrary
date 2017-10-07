@@ -88,7 +88,7 @@ namespace Solitare.UI.Game.ViewModels
         {
             if (_closedDecks.ContainsKey(targetDeck))
             {
-                _closedDecks[targetDeck].Add(new CardViewModel() { Name = cardName, Shape = cardShape });
+                _closedDecks[targetDeck].Add(new CardViewModel() { Name = cardName, Shape = cardShape, Path = path });
 
                 switch (targetDeck)
                 {
