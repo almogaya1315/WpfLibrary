@@ -11,5 +11,8 @@ namespace Solitare.UI.Enums
         MainDeckCard,
         OpenDeckCard,
         DiamondsDeckCard,
+        ClubsDeckCard,
+        SpadesDeckCard,
+        HeartsDeckCard,
     }
 }

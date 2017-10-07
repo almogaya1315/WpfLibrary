@@ -14,6 +14,9 @@ namespace Solitare.UI.Controls.Image
     {
         public bool isOverOpenDeck { get; set; }
         public bool IsOverDiamondsDeck { get; set; }
+        public bool IsOverClubsDeck { get; set; }
+        public bool IsOverHeartsDeck { get; set; }
+        public bool IsOverSpadesDeck { get; set; }
 
         public Card()
         {

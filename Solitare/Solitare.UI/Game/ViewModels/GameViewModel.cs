@@ -53,6 +53,8 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
+        // TODO: rest of decks
+
         public GameViewModel()
         {
             // _emptyCard
@@ -93,6 +95,7 @@ namespace Solitare.UI.Game.ViewModels
                 switch (targetDeck)
                 {
                     case DeckName.OpenDeckCard:
+                        OpenDeckCard = new CardViewModel(_closedDecks[targetDeck].Last());
                         break;
                     case DeckName.DiamondsDeckCard:
                         DiamondsDeckCard = new CardViewModel(_closedDecks[targetDeck].Last());

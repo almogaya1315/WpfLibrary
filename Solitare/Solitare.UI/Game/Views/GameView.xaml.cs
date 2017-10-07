@@ -2,6 +2,7 @@
 using Solitare.UI.Enums;
 using Solitare.UI.Game.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,7 @@ namespace Solitare.UI.Game.Views
         private DropData _currentDrag;
         private bool _isDrag;
 
+        private List<Canvas> _closedDecks;
         private Canvas _mainCanvas;
         private Card _moveableCard;
 
@@ -27,47 +29,98 @@ namespace Solitare.UI.Game.Views
             _gameViewModel = (GameViewModel)DataContext;
 
             _mainCanvas = MainCanvas;
+            _closedDecks = new List<Canvas>() { OpenDeckCard, DiamondsDeckCard, ClubsDeckCard, HeartsDeckCard, SpadesDeckCard };
 
             AddHandler(MouseMoveEvent, new MouseEventHandler(OnMouseMoveChanged));
         }
 
         private void MoveableCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs args)
         {
-            if (_moveableCard.IsOverDiamondsDeck)
+            if (_moveableCard.isOverOpenDeck)
             {
-                _gameViewModel.DropCard(_currentDrag.SourceDeck, DeckName.DiamondsDeckCard, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape, _currentDrag.MovedCard.Path);
-
-                DiamondsDeckCard.Background = null;
-                _mainCanvas.Children.Remove(_moveableCard);
-                _moveableCard = null;
-                _isDrag = false;
+                DropCard(OpenDeckCard, DeckName.OpenDeckCard);
             }
+            else if (_moveableCard.IsOverDiamondsDeck)
+            {
+                DropCard(DiamondsDeckCard, DeckName.DiamondsDeckCard);
+            }
+            else if (_moveableCard.IsOverClubsDeck)
+            {
+                DropCard(ClubsDeckCard, DeckName.ClubsDeckCard);
+            }
+            else if (_moveableCard.IsOverHeartsDeck)
+            {
+                DropCard(HeartsDeckCard, DeckName.HeartsDeckCard);
+            }
+            else if (_moveableCard.IsOverSpadesDeck)
+            {
+                DropCard(SpadesDeckCard, DeckName.SpadesDeckCard);
+            }
+        }
+
+        private void DropCard(Canvas deck, DeckName deckName)
+        {
+            _gameViewModel.DropCard(_currentDrag.SourceDeck, deckName, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape, _currentDrag.MovedCard.Path);
+
+            deck.Background = null;
+            _mainCanvas.Children.Remove(_moveableCard);
+            _moveableCard = null;
+            _isDrag = false;
         }
 
         private void OnMouseMoveChanged(object sender, MouseEventArgs args)
         {
             if (_isDrag)
             {
-                SetCardPosition(args);
+                SetMoveableCardPosition(args);
 
-                var DiamondsDeckCardPoint = DiamondsDeckCard.TransformToAncestor(Application.Current.MainWindow)
+                _closedDecks.ForEach(d => FindOverDeck(d, args));
+            }
+        }
+
+        private void FindOverDeck(Canvas deck, MouseEventArgs args)
+        {
+            var point = deck.TransformToAncestor(Application.Current.MainWindow)
                                                             .Transform(new Point(0, 0));
 
-                if (args.GetPosition(_mainCanvas).X >= DiamondsDeckCardPoint.X - 50 && args.GetPosition(_mainCanvas).X <= DiamondsDeckCardPoint.X + DiamondsDeckCard.ActualWidth + 50 &&
-                    args.GetPosition(_mainCanvas).Y >= DiamondsDeckCardPoint.Y - 70 && args.GetPosition(_mainCanvas).Y <= DiamondsDeckCardPoint.Y + DiamondsDeckCard.ActualHeight + 70)
-                {
-                    // TODO: deck match validation
+            if (args.GetPosition(_mainCanvas).X >= point.X - 50 && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth + 50 &&
+                args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
+            {
+                // TODO: deck match validation
 
-                    DiamondsDeckCard.Background = Brushes.Red;
+                deck.Background = Brushes.Red;
 
-                    _moveableCard.IsOverDiamondsDeck = true;
-                }
-                else
-                {
-                    DiamondsDeckCard.Background = null;
+                SetIsMouseOver(deck, true);
+            }
+            else
+            {
+                deck.Background = null;
 
-                    _moveableCard.IsOverDiamondsDeck = false;
-                }
+                SetIsMouseOver(deck, false);
+            }
+        }
+
+        private void SetIsMouseOver(Canvas deck, bool value)
+        {
+            switch (deck.Name)
+            {
+                case "OpenDeckCard":
+                    _moveableCard.isOverOpenDeck = value;
+                    break;
+                case "DiamondsDeckCard":
+                    _moveableCard.IsOverDiamondsDeck = value;
+                    break;
+                case "SpadesDeckCard":
+                    _moveableCard.IsOverSpadesDeck = value;
+                    break;
+                case "HeartsDeckCard":
+                    _moveableCard.IsOverHeartsDeck = value;
+                    break;
+                case "ClubsDeckCard":
+                    _moveableCard.IsOverClubsDeck = value;
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -82,7 +135,7 @@ namespace Solitare.UI.Game.Views
 
             _isDrag = true;
 
-            SetCardPosition(args);
+            SetMoveableCardPosition(args);
             _mainCanvas.Children.Add(_moveableCard);
 
             _currentDrag = new DropData(_moveableCard.CurrentDeck, _moveableCard);
@@ -91,29 +144,11 @@ namespace Solitare.UI.Game.Views
             //DragDrop.DoDragDrop(cardBase, dataObject, DragDropEffects.Move);
         }
 
-        private void SetCardPosition(MouseEventArgs args)
+        private void SetMoveableCardPosition(MouseEventArgs args)
         {
             Canvas.SetLeft(_moveableCard, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
             Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
         }
-
-        //private void DropCard(Canvas canvas)
-        //{
-        //    //var dropData = (DropData)args.Data.GetData(typeof(DropData));
-
-        //    //Image image = new Image() { Width = imageSource.Width, Height = imageSource.Height, Source = imageSource };
-
-        //    //(canvas.Children[0] as Image).Source = imageSource;
-
-        //    //Canvas.SetLeft(image, e.GetPosition(canvas).X);
-
-        //    //Canvas.SetTop(image, e.GetPosition(canvas).Y);
-
-        //    //canvas.Children.Add(image);
-
-        //    var targetDeck = Enum.GetNames(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == canvas.Name);
-        //    _gameViewModel.MoveCard(_currentDrag.SourceDeck, targetDeck, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape);
-        //}
     }
 
     public class DropData
