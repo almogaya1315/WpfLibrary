@@ -27,7 +27,6 @@ namespace Solitare.UI.Game.Views
             _gameViewModel = (GameViewModel)DataContext;
 
             _mainCanvas = MainCanvas;
-            //_moveableCard.MouseLeftButtonDown += MoveableCard_MouseLeftButtonDown;
 
             AddHandler(MouseMoveEvent, new MouseEventHandler(OnMouseMoveChanged));
         }
@@ -74,6 +73,7 @@ namespace Solitare.UI.Game.Views
             var cardBase = args.Source as Card;
 
             _moveableCard = new Card(cardBase);
+            _moveableCard.MouseLeftButtonDown += MoveableCard_MouseLeftButtonDown;
 
             _gameViewModel.SetMoveableCardBinding(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
 
