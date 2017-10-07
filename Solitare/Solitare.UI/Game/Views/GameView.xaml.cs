@@ -35,8 +35,13 @@ namespace Solitare.UI.Game.Views
         {
             if (_moveableCard.IsOverDiamondsDeck)
             {
-                var targetDeck = Enum.GetNames(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == "DiamondsDeckCard");
-                _gameViewModel.DropCard(_currentDrag.SourceDeck, targetDeck, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape);
+                _gameViewModel.DropCard(_currentDrag.SourceDeck, DeckName.DiamondsDeckCard, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape, _currentDrag.MovedCard.Path);
+
+                DiamondsDeckCard.Background = null;
+                _moveableCard.IsOverDiamondsDeck = false;
+
+                _moveableCard = null;
+                _isDrag = false;
             }
         }
 
@@ -46,12 +51,11 @@ namespace Solitare.UI.Game.Views
             {
                 SetCardPosition(args);
 
-
                 var DiamondsDeckCardPoint = DiamondsDeckCard.TransformToAncestor(Application.Current.MainWindow)
                                                             .Transform(new Point(0, 0));
 
-                if (args.GetPosition(_mainCanvas).X >= DiamondsDeckCardPoint.X && args.GetPosition(_mainCanvas).X <= DiamondsDeckCardPoint.X + DiamondsDeckCard.ActualWidth &&
-                    args.GetPosition(_mainCanvas).Y >= DiamondsDeckCardPoint.Y && args.GetPosition(_mainCanvas).Y <= DiamondsDeckCardPoint.Y + DiamondsDeckCard.ActualHeight)
+                if (args.GetPosition(_mainCanvas).X >= DiamondsDeckCardPoint.X - 50 && args.GetPosition(_mainCanvas).X <= DiamondsDeckCardPoint.X + DiamondsDeckCard.ActualWidth + 50 &&
+                    args.GetPosition(_mainCanvas).Y >= DiamondsDeckCardPoint.Y - 70 && args.GetPosition(_mainCanvas).Y <= DiamondsDeckCardPoint.Y + DiamondsDeckCard.ActualHeight + 70)
                 {
                     // TODO: deck match validation
 
@@ -75,14 +79,14 @@ namespace Solitare.UI.Game.Views
             _moveableCard = new Card(cardBase);
             _moveableCard.MouseLeftButtonDown += MoveableCard_MouseLeftButtonDown;
 
-            _gameViewModel.SetMoveableCardBinding(cardBase.CardName, cardBase.CardShape, cardBase.CurrentDeck);
+            _gameViewModel.SetMoveableCardBinding(_moveableCard.CardName, _moveableCard.CardShape, _moveableCard.CurrentDeck);
 
             _isDrag = true;
 
             SetCardPosition(args);
             _mainCanvas.Children.Add(_moveableCard);
 
-            _currentDrag = new DropData(cardBase.CurrentDeck, cardBase);
+            _currentDrag = new DropData(_moveableCard.CurrentDeck, _moveableCard);
 
             //var dropObject = new DataObject(typeof(DropData), dropData);
             //DragDrop.DoDragDrop(cardBase, dataObject, DragDropEffects.Move);

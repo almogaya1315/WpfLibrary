@@ -61,21 +61,20 @@ namespace Solitare.UI.Game.ViewModels
             _openCards = new List<CardViewModel>();
 
             MainDeckCard = _backCard;
-
             OpenDeckCard = _transparentCard;
 
-            CreateDeck();
+            CreateMainDeck();
+            CreateClosedDecks();
 
             Deal = new RelayCommand(DealCard);
         }
 
-        public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, DeckName targetDeck)
+        public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, DeckName sourceDeck)
         {
-            switch (targetDeck)
+            switch (sourceDeck)
             {
-                case DeckName.MainDeckCard:
-                    break;
                 case DeckName.OpenDeckCard:
+                    _moveableCard = new CardViewModel() { Name = cardName, Shape = cardShape };
                     OpenDeckCard = new CardViewModel(_transparentCard);
                     break;
                 case DeckName.DiamondsDeckCard:
@@ -85,9 +84,23 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
-        public void DropCard(DeckName sourceDeck, DeckName targetDeck, CardName cardName, CardShape cardShape)
+        public void DropCard(DeckName sourceDeck, DeckName targetDeck, CardName cardName, CardShape cardShape, string path)
         {
+            if (_closedDecks.ContainsKey(targetDeck))
+            {
+                _closedDecks[targetDeck].Add(new CardViewModel() { Name = cardName, Shape = cardShape });
 
+                switch (targetDeck)
+                {
+                    case DeckName.OpenDeckCard:
+                        break;
+                    case DeckName.DiamondsDeckCard:
+                        DiamondsDeckCard = new CardViewModel(_closedDecks[targetDeck].Last());
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             // TODO..
         }
@@ -116,7 +129,7 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
-        private void CreateDeck()
+        private void CreateMainDeck()
         {
             _mainCards = new List<CardViewModel>();
             _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Two, Value = 2, Path = "/Images/Spades/TwoOfSpades.jpg" });
@@ -134,6 +147,13 @@ namespace Solitare.UI.Game.ViewModels
             _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Ace, Value = 14, Path = "/Images/Spades/AceOfSpades.jpg" });
 
             _mainCards.Shuffle();
+        }
+
+        private void CreateClosedDecks()
+        {
+            _closedDecks = new Dictionary<DeckName, List<CardViewModel>>();
+            _closedDecks[DeckName.OpenDeckCard] = new List<CardViewModel>();
+            _closedDecks[DeckName.DiamondsDeckCard] = new List<CardViewModel>();
         }
     }
 }
