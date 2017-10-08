@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Solitare.UI.Extensions;
 using System.Windows.Input;
+using System;
 
 namespace Solitare.UI.Game.ViewModels
 {
@@ -13,10 +14,9 @@ namespace Solitare.UI.Game.ViewModels
         private CardViewModel _backCard;
         private CardViewModel _transparentCard;
         private CardViewModel _moveableCard;
-        private List<CardViewModel> _mainCards;
-        private List<CardViewModel> _openCards;
 
         private Dictionary<DeckName, List<CardViewModel>> _closedDecks;
+        private Dictionary<DeckName, List<CardViewModel>> _openDecks;
 
         public ICommand Deal { get; set; }
 
@@ -53,110 +53,213 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
-        // TODO: rest of decks
+        private CardViewModel _heartsDeckCard;
+        public CardViewModel HeartsDeckCard
+        {
+            get { return _heartsDeckCard; }
+            set
+            {
+                _heartsDeckCard = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private CardViewModel _spadesDeckCard;
+        public CardViewModel SpadesDeckCard
+        {
+            get { return _spadesDeckCard; }
+            set
+            {
+                _spadesDeckCard = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private CardViewModel _clubsDeckCard;
+        public CardViewModel ClubsDeckCard
+        {
+            get { return _clubsDeckCard; }
+            set
+            {
+                _clubsDeckCard = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public GameViewModel()
         {
-            // _emptyCard
-            _transparentCard = new CardViewModel() { Path = string.Empty }; // new CardViewModel() { Path = Properties.Resources.EmptyCardPath };
+            _transparentCard = new CardViewModel() { Path = Properties.Resources.EmptyCardPath, Value = 0 };
             _backCard = new CardViewModel() { Path = Properties.Resources.BackCardPath };
-            _openCards = new List<CardViewModel>();
 
-            MainDeckCard = _backCard;
-            OpenDeckCard = _transparentCard;
+            
 
-            CreateMainDeck();
             CreateClosedDecks();
+            CreateOpenDecks();
 
             Deal = new RelayCommand(DealCard);
         }
 
-        public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, DeckName sourceDeck)
+        public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, int cardValue, DeckName sourceDeck, string path)
         {
+            _moveableCard = new CardViewModel() { Name = cardName, Shape = cardShape, Value = cardValue, Path = path };
+            _closedDecks[sourceDeck].RemoveAll(c => c.Name == cardName && c.Shape == cardShape);
+            var cardBehind = _closedDecks[sourceDeck].LastOrDefault() ?? _transparentCard;
+
             switch (sourceDeck)
             {
                 case DeckName.OpenDeckCard:
-                    _moveableCard = new CardViewModel() { Name = cardName, Shape = cardShape };
-                    OpenDeckCard = new CardViewModel(_transparentCard);
+                    OpenDeckCard = cardBehind;
                     break;
                 case DeckName.DiamondsDeckCard:
+                    DiamondsDeckCard = cardBehind;
                     break;
-                default:
+                case DeckName.HeartsDeckCard:
+                    HeartsDeckCard = cardBehind;
+                    break;
+                case DeckName.SpadesDeckCard:
+                    SpadesDeckCard = cardBehind;
+                    break;
+                case DeckName.ClubsDeckCard:
+                    ClubsDeckCard = cardBehind;
                     break;
             }
         }
 
-        public void DropCard(DeckName sourceDeck, DeckName targetDeck, CardName cardName, CardShape cardShape, string path)
+        public DeckMatch ValidateDeck(string deckName)
+        {
+            DeckMatch matchState = DeckMatch.NotFound;
+
+            var targetDeck = Enum.GetValues(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == deckName);
+            if (_closedDecks.ContainsKey(targetDeck))
+            {
+                var targetCard = _closedDecks[targetDeck].Last();
+
+                // TODO: only last card taken from open deck can be placed back 
+                if (targetDeck == DeckName.OpenDeckCard) return DeckMatch.Found;
+
+                matchState = targetCard.Shape == _moveableCard.Shape ? DeckMatch.Found : DeckMatch.NotFound;
+
+                matchState = targetCard.Value == _moveableCard.Value - 1 ? DeckMatch.Found : DeckMatch.NotFound;
+            }
+            else if (_openDecks.ContainsKey(targetDeck))
+            {
+                // TODO..
+            }
+
+            return matchState;
+        }
+
+        public void DropCard(DeckName targetDeck)
         {
             if (_closedDecks.ContainsKey(targetDeck))
             {
-                _closedDecks[targetDeck].Add(new CardViewModel() { Name = cardName, Shape = cardShape, Path = path });
+                _closedDecks[targetDeck].Add(_moveableCard);
+                var dropedCard = _closedDecks[targetDeck].Last();
+                _moveableCard = null;
 
                 switch (targetDeck)
                 {
                     case DeckName.OpenDeckCard:
-                        OpenDeckCard = new CardViewModel(_closedDecks[targetDeck].Last());
+                        OpenDeckCard = dropedCard;
                         break;
                     case DeckName.DiamondsDeckCard:
-                        DiamondsDeckCard = new CardViewModel(_closedDecks[targetDeck].Last());
+                        DiamondsDeckCard = dropedCard;
                         break;
-                    default:
+                    case DeckName.HeartsDeckCard:
+                        HeartsDeckCard = dropedCard;
+                        break;
+                    case DeckName.SpadesDeckCard:
+                        SpadesDeckCard = dropedCard;
+                        break;
+                    case DeckName.ClubsDeckCard:
+                        ClubsDeckCard = dropedCard;
                         break;
                 }
             }
-
-            // TODO..
+            else if (_openDecks.ContainsKey(targetDeck))
+            {
+                // TODO..
+            }
         }
 
         private void DealCard()
         {
             if (MainDeckCard.Path == Properties.Resources.BackCardPath)
             {
-                MainDeckCard = _mainCards.Last();
+                MainDeckCard = _closedDecks[DeckName.MainDeckCard].Last();
                 return;
             }
             else if (MainDeckCard.Path != Properties.Resources.EmptyCardPath)
             {
                 OpenDeckCard = MainDeckCard;
-                _mainCards.Remove(MainDeckCard);
-                _openCards.Add(OpenDeckCard);
-                MainDeckCard = _mainCards.LastOrDefault() ?? _transparentCard;
+                _closedDecks[DeckName.MainDeckCard].Remove(MainDeckCard);
+                _closedDecks[DeckName.OpenDeckCard].Add(OpenDeckCard);
+                MainDeckCard = _closedDecks[DeckName.MainDeckCard].LastOrDefault() ?? _transparentCard;
                 return;
             }
             else
             {
                 OpenDeckCard = new CardViewModel() { Path = string.Empty };
-                _openCards.ForEach(op => _mainCards.Add(op));
-                _openCards.Clear();
+                _closedDecks[DeckName.OpenDeckCard].ForEach(op => _closedDecks[DeckName.MainDeckCard].Add(op));
+                _closedDecks[DeckName.OpenDeckCard].Clear();
                 MainDeckCard = _backCard;
             }
         }
 
-        private void CreateMainDeck()
+        private List<CardViewModel> CreateMainDeck()
         {
-            _mainCards = new List<CardViewModel>();
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Two, Value = 2, Path = "/Images/Spades/TwoOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Three, Value = 3, Path = "/Images/Spades/ThreeOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Four, Value = 4, Path = "/Images/Spades/FourOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Five, Value = 5, Path = "/Images/Spades/FiveOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Six, Value = 6, Path = "/Images/Spades/SixOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Seven, Value = 7, Path = "/Images/Spades/SevenOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Eight, Value = 8, Path = "/Images/Spades/EightOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Nine, Value = 9, Path = "/Images/Spades/NineOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Ten, Value = 10, Path = "/Images/Spades/TenOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Jack, Value = 11, Path = "/Images/Spades/JackOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Queen, Value = 12, Path = "/Images/Spades/QueenOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.King, Value = 13, Path = "/Images/Spades/KingOfSpades.jpg" });
-            _mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Ace, Value = 14, Path = "/Images/Spades/AceOfSpades.jpg" });
+            var mainCards = new List<CardViewModel>();
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Ace, Value = 1, Path = "/Images/Spades/AceOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Two, Value = 2, Path = "/Images/Spades/TwoOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Three, Value = 3, Path = "/Images/Spades/ThreeOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Four, Value = 4, Path = "/Images/Spades/FourOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Five, Value = 5, Path = "/Images/Spades/FiveOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Six, Value = 6, Path = "/Images/Spades/SixOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Seven, Value = 7, Path = "/Images/Spades/SevenOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Eight, Value = 8, Path = "/Images/Spades/EightOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Nine, Value = 9, Path = "/Images/Spades/NineOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Ten, Value = 10, Path = "/Images/Spades/TenOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Jack, Value = 11, Path = "/Images/Spades/JackOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Queen, Value = 12, Path = "/Images/Spades/QueenOfSpades.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.King, Value = 13, Path = "/Images/Spades/KingOfSpades.jpg" });
 
-            _mainCards.Shuffle();
+            mainCards.Shuffle();
+
+            return mainCards;
         }
 
         private void CreateClosedDecks()
         {
             _closedDecks = new Dictionary<DeckName, List<CardViewModel>>();
-            _closedDecks[DeckName.OpenDeckCard] = new List<CardViewModel>();
-            _closedDecks[DeckName.DiamondsDeckCard] = new List<CardViewModel>();
+
+            _closedDecks[DeckName.MainDeckCard] = CreateMainDeck();
+            MainDeckCard = _backCard;
+
+            _closedDecks[DeckName.OpenDeckCard] = new List<CardViewModel>() { _transparentCard };
+            OpenDeckCard = _closedDecks[DeckName.OpenDeckCard].Last();
+
+            _closedDecks[DeckName.DiamondsDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.DiamondsDeckCard].Last().Shape = CardShape.Diamonds;
+            DiamondsDeckCard = _closedDecks[DeckName.DiamondsDeckCard].Last();
+
+            _closedDecks[DeckName.HeartsDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.HeartsDeckCard].Last().Shape = CardShape.Hearts;
+            HeartsDeckCard = _closedDecks[DeckName.HeartsDeckCard].Last();
+
+            _closedDecks[DeckName.ClubsDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.ClubsDeckCard].Last().Shape = CardShape.Clubs;
+            ClubsDeckCard = _closedDecks[DeckName.ClubsDeckCard].Last();
+
+            _closedDecks[DeckName.SpadesDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.SpadesDeckCard].Last().Shape = CardShape.Spades;
+            SpadesDeckCard = _closedDecks[DeckName.SpadesDeckCard].Last();
+        }
+
+        private void CreateOpenDecks()
+        {
+            _openDecks = new Dictionary<DeckName, List<CardViewModel>>();
+
+            // TODO..
         }
     }
 }

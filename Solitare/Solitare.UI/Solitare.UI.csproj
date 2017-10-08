@@ -95,6 +95,7 @@
     <Compile Include="Controls\Image\Card.cs" />
     <Compile Include="Enums\CardName.cs" />
     <Compile Include="Enums\CardShape.cs" />
+    <Compile Include="Enums\DeckMatch.cs" />
     <Compile Include="Enums\DeckName.cs" />
     <Compile Include="Enums\InitialDraw.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

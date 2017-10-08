@@ -66,34 +66,11 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
                 <Button Command="{Binding Deal}">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver"
-                                         Value="True">
-                                    <Setter Property="Background"
-                                            Value="Transparent" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
                     <Button.Template>
                         <ControlTemplate>
                             <Image Source="{Binding MainDeckCard.Path}"
                                    Margin="5"
-                                   Opacity="1">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver"
-                                                     Value="True">
-                                                <Setter Property="OpacityMask"
-                                                        Value="AliceBlue" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
+                                   Opacity="1" />
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
@@ -119,6 +96,7 @@
                                        Path="{Binding OpenDeckCard.Path}"
                                        CardName="{Binding OpenDeckCard.Name}"
                                        CardShape="{Binding OpenDeckCard.Shape}"
+                                       CardValue="{Binding OpenDeckCard.Value}"
                                        CurrentDeck="{Binding Name, ElementName=OpenDeckCard}"
                                        Height="149"
                                        Margin="14 5" />
@@ -134,7 +112,7 @@
 
                 <Canvas x:Name="HeartsDeckCard">
                     <Canvas.Resources>
-                        <Style TargetType="{x:Type Image}">
+                        <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
@@ -144,6 +122,7 @@
                                        Path="{Binding HeartsDeckCard.Path}"
                                        CardName="{Binding HeartsDeckCard.Name}"
                                        CardShape="{Binding HeartsDeckCard.Shape}"
+                                       CardValue="{Binding HeartsDeckCard.Value}"
                                        CurrentDeck="{Binding Name, ElementName=HeartsDeckCard}"
                                        Panel.ZIndex="1"
                                        Height="149"
@@ -166,7 +145,7 @@
                 
                 <Canvas x:Name="ClubsDeckCard">
                     <Canvas.Resources>
-                        <Style TargetType="{x:Type Image}">
+                        <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
@@ -176,6 +155,7 @@
                                        Path="{Binding ClubsDeckCard.Path}"
                                        CardName="{Binding ClubsDeckCard.Name}"
                                        CardShape="{Binding ClubsDeckCard.Shape}"
+                                       CardValue="{Binding ClubsDeckCard.Value}"
                                        CurrentDeck="{Binding Name, ElementName=ClubsDeckCard}"
                                        Panel.ZIndex="1"
                                        Height="149"
@@ -197,7 +177,7 @@
 
                 <Canvas x:Name="DiamondsDeckCard">
                     <Canvas.Resources>
-                        <Style TargetType="{x:Type Image}">
+                        <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
@@ -207,6 +187,7 @@
                                        Path="{Binding DiamondsDeckCard.Path}"
                                        CardName="{Binding DiamondsDeckCard.Name}"
                                        CardShape="{Binding DiamondsDeckCard.Shape}"
+                                       CardValue="{Binding DiamondsDeckCard.Value}"
                                        CurrentDeck="{Binding Name, ElementName=DiamondsDeckCard}"
                                        Panel.ZIndex="1"
                                        Height="149"
@@ -229,7 +210,7 @@
 
                 <Canvas x:Name="SpadesDeckCard">
                     <Canvas.Resources>
-                        <Style TargetType="{x:Type Image}">
+                        <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
@@ -239,6 +220,7 @@
                                        Path="{Binding SpadesDeckCard.Path}"
                                        CardName="{Binding SpadesDeckCard.Name}"
                                        CardShape="{Binding SpadesDeckCard.Shape}"
+                                       CardValue="{Binding SpadesDeckCard.Value}"
                                        CurrentDeck="{Binding Name, ElementName=SpadesDeckCard}"
                                        Panel.ZIndex="1"
                                        Height="149"

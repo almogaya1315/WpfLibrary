@@ -28,6 +28,7 @@ namespace Solitare.UI.Controls.Image
             Path = card.Path;
             CardName = card.CardName;
             CardShape = card.CardShape;
+            CardValue = card.CardValue;
             CurrentDeck = card.CurrentDeck;
             Source = card.Source;
             Height = 149;
@@ -38,35 +39,38 @@ namespace Solitare.UI.Controls.Image
             get { return (string)GetValue(PathProperty); }
             set { SetValue(PathProperty, value); }
         }
-
-        public static readonly DependencyProperty PathProperty =
-            DependencyProperty.Register("Path", typeof(string), typeof(Card), new PropertyMetadata(""));
-
-
         public CardName CardName
         {
             get { return (CardName)GetValue(CardNameProperty); }
             set { SetValue(CardNameProperty, value); }
         }
-
-        public static readonly DependencyProperty CardNameProperty =
-            DependencyProperty.Register("CardName", typeof(CardName), typeof(Card), new PropertyMetadata(null));
-
         public CardShape CardShape
         {
             get { return (CardShape)GetValue(CardShapeProperty); }
             set { SetValue(CardShapeProperty, value); }
         }
-
-        public static readonly DependencyProperty CardShapeProperty =
-            DependencyProperty.Register("CardShape", typeof(CardShape), typeof(Card), new PropertyMetadata(null));
-
-
+        public int CardValue
+        {
+            get { return (int)GetValue(CardValueProperty); }
+            set { SetValue(CardValueProperty, value); }
+        }
         public DeckName CurrentDeck
         {
             get { return (DeckName)GetValue(CurrentDeckProperty); }
             set { SetValue(CurrentDeckProperty, value); }
         }
+
+        public static readonly DependencyProperty PathProperty =
+            DependencyProperty.Register("Path", typeof(string), typeof(Card), new PropertyMetadata(""));
+
+        public static readonly DependencyProperty CardNameProperty =
+            DependencyProperty.Register("CardName", typeof(CardName), typeof(Card), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CardShapeProperty =
+            DependencyProperty.Register("CardShape", typeof(CardShape), typeof(Card), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CardValueProperty =
+            DependencyProperty.Register("CardValue", typeof(int), typeof(Card), new PropertyMetadata(0));
 
         public static readonly DependencyProperty CurrentDeckProperty =
             DependencyProperty.Register("CurrentDeck", typeof(DeckName), typeof(Card), new PropertyMetadata(null));

@@ -10,7 +10,7 @@ namespace Solitare.UI.Extensions
 {
     public static class ListExtensions
     {
-        public static void Shuffle<T>(this IList<T> list)
+        public static void Shuffle<T>(this List<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
             int n = list.Count;
@@ -27,7 +27,7 @@ namespace Solitare.UI.Extensions
             }
         }
 
-        public static ObservableCollection<T> ToObservableCollection<T>(this IList<T> list)
+        public static ObservableCollection<T> ToObservableCollection<T>(this List<T> list)
         {
             var observables = new ObservableCollection<T>();
 

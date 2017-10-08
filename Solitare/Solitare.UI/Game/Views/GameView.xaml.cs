@@ -60,7 +60,7 @@ namespace Solitare.UI.Game.Views
 
         private void DropCard(Canvas deck, DeckName deckName)
         {
-            _gameViewModel.DropCard(_currentDrag.SourceDeck, deckName, _currentDrag.MovedCard.CardName, _currentDrag.MovedCard.CardShape, _currentDrag.MovedCard.Path);
+            _gameViewModel.DropCard(deckName);
 
             deck.Background = null;
             _mainCanvas.Children.Remove(_moveableCard);
@@ -83,41 +83,44 @@ namespace Solitare.UI.Game.Views
             var point = deck.TransformToAncestor(Application.Current.MainWindow)
                                                             .Transform(new Point(0, 0));
 
-            if (args.GetPosition(_mainCanvas).X >= point.X - 50 && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth + 50 &&
+            if (args.GetPosition(_mainCanvas).X >= point.X && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth &&
                 args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
             {
                 // TODO: deck match validation
 
-                deck.Background = Brushes.Red;
+                if (_gameViewModel.ValidateDeck(deck.Name) == DeckMatch.NotFound) return; 
 
                 SetIsMouseOver(deck, true);
             }
             else
             {
-                deck.Background = null;
-
                 SetIsMouseOver(deck, false);
             }
         }
 
-        private void SetIsMouseOver(Canvas deck, bool value)
+        private void SetIsMouseOver(Canvas deck, bool isOver)
         {
             switch (deck.Name)
             {
                 case "OpenDeckCard":
-                    _moveableCard.isOverOpenDeck = value;
+                    deck.Background = isOver ? Brushes.Red : null;
+                    _moveableCard.isOverOpenDeck = isOver;
                     break;
                 case "DiamondsDeckCard":
-                    _moveableCard.IsOverDiamondsDeck = value;
+                    deck.Background = isOver ? Brushes.Black : null;
+                    _moveableCard.IsOverDiamondsDeck = isOver;
                     break;
                 case "SpadesDeckCard":
-                    _moveableCard.IsOverSpadesDeck = value;
+                    deck.Background = isOver ? Brushes.Red : null;
+                    _moveableCard.IsOverSpadesDeck = isOver;
                     break;
                 case "HeartsDeckCard":
-                    _moveableCard.IsOverHeartsDeck = value;
+                    deck.Background = isOver ? Brushes.Black : null;
+                    _moveableCard.IsOverHeartsDeck = isOver;
                     break;
                 case "ClubsDeckCard":
-                    _moveableCard.IsOverClubsDeck = value;
+                    deck.Background = isOver ? Brushes.Red : null;
+                    _moveableCard.IsOverClubsDeck = isOver;
                     break;
                 default:
                     break;
@@ -128,10 +131,12 @@ namespace Solitare.UI.Game.Views
         {
             var cardBase = args.Source as Card;
 
+            if (cardBase.CardValue == 0) return;
+
             _moveableCard = new Card(cardBase);
             _moveableCard.MouseLeftButtonDown += MoveableCard_MouseLeftButtonDown;
 
-            _gameViewModel.SetMoveableCardBinding(_moveableCard.CardName, _moveableCard.CardShape, _moveableCard.CurrentDeck);
+            _gameViewModel.SetMoveableCardBinding(_moveableCard.CardName, _moveableCard.CardShape, _moveableCard.CardValue, _moveableCard.CurrentDeck, _moveableCard.Path);
 
             _isDrag = true;
 
