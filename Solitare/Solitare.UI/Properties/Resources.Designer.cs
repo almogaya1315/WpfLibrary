@@ -70,7 +70,7 @@ namespace Solitare.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /Images/EmptyCard.jpg.
+        ///   Looks up a localized string similar to /Images/EmptyCard.png.
         /// </summary>
         internal static string EmptyCardPath {
             get {

@@ -88,10 +88,8 @@ namespace Solitare.UI.Game.ViewModels
 
         public GameViewModel()
         {
-            _transparentCard = new CardViewModel() { Path = Properties.Resources.EmptyCardPath, Value = 0 };
+            _transparentCard = new CardViewModel() { Path = Properties.Resources.EmptyCardPath};
             _backCard = new CardViewModel() { Path = Properties.Resources.BackCardPath };
-
-            
 
             CreateClosedDecks();
             CreateOpenDecks();
@@ -138,6 +136,7 @@ namespace Solitare.UI.Game.ViewModels
                 if (targetDeck == DeckName.OpenDeckCard) return DeckMatch.Found;
 
                 matchState = targetCard.Shape == _moveableCard.Shape ? DeckMatch.Found : DeckMatch.NotFound;
+                if (matchState == DeckMatch.NotFound) return matchState;
 
                 matchState = targetCard.Value == _moveableCard.Value - 1 ? DeckMatch.Found : DeckMatch.NotFound;
             }
@@ -209,6 +208,7 @@ namespace Solitare.UI.Game.ViewModels
         private List<CardViewModel> CreateMainDeck()
         {
             var mainCards = new List<CardViewModel>();
+
             mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Ace, Value = 1, Path = "/Images/Spades/AceOfSpades.jpg" });
             mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Two, Value = 2, Path = "/Images/Spades/TwoOfSpades.jpg" });
             mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Three, Value = 3, Path = "/Images/Spades/ThreeOfSpades.jpg" });
@@ -238,19 +238,19 @@ namespace Solitare.UI.Game.ViewModels
             _closedDecks[DeckName.OpenDeckCard] = new List<CardViewModel>() { _transparentCard };
             OpenDeckCard = _closedDecks[DeckName.OpenDeckCard].Last();
 
-            _closedDecks[DeckName.DiamondsDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.DiamondsDeckCard] = new List<CardViewModel>() { new CardViewModel(_transparentCard) };
             _closedDecks[DeckName.DiamondsDeckCard].Last().Shape = CardShape.Diamonds;
             DiamondsDeckCard = _closedDecks[DeckName.DiamondsDeckCard].Last();
 
-            _closedDecks[DeckName.HeartsDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.HeartsDeckCard] = new List<CardViewModel>() { new CardViewModel(_transparentCard) };
             _closedDecks[DeckName.HeartsDeckCard].Last().Shape = CardShape.Hearts;
             HeartsDeckCard = _closedDecks[DeckName.HeartsDeckCard].Last();
 
-            _closedDecks[DeckName.ClubsDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.ClubsDeckCard] = new List<CardViewModel>() { new CardViewModel(_transparentCard) };
             _closedDecks[DeckName.ClubsDeckCard].Last().Shape = CardShape.Clubs;
             ClubsDeckCard = _closedDecks[DeckName.ClubsDeckCard].Last();
 
-            _closedDecks[DeckName.SpadesDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.SpadesDeckCard] = new List<CardViewModel>() { new CardViewModel(_transparentCard) };
             _closedDecks[DeckName.SpadesDeckCard].Last().Shape = CardShape.Spades;
             SpadesDeckCard = _closedDecks[DeckName.SpadesDeckCard].Last();
         }

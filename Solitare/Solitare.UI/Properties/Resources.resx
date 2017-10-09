@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EmptyCardPath" xml:space="preserve">
-    <value>/Images/EmptyCard.jpg</value>
+    <value>/Images/EmptyCard.png</value>
   </data>
   <data name="ExitCaption" xml:space="preserve">
     <value>E X I T</value>

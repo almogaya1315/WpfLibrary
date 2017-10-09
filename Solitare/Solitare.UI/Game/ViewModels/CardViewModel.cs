@@ -20,9 +20,9 @@ namespace Solitare.UI.Game.ViewModels
 
         public int Value { get; set; }
 
-        public CardShape Shape { get; set; }
+        public CardShape? Shape { get; set; }
 
-        public CardName Name { get; set; }
+        public CardName? Name { get; set; }
 
         public string Path { get; set; }
     }
