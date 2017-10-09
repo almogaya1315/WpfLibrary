@@ -161,11 +161,7 @@
   <ItemGroup>
     <Resource Include="Images\MainBackground.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\Clubs\" />
-    <Folder Include="Images\Diamonds\" />
-    <Folder Include="Images\Hearts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Spades\AceOfSpades.jpg" />
     <Resource Include="Images\Spades\BlackJoker.jpg" />
@@ -183,10 +179,56 @@
     <Resource Include="Images\Spades\TwoOfSpades.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\EmptyCard.jpg" />
+    <Resource Include="Images\EmptyCard.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\EmptyCard.png" />
+    <Resource Include="Images\BlackJoker.jpg" />
+    <Resource Include="Images\RedJoker.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Clubs\AceOfClubs.jpg" />
+    <Resource Include="Images\Clubs\EightOfClubs.jpg" />
+    <Resource Include="Images\Clubs\FiveOfClubs.jpg" />
+    <Resource Include="Images\Clubs\FourOfClubs.jpg" />
+    <Resource Include="Images\Clubs\JackOfClubs.jpg" />
+    <Resource Include="Images\Clubs\KingOfClubs.jpg" />
+    <Resource Include="Images\Clubs\NineOfClubs.jpg" />
+    <Resource Include="Images\Clubs\QueenOfClubs.jpg" />
+    <Resource Include="Images\Clubs\SevenOfClubs.jpg" />
+    <Resource Include="Images\Clubs\SixOfClubs.jpg" />
+    <Resource Include="Images\Clubs\TenOfClubs.jpg" />
+    <Resource Include="Images\Clubs\ThreeOfClubs.jpg" />
+    <Resource Include="Images\Clubs\TwoOfClubs.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Diamonds\AceOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\EightOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\FiveOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\FourOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\JackOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\KingOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\NineOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\QueenOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\SevenOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\SixOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\TenOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\ThreeOfDiamonds.jpg" />
+    <Resource Include="Images\Diamonds\TwoOfDiamonds.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Hearts\AceOfHearts.jpg" />
+    <Resource Include="Images\Hearts\EightOfHearts.jpg" />
+    <Resource Include="Images\Hearts\FiveOfHearts.jpg" />
+    <Resource Include="Images\Hearts\FourOfHearts.jpg" />
+    <Resource Include="Images\Hearts\JackOfHearts.jpg" />
+    <Resource Include="Images\Hearts\KingOfHearts.jpg" />
+    <Resource Include="Images\Hearts\NineOfHearts.jpg" />
+    <Resource Include="Images\Hearts\QueenOfHearts.jpg" />
+    <Resource Include="Images\Hearts\SevenOfHearts.jpg" />
+    <Resource Include="Images\Hearts\SixOfHearts.jpg" />
+    <Resource Include="Images\Hearts\TenOfHearts.jpg" />
+    <Resource Include="Images\Hearts\ThreeOfHearts.jpg" />
+    <Resource Include="Images\Hearts\TwoOfHearts.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

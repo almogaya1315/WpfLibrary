@@ -130,7 +130,7 @@ namespace Solitare.UI.Game.ViewModels
             var targetDeck = Enum.GetValues(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == deckName);
             if (_closedDecks.ContainsKey(targetDeck))
             {
-                var targetCard = _closedDecks[targetDeck].Last();
+                var targetCard = _closedDecks[targetDeck].LastOrDefault();
 
                 // TODO: only last card taken from open deck can be placed back 
                 if (targetDeck == DeckName.OpenDeckCard) return DeckMatch.Found;
@@ -193,7 +193,7 @@ namespace Solitare.UI.Game.ViewModels
                 OpenDeckCard = MainDeckCard;
                 _closedDecks[DeckName.MainDeckCard].Remove(MainDeckCard);
                 _closedDecks[DeckName.OpenDeckCard].Add(OpenDeckCard);
-                MainDeckCard = _closedDecks[DeckName.MainDeckCard].LastOrDefault() ?? _transparentCard;
+                MainDeckCard = _closedDecks[DeckName.MainDeckCard].LastOrDefault() ?? new CardViewModel(_transparentCard);
                 return;
             }
             else
@@ -223,6 +223,48 @@ namespace Solitare.UI.Game.ViewModels
             mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.Queen, Value = 12, Path = "/Images/Spades/QueenOfSpades.jpg" });
             mainCards.Add(new CardViewModel() { Shape = CardShape.Spades, Name = CardName.King, Value = 13, Path = "/Images/Spades/KingOfSpades.jpg" });
 
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Ace, Value = 1, Path = "/Images/Spades/AceOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Two, Value = 2, Path = "/Images/Spades/TwoOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Three, Value = 3, Path = "/Images/Spades/ThreeOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Four, Value = 4, Path = "/Images/Spades/FourOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Five, Value = 5, Path = "/Images/Spades/FiveOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Six, Value = 6, Path = "/Images/Spades/SixOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Seven, Value = 7, Path = "/Images/Spades/SevenOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Eight, Value = 8, Path = "/Images/Spades/EightOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Nine, Value = 9, Path = "/Images/Spades/NineOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Ten, Value = 10, Path = "/Images/Spades/TenOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Jack, Value = 11, Path = "/Images/Spades/JackOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.Queen, Value = 12, Path = "/Images/Spades/QueenOfHearts.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Hearts, Name = CardName.King, Value = 13, Path = "/Images/Spades/KingOfHearts.jpg" });
+
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Ace, Value = 1, Path = "/Images/Spades/AceOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Two, Value = 2, Path = "/Images/Spades/TwoOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Three, Value = 3, Path = "/Images/Spades/ThreeOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Four, Value = 4, Path = "/Images/Spades/FourOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Five, Value = 5, Path = "/Images/Spades/FiveOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Six, Value = 6, Path = "/Images/Spades/SixOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Seven, Value = 7, Path = "/Images/Spades/SevenOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Eight, Value = 8, Path = "/Images/Spades/EightOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Nine, Value = 9, Path = "/Images/Spades/NineOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Ten, Value = 10, Path = "/Images/Spades/TenOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Jack, Value = 11, Path = "/Images/Spades/JackOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.Queen, Value = 12, Path = "/Images/Spades/QueenOfClubs.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Clubs, Name = CardName.King, Value = 13, Path = "/Images/Spades/KingOfClubs.jpg" });
+
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Ace, Value = 1, Path = "/Images/Spades/AceOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Two, Value = 2, Path = "/Images/Spades/TwoOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Three, Value = 3, Path = "/Images/Spades/ThreeOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Four, Value = 4, Path = "/Images/Spades/FourOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Five, Value = 5, Path = "/Images/Spades/FiveOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Six, Value = 6, Path = "/Images/Spades/SixOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Seven, Value = 7, Path = "/Images/Spades/SevenOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Eight, Value = 8, Path = "/Images/Spades/EightOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Nine, Value = 9, Path = "/Images/Spades/NineOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Ten, Value = 10, Path = "/Images/Spades/TenOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Jack, Value = 11, Path = "/Images/Spades/JackOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.Queen, Value = 12, Path = "/Images/Spades/QueenOfDiamonds.jpg" });
+            mainCards.Add(new CardViewModel() { Shape = CardShape.Diamonds, Name = CardName.King, Value = 13, Path = "/Images/Spades/KingOfDiamonds.jpg" });
+
             mainCards.Shuffle();
 
             return mainCards;
@@ -235,7 +277,7 @@ namespace Solitare.UI.Game.ViewModels
             _closedDecks[DeckName.MainDeckCard] = CreateMainDeck();
             MainDeckCard = _backCard;
 
-            _closedDecks[DeckName.OpenDeckCard] = new List<CardViewModel>() { _transparentCard };
+            _closedDecks[DeckName.OpenDeckCard] = new List<CardViewModel>() { new CardViewModel(_transparentCard) };
             OpenDeckCard = _closedDecks[DeckName.OpenDeckCard].Last();
 
             _closedDecks[DeckName.DiamondsDeckCard] = new List<CardViewModel>() { new CardViewModel(_transparentCard) };

@@ -161,7 +161,7 @@
                                        Height="149"
                                        Margin="14 5" />
 
-                    <TextBlock Text="&#9831;"
+                    <TextBlock Text="&#9828;"
                                FontSize="70"
                                Canvas.Left="15"
                                Canvas.Top="30" />
@@ -226,7 +226,7 @@
                                        Height="149"
                                        Margin="14 5" />
 
-                    <TextBlock Text="&#9828;"
+                    <TextBlock Text="&#9831;"
                                FontSize="70"
                                Canvas.Left="15"
                                Canvas.Top="30" />
