@@ -6,6 +6,8 @@ using System.Linq;
 using Solitare.UI.Extensions;
 using System.Windows.Input;
 using System;
+using System.Windows;
+using Solitare.UI.Controls.Image;
 
 namespace Solitare.UI.Game.ViewModels
 {
@@ -86,6 +88,8 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
+        public ResourceDictionary TakeCardEventResource { get; set; }
+
         public GameViewModel()
         {
             _transparentCard = new CardViewModel() { Path = Properties.Resources.EmptyCardPath};
@@ -95,6 +99,9 @@ namespace Solitare.UI.Game.ViewModels
             CreateOpenDecks();
 
             Deal = new RelayCommand(DealCard);
+
+            TakeCardEventResource = new ResourceDictionary();
+            TakeCardEventResource.Add(new Style(typeof(Card)), new EventSetter(UIElement.MouseLeftButtonDown, TakeCard)); 
         }
 
         public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, int cardValue, DeckName sourceDeck, string path)

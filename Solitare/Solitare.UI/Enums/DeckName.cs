@@ -14,5 +14,12 @@ namespace Solitare.UI.Enums
         ClubsDeckCard,
         SpadesDeckCard,
         HeartsDeckCard,
+        FirstDeck,
+        SecondDeck,
+        ThirdDeck,
+        FourthDeck,
+        FifthDeck,
+        SixthDeck,
+        SeventhDeck,
     }
 }

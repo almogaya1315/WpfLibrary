@@ -85,7 +85,8 @@
                 </Border.Style>
 
                 <deckControls:Deck x:Name="OpenDeckCard"
-                                   DeckName="OpenDeckCard">
+                                   DeckName="OpenDeckCard"
+                                   IsDraggable="False">
 
                     <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
@@ -113,7 +114,8 @@
                 </Border.Style>
 
                 <deckControls:Deck x:Name="HeartsDeckCard"
-                                   DeckName="HeartsDeckCard">
+                                   DeckName="HeartsDeckCard"
+                                   IsDraggable="False">
                     <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
@@ -147,7 +149,8 @@
                 </Border.Style>
 
                 <deckControls:Deck x:Name="ClubsDeckCard"
-                                   DeckName="ClubsDeckCard">
+                                   DeckName="ClubsDeckCard"
+                                   IsDraggable="False">
                     <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
@@ -180,7 +183,8 @@
                 </Border.Style>
 
                 <deckControls:Deck x:Name="DiamondsDeckCard"
-                                   DeckName="DiamondsDeckCard">
+                                   DeckName="DiamondsDeckCard"
+                                   IsDraggable="False">
                     <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
@@ -214,7 +218,8 @@
                 </Border.Style>
 
                 <deckControls:Deck x:Name="SpadesDeckCard"
-                                   DeckName="SpadesDeckCard">
+                                   DeckName="SpadesDeckCard"
+                                   IsDraggable="False">
                     <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
@@ -246,9 +251,11 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <Canvas>
+                <deckControls:Deck DeckName="FirstDeck"
+                                   IsDraggable="False"
+                                   ResourceBinding="{Binding TakeCardEventResource}">
 
-                </Canvas>
+                </deckControls:Deck>
             </Border>
 
             <Border Grid.Row="5"
