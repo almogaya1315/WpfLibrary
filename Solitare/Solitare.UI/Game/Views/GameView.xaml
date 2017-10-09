@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Solitare.UI.Game.Views"
              xmlns:cardControls="clr-namespace:Solitare.UI.Controls.Image"
+             xmlns:deckControls="clr-namespace:Solitare.UI.Controls.Canvas"
              mc:Ignorable="d"
              d:DesignHeight="900"
              d:DesignWidth="1600">
@@ -83,24 +84,25 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <Canvas x:Name="OpenDeckCard">
+                <deckControls:Deck x:Name="OpenDeckCard"
+                                   DeckName="OpenDeckCard">
 
-                    <Canvas.Resources>
+                    <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
-                    </Canvas.Resources>
+                    </deckControls:Deck.Resources>
 
                     <cardControls:Card Source="{Binding OpenDeckCard.Path}"
                                        Path="{Binding OpenDeckCard.Path}"
                                        CardName="{Binding OpenDeckCard.Name}"
                                        CardShape="{Binding OpenDeckCard.Shape}"
                                        CardValue="{Binding OpenDeckCard.Value}"
-                                       CurrentDeck="{Binding Name, ElementName=OpenDeckCard}"
+                                       CurrentDeck="{Binding DeckName, ElementName=OpenDeckCard}"
                                        Height="149"
                                        Margin="14 5" />
-                </Canvas>
+                </deckControls:Deck>
             </Border>
 
             <Border Grid.Row="3"
@@ -110,20 +112,21 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <Canvas x:Name="HeartsDeckCard">
-                    <Canvas.Resources>
+                <deckControls:Deck x:Name="HeartsDeckCard"
+                                   DeckName="HeartsDeckCard">
+                    <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
-                    </Canvas.Resources>
+                    </deckControls:Deck.Resources>
 
                     <cardControls:Card Source="{Binding HeartsDeckCard.Path}"
                                        Path="{Binding HeartsDeckCard.Path}"
                                        CardName="{Binding HeartsDeckCard.Name}"
                                        CardShape="{Binding HeartsDeckCard.Shape}"
                                        CardValue="{Binding HeartsDeckCard.Value}"
-                                       CurrentDeck="{Binding Name, ElementName=HeartsDeckCard}"
+                                       CurrentDeck="{Binding DeckName, ElementName=HeartsDeckCard}"
                                        Panel.ZIndex="1"
                                        Height="149"
                                        Margin="14 5" />
@@ -133,7 +136,7 @@
                                Foreground="Red"
                                Canvas.Left="25"
                                Canvas.Top="10" />
-                </Canvas>
+                </deckControls:Deck>
             </Border>
 
             <Border Grid.Row="3"
@@ -142,21 +145,22 @@
                     <Style TargetType="Border"
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
-                
-                <Canvas x:Name="ClubsDeckCard">
-                    <Canvas.Resources>
+
+                <deckControls:Deck x:Name="ClubsDeckCard"
+                                   DeckName="ClubsDeckCard">
+                    <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
-                    </Canvas.Resources>
+                    </deckControls:Deck.Resources>
 
                     <cardControls:Card Source="{Binding ClubsDeckCard.Path}"
                                        Path="{Binding ClubsDeckCard.Path}"
                                        CardName="{Binding ClubsDeckCard.Name}"
                                        CardShape="{Binding ClubsDeckCard.Shape}"
                                        CardValue="{Binding ClubsDeckCard.Value}"
-                                       CurrentDeck="{Binding Name, ElementName=ClubsDeckCard}"
+                                       CurrentDeck="{Binding DeckName, ElementName=ClubsDeckCard}"
                                        Panel.ZIndex="1"
                                        Height="149"
                                        Margin="14 5" />
@@ -165,7 +169,7 @@
                                FontSize="70"
                                Canvas.Left="15"
                                Canvas.Top="30" />
-                </Canvas>
+                </deckControls:Deck>
             </Border>
 
             <Border Grid.Row="3"
@@ -175,20 +179,21 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <Canvas x:Name="DiamondsDeckCard">
-                    <Canvas.Resources>
+                <deckControls:Deck x:Name="DiamondsDeckCard"
+                                   DeckName="DiamondsDeckCard">
+                    <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
-                    </Canvas.Resources>
+                    </deckControls:Deck.Resources>
 
                     <cardControls:Card Source="{Binding DiamondsDeckCard.Path}"
                                        Path="{Binding DiamondsDeckCard.Path}"
                                        CardName="{Binding DiamondsDeckCard.Name}"
                                        CardShape="{Binding DiamondsDeckCard.Shape}"
                                        CardValue="{Binding DiamondsDeckCard.Value}"
-                                       CurrentDeck="{Binding Name, ElementName=DiamondsDeckCard}"
+                                       CurrentDeck="{Binding DeckName, ElementName=DiamondsDeckCard}"
                                        Panel.ZIndex="1"
                                        Height="149"
                                        Margin="14 5" />
@@ -198,7 +203,7 @@
                                Foreground="Red"
                                Canvas.Left="20"
                                Canvas.Top="30" />
-                </Canvas>
+                </deckControls:Deck>
             </Border>
 
             <Border Grid.Row="3"
@@ -208,20 +213,21 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <Canvas x:Name="SpadesDeckCard">
-                    <Canvas.Resources>
+                <deckControls:Deck x:Name="SpadesDeckCard"
+                                   DeckName="SpadesDeckCard">
+                    <deckControls:Deck.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
                             <EventSetter Event="MouseLeftButtonDown"
                                          Handler="TakeCard" />
                         </Style>
-                    </Canvas.Resources>
+                    </deckControls:Deck.Resources>
 
                     <cardControls:Card Source="{Binding SpadesDeckCard.Path}"
                                        Path="{Binding SpadesDeckCard.Path}"
                                        CardName="{Binding SpadesDeckCard.Name}"
                                        CardShape="{Binding SpadesDeckCard.Shape}"
                                        CardValue="{Binding SpadesDeckCard.Value}"
-                                       CurrentDeck="{Binding Name, ElementName=SpadesDeckCard}"
+                                       CurrentDeck="{Binding DeckName, ElementName=SpadesDeckCard}"
                                        Panel.ZIndex="1"
                                        Height="149"
                                        Margin="14 5" />
@@ -230,7 +236,7 @@
                                FontSize="70"
                                Canvas.Left="15"
                                Canvas.Top="30" />
-                </Canvas>
+                </deckControls:Deck>
             </Border>
 
             <Border Grid.Row="5"
@@ -239,6 +245,10 @@
                     <Style TargetType="Border"
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
+
+                <Canvas>
+
+                </Canvas>
             </Border>
 
             <Border Grid.Row="5"
@@ -289,7 +299,7 @@
                 </Border.Style>
 
                 <Canvas>
-                        
+
                 </Canvas>
             </Border>
         </Grid>
