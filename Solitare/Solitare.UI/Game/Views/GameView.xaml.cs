@@ -86,8 +86,6 @@ namespace Solitare.UI.Game.Views
             if (args.GetPosition(_mainCanvas).X >= point.X && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth &&
                 args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
             {
-                // TODO: deck match validation
-
                 if (_gameViewModel.ValidateDeck(deck.Name) == DeckMatch.NotFound) return; 
 
                 SetIsMouseOver(deck, true);
@@ -144,9 +142,6 @@ namespace Solitare.UI.Game.Views
             _mainCanvas.Children.Add(_moveableCard);
 
             _currentDrag = new DropData(_moveableCard.CurrentDeck, _moveableCard);
-
-            //var dropObject = new DataObject(typeof(DropData), dropData);
-            //DragDrop.DoDragDrop(cardBase, dataObject, DragDropEffects.Move);
         }
 
         private void SetMoveableCardPosition(MouseEventArgs args)

@@ -287,6 +287,10 @@
                     <Style TargetType="Border"
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
+
+                <Canvas>
+                        
+                </Canvas>
             </Border>
         </Grid>
     </Canvas>
