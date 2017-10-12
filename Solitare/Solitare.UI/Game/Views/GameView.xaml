@@ -95,7 +95,7 @@
                                        CardName="{Binding OpenDeckCard.Name}"
                                        CardShape="{Binding OpenDeckCard.Shape}"
                                        CardValue="{Binding OpenDeckCard.Value}"
-                                       CurrentDeck="{Binding DeckName, ElementName=OpenDeckCard}"
+                                       CurrentDeck="OpenDeckCard"
                                        Height="149"
                                        Margin="14 5"/>
                 </deckControls:CardContainer>
@@ -123,7 +123,7 @@
                                        CardName="{Binding HeartsDeckCard.Name}"
                                        CardShape="{Binding HeartsDeckCard.Shape}"
                                        CardValue="{Binding HeartsDeckCard.Value}"
-                                       CurrentDeck="{Binding DeckName, ElementName=HeartsDeckCard}"
+                                       CurrentDeck="HeartsDeckCard"
                                        Panel.ZIndex="1"
                                        Height="149"
                                        Margin="14 5" />
@@ -158,7 +158,7 @@
                                        CardName="{Binding ClubsDeckCard.Name}"
                                        CardShape="{Binding ClubsDeckCard.Shape}"
                                        CardValue="{Binding ClubsDeckCard.Value}"
-                                       CurrentDeck="{Binding DeckName, ElementName=ClubsDeckCard}"
+                                       CurrentDeck="ClubsDeckCard"
                                        Panel.ZIndex="1"
                                        Height="149"
                                        Margin="14 5" />
@@ -192,7 +192,7 @@
                                        CardName="{Binding DiamondsDeckCard.Name}"
                                        CardShape="{Binding DiamondsDeckCard.Shape}"
                                        CardValue="{Binding DiamondsDeckCard.Value}"
-                                       CurrentDeck="{Binding DeckName, ElementName=DiamondsDeckCard}"
+                                       CurrentDeck="DiamondsDeckCard"
                                        Panel.ZIndex="1"
                                        Height="149"
                                        Margin="14 5" />
@@ -227,7 +227,7 @@
                                        CardName="{Binding SpadesDeckCard.Name}"
                                        CardShape="{Binding SpadesDeckCard.Shape}"
                                        CardValue="{Binding SpadesDeckCard.Value}"
-                                       CurrentDeck="{Binding DeckName, ElementName=SpadesDeckCard}"
+                                       CurrentDeck="SpadesDeckCard"
                                        Panel.ZIndex="1"
                                        Height="149"
                                        Margin="14 5" />
@@ -248,7 +248,7 @@
 
                 <deckControls:CardContainer ContainerName="FirstDeck"
                                             IsDraggable="False"
-                                            SubContainersSource="{Binding FirstDeckCards}" />
+                                            ContainersSource="{Binding FirstDeckCards}" />
             </Border>
 
             <Border Grid.Row="5"
@@ -257,6 +257,10 @@
                     <Style TargetType="Border"
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
+
+                <deckControls:CardContainer ContainerName="SecondDeck"
+                                            IsDraggable="False"
+                                            ContainersSource="{Binding SecondDeckCards}" />
             </Border>
 
             <Border Grid.Row="5"
@@ -265,6 +269,10 @@
                     <Style TargetType="Border"
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
+
+                <deckControls:CardContainer ContainerName="ThirdDeck"
+                                            IsDraggable="False"
+                                            ContainersSource="{Binding ThirdDeckCards}" />
             </Border>
 
             <Border Grid.Row="5"
@@ -273,6 +281,10 @@
                     <Style TargetType="Border"
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
+
+                <deckControls:CardContainer ContainerName="FourthDeck"
+                                            IsDraggable="False"
+                                            ContainersSource="{Binding FourthDeckCards}" />
             </Border>
 
             <Border Grid.Row="5"
@@ -281,6 +293,10 @@
                     <Style TargetType="Border"
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
+
+                <deckControls:CardContainer ContainerName="FifthDeck"
+                                            IsDraggable="False"
+                                            ContainersSource="{Binding FifthDeckCards}" />
             </Border>
 
             <Border Grid.Row="5"
@@ -289,6 +305,10 @@
                     <Style TargetType="Border"
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
+
+                <deckControls:CardContainer ContainerName="SixthDeck"
+                                            IsDraggable="False"
+                                            ContainersSource="{Binding SixthDeckCards}" />
             </Border>
 
             <Border Grid.Row="5"
@@ -298,9 +318,9 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <Canvas>
-
-                </Canvas>
+                <deckControls:CardContainer ContainerName="SeventhDeck"
+                                            IsDraggable="False"
+                                            ContainersSource="{Binding SeventhDeckCards}" />
             </Border>
         </Grid>
     </Canvas>

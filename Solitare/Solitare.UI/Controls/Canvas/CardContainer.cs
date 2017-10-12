@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -30,10 +31,10 @@ namespace Solitare.UI.Controls.Canvas
                 typeof(EventResource), typeof(CardContainer),
                 new PropertyMetadata(null, OnTakeCardEventResourcePropertyChanged));
 
-        public static readonly DependencyProperty SubContainerProperty =
-            DependencyProperty.Register("SubContainer",
-                typeof(ContainerViewModel), typeof(CardContainer),
-                new PropertyMetadata(null, OnSubContainerPropertyChanged));
+        public static readonly DependencyProperty ContainersSourceProperty =
+            DependencyProperty.Register("ContainersSource",
+                typeof(List<ContainerViewModel>), typeof(CardContainer),
+                new PropertyMetadata(null, OnContainersSourcePropertyChanged));
 
         public DeckName ContainerName
         {
@@ -53,10 +54,10 @@ namespace Solitare.UI.Controls.Canvas
             set { SetValue(TakeCardEventResourceProperty, value); }
         }
 
-        public List<ContainerViewModel> SubContainersSource
+        public List<ContainerViewModel> ContainersSource
         {
-            get { return (List<ContainerViewModel>)GetValue(SubContainerProperty); }
-            set { SetValue(SubContainerProperty, value); }
+            get { return (List<ContainerViewModel>)GetValue(ContainersSourceProperty); }
+            set { SetValue(ContainersSourceProperty, value); }
         }
 
         public event MouseButtonEventHandler TakeCardEvent
@@ -98,18 +99,24 @@ namespace Solitare.UI.Controls.Canvas
             deck.Resources.Add(resource.TargetType, style);
         }
 
-        private static void OnSubContainerPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnContainersSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var deck = (CardContainer)d;
             if (deck == null) return;
 
-            var subContainer = (ContainerViewModel)d.GetValue(SubContainerProperty);
-            if (subContainer == null) return;
+            var containersSource = (List<ContainerViewModel>)d.GetValue(ContainersSourceProperty);
+            if (containersSource.Count == 0)
+            {
+                // TODO: create an empty deck
 
-            SetDeckCards(d, deck, subContainer);
+                return;
+            }
+
+            var firstContainer = containersSource.First();
+            SetDeckCards(d, containersSource, deck, firstContainer);
         }
 
-        private static void SetDeckCards(DependencyObject d, CardContainer baseContainer, ContainerViewModel subContainer)
+        private static void SetDeckCards(DependencyObject d, List<ContainerViewModel> containersSource, CardContainer baseContainer, ContainerViewModel subContainer)
         {
             var cardContainer = new CardContainer();
 
@@ -120,22 +127,29 @@ namespace Solitare.UI.Controls.Canvas
                 CardName = subContainer.CardName,
                 CardShape = subContainer.CardShape,
                 CardValue = subContainer.CardValue,
-                CurrentDeck = (DeckName)d.GetValue(ContainerNameProperty),
+                CurrentDeck = subContainer.DeckName,
                 Margin = new Thickness(14, 5, 14, 5),
                 Height = 149,
-
-                // zIndex
             });
+
+            var zIndex = containersSource.IndexOf(subContainer) + 1;
+            SetZIndex(cardContainer, zIndex);
 
             if (subContainer.CardPath == Properties.Resources.BackCardPath)
             {
-                // CanvasTop
-                cardContainer.Height = 20;
+                if (zIndex > 1)
+                {
+                    cardContainer.Margin = new Thickness(0, 20, 0, 0);
+                }
+
+                //CanvasTop
+
                 cardContainer.SetValue(IsDraggableProperty, false);
             }
             else
             {
-                cardContainer.Height = 50;
+                cardContainer.Margin = new Thickness(0, 20, 0, 0);
+
                 cardContainer.SetValue(IsDraggableProperty, true);
                 cardContainer.TakeCardEvent += _takeCardEventHandler;
                 cardContainer.SetValue(TakeCardEventResourceProperty, subContainer.TakeCardEventResource);
@@ -143,9 +157,10 @@ namespace Solitare.UI.Controls.Canvas
 
             baseContainer.Children.Add(cardContainer);
 
-            if (subContainer.SubContainer != null)
+            if (containersSource.ElementAtOrDefault(zIndex) != null)
             {
-                SetDeckCards(d, cardContainer, subContainer.SubContainer);
+                subContainer.SubContainer = containersSource.ElementAt(zIndex);
+                SetDeckCards(d, containersSource, cardContainer, subContainer.SubContainer);
             }
         }
     }

@@ -15,6 +15,7 @@ namespace Solitare.UI.Game.ViewModels
             Value = card.Value;
             Shape = card.Shape;
             Name = card.Name;
+            CurrentDeck = card.CurrentDeck;
             Path = card.Path;
         }
 
@@ -23,6 +24,8 @@ namespace Solitare.UI.Game.ViewModels
         public CardShape? Shape { get; set; }
 
         public CardName? Name { get; set; }
+
+        public DeckName CurrentDeck { get; set; }
 
         public string Path { get; set; }
     }

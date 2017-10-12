@@ -20,6 +20,8 @@ namespace Solitare.UI.Game.ViewModels
 
         public CardShape CardShape { get; set; }
 
+        public DeckName DeckName { get; set; }
+
         public int CardValue { get; set; }
 
         public ContainerViewModel SubContainer { get; set; }
