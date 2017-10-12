@@ -129,6 +129,7 @@ namespace Solitare.UI.Controls.Canvas
 
             if (subContainer.CardPath == Properties.Resources.BackCardPath)
             {
+                // CanvasTop
                 cardContainer.Height = 20;
                 cardContainer.SetValue(IsDraggableProperty, false);
             }
