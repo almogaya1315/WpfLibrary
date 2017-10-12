@@ -135,13 +135,7 @@ namespace Solitare.UI.Game.Views
 
             if (cardBase.Path == Properties.Resources.BackCardPath)
             {
-                //cardBase.SetValue(Card.SourceProperty, new BitmapImage(new Uri(cardBase.FrontCardPath, UriKind.Relative)));
-                //cardBase.SetValue(Card.PathProperty, cardBase.FrontCardPath);
-
-                //FlipCard(cardBase);
-
                 _gameViewModel.SetFllipedCardBinding(cardBase.CurrentDeck, cardBase.CardName, cardBase.CardShape);
-
                 return;
             }
 
@@ -162,33 +156,6 @@ namespace Solitare.UI.Game.Views
         {
             Canvas.SetLeft(_moveableCard, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
             Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
-        }
-
-        private void FlipCard(Card cardBase)
-        {
-            var deck = _openDecks.Find(c => c.ContainerName == cardBase.CurrentDeck);
-            CardContainer parent = null;
-            CardContainer container = null;
-            Card cardToRemove = null;
-            bool toRemove = false;
-            foreach (var child in deck.Children)
-            {
-                if (child is CardContainer)
-                {
-                    container = (CardContainer)child;
-                    parent = (CardContainer)container.Parent;
-
-                    foreach (var card in container.Children)
-                    {
-                        if (card is Card)
-                        {
-                            cardToRemove = (Card)card;
-                            toRemove = cardToRemove.CardName != cardBase.CardName && cardToRemove.CardShape != cardBase.CardShape;
-                        }
-                    }
-                }
-            }
-            if (toRemove) parent.Children.Remove(container);
         }
     }
 
