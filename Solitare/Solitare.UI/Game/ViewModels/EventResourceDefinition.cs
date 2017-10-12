@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace Solitare.UI.Game.ViewModels
 {
-    public class ResourceDefinition
+    public class EventResourceDefinition
     {
         public Type TargetType { get; set; }
 

@@ -102,7 +102,7 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Game\ViewModels\CardViewModel.cs" />
     <Compile Include="Game\ViewModels\GameViewModel.cs" />
-    <Compile Include="Game\ViewModels\ResourceDefinition.cs" />
+    <Compile Include="Game\ViewModels\EventResourceDefinition.cs" />
     <Compile Include="Game\Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
