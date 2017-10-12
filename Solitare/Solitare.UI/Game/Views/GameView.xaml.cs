@@ -19,7 +19,7 @@ namespace Solitare.UI.Game.Views
         private DropData _currentDrag;
         private bool _isDrag;
 
-        private List<Deck> _closedDecks;
+        private List<CardContainer> _closedDecks;
         private Canvas _mainCanvas;
         private Card _moveableCard;
 
@@ -28,7 +28,7 @@ namespace Solitare.UI.Game.Views
             InitializeComponent();
 
             _mainCanvas = MainCanvas;
-            _closedDecks = new List<Deck>() { OpenDeckCard, DiamondsDeckCard, ClubsDeckCard, HeartsDeckCard, SpadesDeckCard };
+            _closedDecks = new List<CardContainer>() { OpenDeckCard, DiamondsDeckCard, ClubsDeckCard, HeartsDeckCard, SpadesDeckCard };
 
             AddHandler(LoadedEvent, new RoutedEventHandler(OnLoadEvent));
             AddHandler(MouseMoveEvent, new MouseEventHandler(OnMouseMoveChanged));
@@ -37,25 +37,6 @@ namespace Solitare.UI.Game.Views
         private void OnLoadEvent(object sender, EventArgs e)
         {
             _gameViewModel = (GameViewModel)DataContext;
-        }
-
-        private void MoveableCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs args)
-        {
-            if (_moveableCard.isOverOpenDeck) DropCard(OpenDeckCard);
-            else if (_moveableCard.IsOverDiamondsDeck) DropCard(DiamondsDeckCard);
-            else if (_moveableCard.IsOverClubsDeck) DropCard(ClubsDeckCard);
-            else if (_moveableCard.IsOverHeartsDeck) DropCard(HeartsDeckCard);
-            else if (_moveableCard.IsOverSpadesDeck) DropCard(SpadesDeckCard);
-        }
-
-        private void DropCard(Deck deck)
-        {
-            _gameViewModel.DropCard(deck.DeckName);
-
-            deck.Background = null;
-            _mainCanvas.Children.Remove(_moveableCard);
-            _moveableCard = null;
-            _isDrag = false;
         }
 
         private void OnMouseMoveChanged(object sender, MouseEventArgs args)
@@ -68,7 +49,26 @@ namespace Solitare.UI.Game.Views
             }
         }
 
-        private void FindOverDeck(Deck deck, MouseEventArgs args)
+        private void DropMoveableCard(object sender, MouseButtonEventArgs args)
+        {
+            if (_moveableCard.isOverOpenDeck) DropCard(OpenDeckCard);
+            else if (_moveableCard.IsOverDiamondsDeck) DropCard(DiamondsDeckCard);
+            else if (_moveableCard.IsOverClubsDeck) DropCard(ClubsDeckCard);
+            else if (_moveableCard.IsOverHeartsDeck) DropCard(HeartsDeckCard);
+            else if (_moveableCard.IsOverSpadesDeck) DropCard(SpadesDeckCard);
+        }
+
+        private void DropCard(CardContainer deck)
+        {
+            _gameViewModel.DropCard(deck.DeckName);
+
+            deck.Background = null;
+            _mainCanvas.Children.Remove(_moveableCard);
+            _moveableCard = null;
+            _isDrag = false;
+        }
+
+        private void FindOverDeck(CardContainer deck, MouseEventArgs args)
         {
             var point = deck.TransformToAncestor(Application.Current.MainWindow)
                                                             .Transform(new Point(0, 0));
@@ -86,7 +86,7 @@ namespace Solitare.UI.Game.Views
             }
         }
 
-        private void SetIsMouseOver(Deck deck, bool isOver)
+        private void SetIsMouseOver(CardContainer deck, bool isOver)
         {
             switch (deck.DeckName)
             {
@@ -122,7 +122,7 @@ namespace Solitare.UI.Game.Views
             if (cardBase.CardValue == 0) return;
 
             _moveableCard = new Card(cardBase);
-            _moveableCard.MouseLeftButtonDown += MoveableCard_MouseLeftButtonDown;
+            _moveableCard.MouseLeftButtonDown += DropMoveableCard;
 
             _gameViewModel.SetMoveableCardBinding(_moveableCard.CardName, _moveableCard.CardShape, _moveableCard.CardValue, _moveableCard.CurrentDeck, _moveableCard.Path);
 

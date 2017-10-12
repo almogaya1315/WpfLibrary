@@ -10,21 +10,21 @@ using System.Windows.Input;
 
 namespace Solitare.UI.Controls.Canvas
 {
-    public class Deck : System.Windows.Controls.Canvas
+    public class CardContainer : System.Windows.Controls.Canvas
     {
         private static MouseButtonEventHandler _takeCardEventHandler;
 
         public static readonly DependencyProperty DeckNameProperty =
-            DependencyProperty.Register("DeckName", typeof(DeckName), typeof(Deck), new PropertyMetadata(null));
+            DependencyProperty.Register("DeckName", typeof(DeckName), typeof(CardContainer), new PropertyMetadata(null));
 
         public static readonly DependencyProperty IsDraggableProperty =
             DependencyProperty.Register("IsDraggable", 
-                typeof(bool), typeof(Deck), 
+                typeof(bool), typeof(CardContainer), 
                 new PropertyMetadata(false, OnIsDraggablePropertyChanged));
 
         public static readonly DependencyProperty TakeCardEventResourceProperty =
             DependencyProperty.Register("TakeCardEventResource",
-                typeof(EventResource), typeof(Deck),
+                typeof(EventResource), typeof(CardContainer),
                 new PropertyMetadata(null, OnTakeCardEventResourcePropertyChanged));
 
         public DeckName DeckName
@@ -59,7 +59,7 @@ namespace Solitare.UI.Controls.Canvas
 
         private static void OnIsDraggablePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var deck = (Deck)d;
+            var deck = (CardContainer)d;
             if (deck == null) return;
 
             var isDraggable = (bool)d.GetValue(IsDraggableProperty);
@@ -72,7 +72,7 @@ namespace Solitare.UI.Controls.Canvas
 
         private static void OnTakeCardEventResourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var deck = (Deck)d;
+            var deck = (CardContainer)d;
             if (deck == null) return;
 
             var resource = (EventResource)d.GetValue(TakeCardEventResourceProperty);
