@@ -101,6 +101,7 @@
     <Compile Include="Enums\InitialDraw.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Game\ViewModels\CardViewModel.cs" />
+    <Compile Include="Game\ViewModels\ContainerViewModel.cs" />
     <Compile Include="Game\ViewModels\GameViewModel.cs" />
     <Compile Include="Controls\Canvas\EventResource.cs" />
     <Compile Include="Game\Views\GameView.xaml.cs">

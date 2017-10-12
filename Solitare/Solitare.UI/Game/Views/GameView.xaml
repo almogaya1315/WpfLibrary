@@ -85,7 +85,7 @@
                 </Border.Style>
 
                 <deckControls:CardContainer x:Name="OpenDeckCard"
-                                            DeckName="OpenDeckCard"
+                                            ContainerName="OpenDeckCard"
                                             IsDraggable="False"
                                             TakeCardEvent="TakeCard"
                                             TakeCardEventResource="{Binding TakeCardEventResource}">
@@ -97,7 +97,7 @@
                                        CardValue="{Binding OpenDeckCard.Value}"
                                        CurrentDeck="{Binding DeckName, ElementName=OpenDeckCard}"
                                        Height="149"
-                                       Margin="14 5" />
+                                       Margin="14 5"/>
                 </deckControls:CardContainer>
             </Border>
 
@@ -109,7 +109,7 @@
                 </Border.Style>
 
                 <deckControls:CardContainer x:Name="HeartsDeckCard"
-                                            DeckName="HeartsDeckCard"
+                                            ContainerName="HeartsDeckCard"
                                             IsDraggable="False">
                     <deckControls:CardContainer.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
@@ -144,7 +144,7 @@
                 </Border.Style>
 
                 <deckControls:CardContainer x:Name="ClubsDeckCard"
-                                            DeckName="ClubsDeckCard"
+                                            ContainerName="ClubsDeckCard"
                                             IsDraggable="False">
                     <deckControls:CardContainer.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
@@ -178,7 +178,7 @@
                 </Border.Style>
 
                 <deckControls:CardContainer x:Name="DiamondsDeckCard"
-                                            DeckName="DiamondsDeckCard"
+                                            ContainerName="DiamondsDeckCard"
                                             IsDraggable="False">
                     <deckControls:CardContainer.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
@@ -213,7 +213,7 @@
                 </Border.Style>
 
                 <deckControls:CardContainer x:Name="SpadesDeckCard"
-                                            DeckName="SpadesDeckCard"
+                                            ContainerName="SpadesDeckCard"
                                             IsDraggable="False">
                     <deckControls:CardContainer.Resources>
                         <Style TargetType="{x:Type cardControls:Card}">
@@ -246,10 +246,9 @@
                            BasedOn="{StaticResource BorderStyle}" />
                 </Border.Style>
 
-                <deckControls:CardContainer DeckName="FirstDeck"
-                                            IsDraggable="False">
-
-                </deckControls:CardContainer>
+                <deckControls:CardContainer ContainerName="FirstDeck"
+                                            IsDraggable="False"
+                                            SubContainer="{Binding FirstDeckCards}" />
             </Border>
 
             <Border Grid.Row="5"

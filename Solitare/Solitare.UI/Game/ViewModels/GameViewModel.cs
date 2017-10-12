@@ -19,7 +19,7 @@ namespace Solitare.UI.Game.ViewModels
         private CardViewModel _moveableCard;
 
         private Dictionary<DeckName, List<CardViewModel>> _closedDecks;
-        private Dictionary<DeckName, List<CardViewModel>> _openDecks;
+        private Dictionary<DeckName, List<ContainerViewModel>> _openDecks;
 
         public ICommand Deal { get; set; }
 
@@ -85,6 +85,17 @@ namespace Solitare.UI.Game.ViewModels
             set
             {
                 _clubsDeckCard = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private ContainerViewModel _firstDeckCards;
+        public ContainerViewModel FirstDeckCards
+        {
+            get { return _firstDeckCards; }
+            set
+            {
+                _firstDeckCards = value;
                 RaisePropertyChanged();
             }
         }
@@ -311,7 +322,37 @@ namespace Solitare.UI.Game.ViewModels
 
         private void CreateOpenDecks()
         {
-            _openDecks = new Dictionary<DeckName, List<CardViewModel>>();
+            _openDecks = new Dictionary<DeckName, List<ContainerViewModel>>();
+
+            _openDecks[DeckName.FifthDeck] = new List<ContainerViewModel>();
+
+            var randomCard = _closedDecks[DeckName.MainDeckCard].Last();
+            var container = new ContainerViewModel()
+            {
+                CardPath = Properties.Resources.BackCardPath,
+                FrontCardPath = randomCard.Path,
+                CardName = randomCard.Name.Value,
+                CardShape = randomCard.Shape.Value,
+                CardValue = randomCard.Value,
+                TakeCardEventResource = TakeCardEventResource,
+            };
+            _openDecks[DeckName.FifthDeck].Add(container);
+            _closedDecks[DeckName.MainDeckCard].Remove(randomCard);
+
+            // NO subContainer definition, but list of cardViewModel
+            randomCard = _closedDecks[DeckName.MainDeckCard].Last();
+            container.SubContainer = new ContainerViewModel()
+            {
+                CardPath = randomCard.Path,
+                FrontCardPath = randomCard.Path,
+                CardName = randomCard.Name.Value,
+                CardShape = randomCard.Shape.Value,
+                CardValue = randomCard.Value,
+                TakeCardEventResource = TakeCardEventResource,
+            };
+            _closedDecks[DeckName.MainDeckCard].Remove(randomCard);
+
+            FirstDeckCards = _openDecks[DeckName.FifthDeck].;
 
             // TODO..
         }

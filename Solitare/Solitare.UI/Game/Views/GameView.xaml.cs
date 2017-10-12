@@ -60,7 +60,7 @@ namespace Solitare.UI.Game.Views
 
         private void DropCard(CardContainer deck)
         {
-            _gameViewModel.DropCard(deck.DeckName);
+            _gameViewModel.DropCard(deck.ContainerName);
 
             deck.Background = null;
             _mainCanvas.Children.Remove(_moveableCard);
@@ -88,7 +88,7 @@ namespace Solitare.UI.Game.Views
 
         private void SetIsMouseOver(CardContainer deck, bool isOver)
         {
-            switch (deck.DeckName)
+            switch (deck.ContainerName)
             {
                 case DeckName.OpenDeckCard:
                     deck.Background = isOver ? Brushes.Red : null;
