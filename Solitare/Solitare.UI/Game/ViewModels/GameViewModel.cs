@@ -101,7 +101,7 @@ namespace Solitare.UI.Game.ViewModels
             Deal = new RelayCommand(DealCard);
 
             TakeCardEventResource = new ResourceDictionary();
-            TakeCardEventResource.Add(new Style(typeof(Card)), new EventSetter(UIElement.MouseLeftButtonDown, TakeCard)); 
+            //TakeCardEventResource.Add(new Style(typeof(Card)), new EventSetter(UIElement.MouseLeftButtonDown, TakeCard)); 
         }
 
         public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, int cardValue, DeckName sourceDeck, string path)

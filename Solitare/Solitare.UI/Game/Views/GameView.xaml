@@ -253,7 +253,8 @@
 
                 <deckControls:Deck DeckName="FirstDeck"
                                    IsDraggable="False"
-                                   ResourceBinding="{Binding TakeCardEventResource}">
+                                   TakeCardEventBinding="{Binding TakeCardEventResource}"
+                                   TakeCardEventHandler="{Binding TakeCard}">
 
                 </deckControls:Deck>
             </Border>

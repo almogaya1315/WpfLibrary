@@ -11,8 +11,6 @@ namespace Solitare.UI.Controls.Canvas
 {
     public class Deck : System.Windows.Controls.Canvas
     {
-
-
         public static readonly DependencyProperty DeckNameProperty =
             DependencyProperty.Register("DeckName", typeof(DeckName), typeof(Deck), new PropertyMetadata(null));
 
@@ -21,10 +19,15 @@ namespace Solitare.UI.Controls.Canvas
                 typeof(bool), typeof(Deck), 
                 new PropertyMetadata(false, OnIsDraggablePropertyChanged));
 
-        public static readonly DependencyProperty ResourceBindingProperty =
-            DependencyProperty.Register("Resources",
+        public static readonly DependencyProperty TakeCardEventBindingProperty =
+            DependencyProperty.Register("TakeCardEventBinding",
                 typeof(ResourceDictionary), typeof(Deck),
-                new PropertyMetadata(null, OnResourceBindingPropertyChanged));
+                new PropertyMetadata(null, OnTakeCardEventBindingPropertyChanged));
+
+        public static readonly DependencyProperty TakeCardEventHandlerProperty =
+            DependencyProperty.Register("TakeCardEventHandler",
+                typeof(Delegate), typeof(Deck),
+                new PropertyMetadata(null, OnTakeCardEventHandlerPropertyChanged));
 
         public DeckName DeckName
         {
@@ -38,10 +41,16 @@ namespace Solitare.UI.Controls.Canvas
             set { SetValue(IsDraggableProperty, value); }
         }
 
-        public ResourceDictionary ResourceBinding
+        public ResourceDictionary TakeCardEventBinding
         {
-            get { return (ResourceDictionary)GetValue(ResourceBindingProperty); }
-            set { SetValue(ResourceBindingProperty, value); }
+            get { return (ResourceDictionary)GetValue(TakeCardEventBindingProperty); }
+            set { SetValue(TakeCardEventBindingProperty, value); }
+        }
+
+        public Delegate TakeCardEventHandler
+        {
+            get { return (Delegate)GetValue(TakeCardEventHandlerProperty); }
+            set { SetValue(TakeCardEventHandlerProperty, value); }
         }
 
         private static void OnIsDraggablePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -57,14 +66,24 @@ namespace Solitare.UI.Controls.Canvas
             }
         }
 
-        private static void OnResourceBindingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnTakeCardEventBindingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var deck = (Deck)d;
             if (deck == null) return;
 
-            deck.Resources = (ResourceDictionary)d.GetValue(IsDraggableProperty);
+            var resource = d.GetValue(TakeCardEventBindingProperty);
+
+            //deck.Resources = (ResourceDictionary)d.GetValue(IsDraggableProperty);
 
             //TakeCardEventResource.Add(new Style(typeof(Card)), new EventSetter(MouseLeftButtonDownEvent, TakeCard));
+        }
+
+        private static void OnTakeCardEventHandlerPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var deck = (Deck)d;
+            if (deck == null) return;
+
+            var method = d.GetValue(TakeCardEventHandlerProperty);
         }
     }
 }
