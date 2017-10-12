@@ -6,11 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Solitare.UI.Controls.Canvas
 {
     public class Deck : System.Windows.Controls.Canvas
     {
+        private static MouseButtonEventHandler _takeCardEventHandler;
+
         public static readonly DependencyProperty DeckNameProperty =
             DependencyProperty.Register("DeckName", typeof(DeckName), typeof(Deck), new PropertyMetadata(null));
 
@@ -19,15 +22,10 @@ namespace Solitare.UI.Controls.Canvas
                 typeof(bool), typeof(Deck), 
                 new PropertyMetadata(false, OnIsDraggablePropertyChanged));
 
-        public static readonly DependencyProperty TakeCardEventBindingProperty =
-            DependencyProperty.Register("TakeCardEventBinding",
-                typeof(ResourceDictionary), typeof(Deck),
-                new PropertyMetadata(null, OnTakeCardEventBindingPropertyChanged));
-
-        public static readonly DependencyProperty TakeCardEventHandlerProperty =
-            DependencyProperty.Register("TakeCardEventHandler",
-                typeof(Delegate), typeof(Deck),
-                new PropertyMetadata(null, OnTakeCardEventHandlerPropertyChanged));
+        public static readonly DependencyProperty TakeCardEventResourceProperty =
+            DependencyProperty.Register("TakeCardEventResource",
+                typeof(EventResource), typeof(Deck),
+                new PropertyMetadata(null, OnTakeCardEventResourcePropertyChanged));
 
         public DeckName DeckName
         {
@@ -41,16 +39,22 @@ namespace Solitare.UI.Controls.Canvas
             set { SetValue(IsDraggableProperty, value); }
         }
 
-        public ResourceDictionary TakeCardEventBinding
+        public EventResource TakeCardEventResource
         {
-            get { return (ResourceDictionary)GetValue(TakeCardEventBindingProperty); }
-            set { SetValue(TakeCardEventBindingProperty, value); }
+            get { return (EventResource)GetValue(TakeCardEventResourceProperty); }
+            set { SetValue(TakeCardEventResourceProperty, value); }
         }
 
-        public Delegate TakeCardEventHandler
+        public event MouseButtonEventHandler TakeCardEvent
         {
-            get { return (Delegate)GetValue(TakeCardEventHandlerProperty); }
-            set { SetValue(TakeCardEventHandlerProperty, value); }
+            add
+            {
+                _takeCardEventHandler += value;
+            }
+            remove
+            {
+                _takeCardEventHandler -= value;
+            }
         }
 
         private static void OnIsDraggablePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -66,24 +70,18 @@ namespace Solitare.UI.Controls.Canvas
             }
         }
 
-        private static void OnTakeCardEventBindingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnTakeCardEventResourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var deck = (Deck)d;
             if (deck == null) return;
 
-            var resource = d.GetValue(TakeCardEventBindingProperty);
+            var resource = (EventResource)d.GetValue(TakeCardEventResourceProperty);
+            if (resource == null) return;
 
-            //deck.Resources = (ResourceDictionary)d.GetValue(IsDraggableProperty);
-
-            //TakeCardEventResource.Add(new Style(typeof(Card)), new EventSetter(MouseLeftButtonDownEvent, TakeCard));
-        }
-
-        private static void OnTakeCardEventHandlerPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var deck = (Deck)d;
-            if (deck == null) return;
-
-            var method = d.GetValue(TakeCardEventHandlerProperty);
+            var style = new Style(resource.TargetType);
+            var setter = new EventSetter(resource.Event, _takeCardEventHandler);
+            style.Setters.Add(setter);
+            deck.Resources.Add(resource.TargetType, style);
         }
     }
 }

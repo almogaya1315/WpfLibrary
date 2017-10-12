@@ -86,14 +86,9 @@
 
                 <deckControls:Deck x:Name="OpenDeckCard"
                                    DeckName="OpenDeckCard"
-                                   IsDraggable="False">
-
-                    <deckControls:Deck.Resources>
-                        <Style TargetType="{x:Type cardControls:Card}">
-                            <EventSetter Event="MouseLeftButtonDown"
-                                         Handler="TakeCard" />
-                        </Style>
-                    </deckControls:Deck.Resources>
+                                   IsDraggable="False"
+                                   TakeCardEvent="TakeCard"
+                                   TakeCardEventResource="{Binding TakeCardEventResource}">
 
                     <cardControls:Card Source="{Binding OpenDeckCard.Path}"
                                        Path="{Binding OpenDeckCard.Path}"
@@ -253,8 +248,8 @@
 
                 <deckControls:Deck DeckName="FirstDeck"
                                    IsDraggable="False"
-                                   TakeCardEventBinding="{Binding TakeCardEventResource}"
-                                   TakeCardEventHandler="{Binding TakeCard}">
+                                   TakeCardEvent="TakeCard"
+                                   TakeCardEventResource="{Binding TakeCardEventResource}">
 
                 </deckControls:Deck>
             </Border>

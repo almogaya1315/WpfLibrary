@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System;
 using System.Windows;
 using Solitare.UI.Controls.Image;
+using Solitare.UI.Controls.Canvas;
 
 namespace Solitare.UI.Game.ViewModels
 {
@@ -88,7 +89,7 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
-        public ResourceDictionary TakeCardEventResource { get; set; }
+        public EventResource TakeCardEventResource { get; set; }
 
         public GameViewModel()
         {
@@ -100,8 +101,7 @@ namespace Solitare.UI.Game.ViewModels
 
             Deal = new RelayCommand(DealCard);
 
-            TakeCardEventResource = new ResourceDictionary();
-            //TakeCardEventResource.Add(new Style(typeof(Card)), new EventSetter(UIElement.MouseLeftButtonDown, TakeCard)); 
+            TakeCardEventResource = new EventResource(EventName.MouseLeftButtonDownEvent);
         }
 
         public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, int cardValue, DeckName sourceDeck, string path)

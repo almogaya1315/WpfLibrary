@@ -26,13 +26,17 @@ namespace Solitare.UI.Game.Views
         public GameView()
         {
             InitializeComponent();
-            DataContext = new GameViewModel();
-            _gameViewModel = (GameViewModel)DataContext;
 
             _mainCanvas = MainCanvas;
             _closedDecks = new List<Deck>() { OpenDeckCard, DiamondsDeckCard, ClubsDeckCard, HeartsDeckCard, SpadesDeckCard };
 
+            AddHandler(LoadedEvent, new RoutedEventHandler(OnLoadEvent));
             AddHandler(MouseMoveEvent, new MouseEventHandler(OnMouseMoveChanged));
+        }
+
+        private void OnLoadEvent(object sender, EventArgs e)
+        {
+            _gameViewModel = (GameViewModel)DataContext;
         }
 
         private void MoveableCard_MouseLeftButtonDown(object sender, MouseButtonEventArgs args)
