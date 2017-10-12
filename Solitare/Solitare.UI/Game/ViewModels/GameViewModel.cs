@@ -209,27 +209,64 @@ namespace Solitare.UI.Game.ViewModels
                 switch (sourceDeck)
                 {
                     case DeckName.FirstDeck:
-                        FirstDeckCards = _openDecks[sourceDeck];
+                        FirstDeckCards = new List<ContainerViewModel>(_openDecks[sourceDeck]);
                         break;
                     case DeckName.SecondDeck:
-                        SecondDeckCards = _openDecks[sourceDeck];
+                        SecondDeckCards = new List<ContainerViewModel>(_openDecks[sourceDeck]);
                         break;
                     case DeckName.ThirdDeck:
-                        ThirdDeckCards = _openDecks[sourceDeck];
+                        ThirdDeckCards = new List<ContainerViewModel>(_openDecks[sourceDeck]);
                         break;
                     case DeckName.FourthDeck:
-                        FourthDeckCards = _openDecks[sourceDeck];
+                        FourthDeckCards = new List<ContainerViewModel>(_openDecks[sourceDeck]);
                         break;
                     case DeckName.FifthDeck:
-                        FifthDeckCards = _openDecks[sourceDeck];
+                        FifthDeckCards = new List<ContainerViewModel>(_openDecks[sourceDeck]);
                         break;
                     case DeckName.SixthDeck:
-                        SixthDeckCards = _openDecks[sourceDeck];
+                        SixthDeckCards = new List<ContainerViewModel>(_openDecks[sourceDeck]);
                         break;
                     case DeckName.SeventhDeck:
-                        SeventhDeckCards = _openDecks[sourceDeck];
+                        SeventhDeckCards = new List<ContainerViewModel>(_openDecks[sourceDeck]);
                         break;
                 }
+            }
+        }
+
+        public void SetFllipedCardBinding(DeckName sourceDeck, CardName cardName, CardShape cardShape)
+        {
+            var containerToFlip = _openDecks[sourceDeck].Find(c => c.CardName == cardName && c.CardShape == cardShape);
+
+            if (containerToFlip.SubContainer != null) return;
+
+            var frontPath = containerToFlip.FrontCardPath;
+            containerToFlip.CardPath = frontPath;
+
+            switch (sourceDeck)
+            {
+                case DeckName.FirstDeck:
+                    FirstDeckCards = _openDecks[sourceDeck];
+                    break;
+                case DeckName.SecondDeck:
+                    SecondDeckCards = _openDecks[sourceDeck];
+                    break;
+                case DeckName.ThirdDeck:
+                    ThirdDeckCards = _openDecks[sourceDeck];
+                    break;
+                case DeckName.FourthDeck:
+                    FourthDeckCards = _openDecks[sourceDeck];
+                    break;
+                case DeckName.FifthDeck:
+                    FifthDeckCards = _openDecks[sourceDeck];
+                    break;
+                case DeckName.SixthDeck:
+                    SixthDeckCards = _openDecks[sourceDeck];
+                    break;
+                case DeckName.SeventhDeck:
+                    SeventhDeckCards = _openDecks[sourceDeck];
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -416,42 +453,41 @@ namespace Solitare.UI.Game.ViewModels
         {
             _openDecks = new Dictionary<DeckName, List<ContainerViewModel>>();
 
-            SetContainer(DeckName.FirstDeck, 1);
+            SetContainer(DeckName.FirstDeck, 2);
             FirstDeckCards = _openDecks[DeckName.FirstDeck];
 
-            SetContainer(DeckName.SecondDeck, 2);
+            SetContainer(DeckName.SecondDeck, 3);
             SecondDeckCards = _openDecks[DeckName.SecondDeck];
 
-            SetContainer(DeckName.ThirdDeck, 3);
+            SetContainer(DeckName.ThirdDeck, 4);
             ThirdDeckCards = _openDecks[DeckName.ThirdDeck];
 
-            SetContainer(DeckName.FourthDeck, 4);
+            SetContainer(DeckName.FourthDeck, 5);
             FourthDeckCards = _openDecks[DeckName.FourthDeck];
 
-            SetContainer(DeckName.FifthDeck, 5);
+            SetContainer(DeckName.FifthDeck, 6);
             FifthDeckCards = _openDecks[DeckName.FifthDeck];
 
-            SetContainer(DeckName.SixthDeck, 6);
+            SetContainer(DeckName.SixthDeck, 7);
             SixthDeckCards = _openDecks[DeckName.SixthDeck];
 
-            SetContainer(DeckName.SeventhDeck, 7);
+            SetContainer(DeckName.SeventhDeck, 8);
             SeventhDeckCards = _openDecks[DeckName.SeventhDeck];
         }
 
-        private void SetContainer(DeckName newDeck, int backCardsCount)
+        private void SetContainer(DeckName newDeck, int cardsCount)
         {
             _openDecks[newDeck] = new List<ContainerViewModel>();
 
-            CardViewModel randomCard = null;
-            ContainerViewModel container = null;
-
-            for (int i = 0; i < backCardsCount; i++)
+            for (int i = 1; i <= cardsCount; i++)
             {
-                randomCard = _closedDecks[DeckName.MainDeckCard].Last();
+                var randomCard = _closedDecks[DeckName.MainDeckCard].Last();
                 randomCard.CurrentDeck = newDeck;
-                container = new ContainerViewModel()
+                string cardPath = Properties.Resources.BackCardPath;
+                if (i == cardsCount) cardPath = randomCard.Path;
+                var container = new ContainerViewModel()
                 {
-                    CardPath = Properties.Resources.BackCardPath,
+                    CardPath = cardPath,
                     FrontCardPath = randomCard.Path,
                     CardName = randomCard.Name.Value,
                     CardShape = randomCard.Shape.Value,
@@ -462,21 +498,6 @@ namespace Solitare.UI.Game.ViewModels
                 _openDecks[newDeck].Add(container);
                 _closedDecks[DeckName.MainDeckCard].Remove(randomCard);
             }
-
-            randomCard = _closedDecks[DeckName.MainDeckCard].Last();
-            randomCard.CurrentDeck = newDeck;
-            container = new ContainerViewModel()
-            {
-                CardPath = randomCard.Path,
-                FrontCardPath = randomCard.Path,
-                CardName = randomCard.Name.Value,
-                CardShape = randomCard.Shape.Value,
-                CardValue = randomCard.Value,
-                DeckName = randomCard.CurrentDeck,
-                TakeCardEventResource = TakeCardEventResource,
-            };
-            _openDecks[newDeck].Add(container);
-            _closedDecks[DeckName.MainDeckCard].Remove(randomCard);
         }
     }
 }

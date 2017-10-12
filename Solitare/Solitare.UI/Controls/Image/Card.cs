@@ -18,6 +18,8 @@ namespace Solitare.UI.Controls.Image
         public bool IsOverHeartsDeck { get; set; }
         public bool IsOverSpadesDeck { get; set; }
 
+        public string FrontCardPath { get; set; }
+
         public Card()
         {
 

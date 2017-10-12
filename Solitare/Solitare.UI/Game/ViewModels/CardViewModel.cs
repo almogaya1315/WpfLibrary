@@ -27,6 +27,15 @@ namespace Solitare.UI.Game.ViewModels
 
         public DeckName CurrentDeck { get; set; }
 
-        public string Path { get; set; }
+        private string _path;
+        public string Path
+        {
+            get { return _path; }
+            set
+            {
+                _path = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }

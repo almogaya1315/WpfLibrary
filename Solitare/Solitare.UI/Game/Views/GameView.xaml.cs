@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Solitare.UI.Game.Views
 {
@@ -20,6 +21,7 @@ namespace Solitare.UI.Game.Views
         private bool _isDrag;
 
         private List<CardContainer> _closedDecks;
+        private List<CardContainer> _openDecks;
         private Canvas _mainCanvas;
         private Card _moveableCard;
 
@@ -29,6 +31,7 @@ namespace Solitare.UI.Game.Views
 
             _mainCanvas = MainCanvas;
             _closedDecks = new List<CardContainer>() { OpenDeckCard, DiamondsDeckCard, ClubsDeckCard, HeartsDeckCard, SpadesDeckCard };
+            _openDecks = new List<CardContainer>() { FirstDeck, SecondDeck, ThirdDeck, FourthDeck, FifthDeck, SixthDeck, SeventhDeck };
 
             AddHandler(LoadedEvent, new RoutedEventHandler(OnLoadEvent));
             AddHandler(MouseMoveEvent, new MouseEventHandler(OnMouseMoveChanged));
@@ -119,7 +122,28 @@ namespace Solitare.UI.Game.Views
         {
             var cardBase = args.Source as Card;
 
+            foreach (var child in _mainCanvas.Children)
+            {
+                if (child is Card)
+                {
+                    var card = (Card)child;
+                    if (card.Name == cardBase.Name && card.CardShape == cardBase.CardShape) return;
+                }
+            }
+
             if (cardBase.CardValue == 0) return;
+
+            if (cardBase.Path == Properties.Resources.BackCardPath)
+            {
+                //cardBase.SetValue(Card.SourceProperty, new BitmapImage(new Uri(cardBase.FrontCardPath, UriKind.Relative)));
+                //cardBase.SetValue(Card.PathProperty, cardBase.FrontCardPath);
+
+                //FlipCard(cardBase);
+
+                _gameViewModel.SetFllipedCardBinding(cardBase.CurrentDeck, cardBase.CardName, cardBase.CardShape);
+
+                return;
+            }
 
             _moveableCard = new Card(cardBase);
             _moveableCard.MouseLeftButtonDown += DropMoveableCard;
@@ -138,6 +162,33 @@ namespace Solitare.UI.Game.Views
         {
             Canvas.SetLeft(_moveableCard, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
             Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
+        }
+
+        private void FlipCard(Card cardBase)
+        {
+            var deck = _openDecks.Find(c => c.ContainerName == cardBase.CurrentDeck);
+            CardContainer parent = null;
+            CardContainer container = null;
+            Card cardToRemove = null;
+            bool toRemove = false;
+            foreach (var child in deck.Children)
+            {
+                if (child is CardContainer)
+                {
+                    container = (CardContainer)child;
+                    parent = (CardContainer)container.Parent;
+
+                    foreach (var card in container.Children)
+                    {
+                        if (card is Card)
+                        {
+                            cardToRemove = (Card)card;
+                            toRemove = cardToRemove.CardName != cardBase.CardName && cardToRemove.CardShape != cardBase.CardShape;
+                        }
+                    }
+                }
+            }
+            if (toRemove) parent.Children.Remove(container);
         }
     }
 

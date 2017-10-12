@@ -113,17 +113,20 @@ namespace Solitare.UI.Controls.Canvas
             }
 
             var firstContainer = containersSource.First();
+            deck.Children.Clear();
             SetDeckCards(d, containersSource, deck, firstContainer);
         }
 
         private static void SetDeckCards(DependencyObject d, List<ContainerViewModel> containersSource, CardContainer baseContainer, ContainerViewModel subContainer)
         {
             var cardContainer = new CardContainer();
+            cardContainer.ContainerName = baseContainer.ContainerName;
 
             cardContainer.Children.Add(new Card()
             {
                 Source = new BitmapImage(new Uri(subContainer.CardPath, UriKind.Relative)),
                 Path = subContainer.CardPath,
+                FrontCardPath = subContainer.FrontCardPath,
                 CardName = subContainer.CardName,
                 CardShape = subContainer.CardShape,
                 CardValue = subContainer.CardValue,
@@ -132,27 +135,20 @@ namespace Solitare.UI.Controls.Canvas
                 Height = 149,
             });
 
+            cardContainer.SetValue(TakeCardEventResourceProperty, subContainer.TakeCardEventResource);
+
             var zIndex = containersSource.IndexOf(subContainer) + 1;
             SetZIndex(cardContainer, zIndex);
 
             if (subContainer.CardPath == Properties.Resources.BackCardPath)
             {
-                if (zIndex > 1)
-                {
-                    cardContainer.Margin = new Thickness(0, 20, 0, 0);
-                }
-
-                //CanvasTop
-
+                if (zIndex > 1) cardContainer.Margin = new Thickness(0, 10, 0, 0);
                 cardContainer.SetValue(IsDraggableProperty, false);
             }
             else
             {
                 cardContainer.Margin = new Thickness(0, 20, 0, 0);
-
                 cardContainer.SetValue(IsDraggableProperty, true);
-                cardContainer.TakeCardEvent += _takeCardEventHandler;
-                cardContainer.SetValue(TakeCardEventResourceProperty, subContainer.TakeCardEventResource);
             }
 
             baseContainer.Children.Add(cardContainer);
