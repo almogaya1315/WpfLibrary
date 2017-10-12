@@ -248,7 +248,7 @@
 
                 <deckControls:CardContainer ContainerName="FirstDeck"
                                             IsDraggable="False"
-                                            SubContainer="{Binding FirstDeckCards}" />
+                                            SubContainersSource="{Binding FirstDeckCards}" />
             </Border>
 
             <Border Grid.Row="5"

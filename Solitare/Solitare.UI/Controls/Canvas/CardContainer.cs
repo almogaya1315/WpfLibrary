@@ -53,9 +53,9 @@ namespace Solitare.UI.Controls.Canvas
             set { SetValue(TakeCardEventResourceProperty, value); }
         }
 
-        public ContainerViewModel SubContainer
+        public List<ContainerViewModel> SubContainersSource
         {
-            get { return (ContainerViewModel)GetValue(SubContainerProperty); }
+            get { return (List<ContainerViewModel>)GetValue(SubContainerProperty); }
             set { SetValue(SubContainerProperty, value); }
         }
 
