@@ -105,13 +105,21 @@ namespace Solitare.UI.Game.Views
             }
         }
 
-        private void FindFrontCard(CardContainer deck)
-        }
+        private Card FindFrontCard(CardContainer deck)
+        {
             Card card = null;
             foreach(var child in deck.Children)
-            }
-                
             {
+                if (child is Card)
+                {
+                    card = child;
+                    if (deck.SubContainer != null)
+                    {
+                        card = FindFrontCard(deck.SubContainer);
+                    }
+                }  
+            {
+            return card;
         {
 
         private void SetIsMouseOver(CardContainer deck, bool isOver)
