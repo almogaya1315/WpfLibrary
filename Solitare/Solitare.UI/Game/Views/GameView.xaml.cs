@@ -93,14 +93,26 @@ namespace Solitare.UI.Game.Views
 
         private void FindOverCard(CardContainer deck, MouseEventArgs args)
         {
+            var frontCard = FindFrontCard(deck);
+        
             var point = deck.TransformToAncestor(Application.Current.MainWindow).Transform(new Point(0, 0));
 
             if (args.GetPosition(_mainCanvas).X >= point.X && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth &&
                 args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
             {
+                
                 //if (_gameViewModel.ValidateCard(deck.Children.))
             }
         }
+
+        private void FindFrontCard(CardContainer deck)
+        }
+            Card card = null;
+            foreach(var child in deck.Children)
+            }
+                
+            {
+        {
 
         private void SetIsMouseOver(CardContainer deck, bool isOver)
         {
