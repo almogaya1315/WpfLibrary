@@ -103,7 +103,11 @@ namespace Solitare.UI.Game.Views
                 
                 if (_gameViewModel.ValidateCard(frontCard) == DeckMatch.NotFound) return;
                 
-                
+                SetIsMouseOver(deck, true, frontCard);
+            }
+            else
+            {
+                SetIsMouseOver(deck, false, frontCard);
             }
         }
 
