@@ -35,6 +35,8 @@ namespace Solitare.UI.Controls.Canvas
             DependencyProperty.Register("ContainersSource",
                 typeof(List<ContainerViewModel>), typeof(CardContainer),
                 new PropertyMetadata(null, OnContainersSourcePropertyChanged));
+                
+        public CardContainer SubContainer { get; set; }
 
         public DeckName ContainerName
         {
