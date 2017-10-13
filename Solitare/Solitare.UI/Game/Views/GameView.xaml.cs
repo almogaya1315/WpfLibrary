@@ -49,6 +49,8 @@ namespace Solitare.UI.Game.Views
                 SetMoveableCardPosition(args);
 
                 _closedDecks.ForEach(d => FindOverDeck(d, args));
+
+                _openDecks.ForEach(d => FindOverCard(d, args));
             }
         }
 
@@ -87,6 +89,13 @@ namespace Solitare.UI.Game.Views
             {
                 SetIsMouseOver(deck, false);
             }
+        }
+
+        private void FindOverCard(CardContainer deck, MouseEventArgs args)
+        {
+            var point = deck.TransformToAncestor(Application.Current.MainWindow).Transform(new Point(0, 0));
+
+
         }
 
         private void SetIsMouseOver(CardContainer deck, bool isOver)
