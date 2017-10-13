@@ -152,6 +152,9 @@ namespace Solitare.UI.Game.Views
                     deck.Background = isOver ? Brushes.Red : null;
                     _moveableCard.IsOverClubsDeck = isOver;
                     break;
+                case DeckName.FirstDeck:
+                    frontCard.Opacity = isOver ? 50 : 100;
+                    _moveabeCard.IsOverFirstDeck = isOver;
                 default:
                     break;
             }
