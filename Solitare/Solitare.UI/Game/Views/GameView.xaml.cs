@@ -95,13 +95,15 @@ namespace Solitare.UI.Game.Views
         {
             var frontCard = FindFrontCard(deck);
         
-            var point = deck.TransformToAncestor(Application.Current.MainWindow).Transform(new Point(0, 0));
+            var point = frontCard.TransformToAncestor(Application.Current.MainWindow).Transform(new Point(0, 0));
 
             if (args.GetPosition(_mainCanvas).X >= point.X && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth &&
                 args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
             {
                 
-                //if (_gameViewModel.ValidateCard(deck.Children.))
+                if (_gameViewModel.ValidateCard(frontCard) == DeckMatch.NotFound) return;
+                
+                
             }
         }
 
@@ -122,7 +124,7 @@ namespace Solitare.UI.Game.Views
             return card;
         {
 
-        private void SetIsMouseOver(CardContainer deck, bool isOver)
+        private void SetIsMouseOver(CardContainer deck, bool isOver, Card card = null)
         {
             switch (deck.ContainerName)
             {
