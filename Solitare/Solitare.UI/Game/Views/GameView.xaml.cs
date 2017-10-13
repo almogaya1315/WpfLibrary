@@ -81,7 +81,7 @@ namespace Solitare.UI.Game.Views
             if (args.GetPosition(_mainCanvas).X >= point.X && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth &&
                 args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
             {
-                if (_gameViewModel.ValidateDeck(deck.Name) == DeckMatch.NotFound) return; 
+                if (_gameViewModel.ValidateDeck(deck.Name) == DeckMatch.NotFound) return;
 
                 SetIsMouseOver(deck, true);
             }
@@ -95,7 +95,11 @@ namespace Solitare.UI.Game.Views
         {
             var point = deck.TransformToAncestor(Application.Current.MainWindow).Transform(new Point(0, 0));
 
-
+            if (args.GetPosition(_mainCanvas).X >= point.X && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth &&
+                args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
+            {
+                //if (_gameViewModel.ValidateCard(deck.Children.))
+            }
         }
 
         private void SetIsMouseOver(CardContainer deck, bool isOver)
