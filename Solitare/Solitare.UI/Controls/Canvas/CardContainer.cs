@@ -154,6 +154,7 @@ namespace Solitare.UI.Controls.Canvas
             }
 
             baseContainer.Children.Add(cardContainer);
+            baseContainer.SubContainer = cardContainer;
 
             if (containersSource.ElementAtOrDefault(zIndex) != null)
             {
