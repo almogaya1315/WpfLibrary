@@ -35,7 +35,7 @@ namespace Solitare.UI.Controls.Canvas
             DependencyProperty.Register("ContainersSource",
                 typeof(List<ContainerViewModel>), typeof(CardContainer),
                 new PropertyMetadata(null, OnContainersSourcePropertyChanged));
-                
+
         public CardContainer SubContainer { get; set; }
 
         public DeckName ContainerName
@@ -107,19 +107,46 @@ namespace Solitare.UI.Controls.Canvas
             if (deck == null) return;
 
             var containersSource = (List<ContainerViewModel>)d.GetValue(ContainersSourceProperty);
-            if (containersSource.Count == 0)
-            {
-                // TODO: create an empty deck
+            var firstContainer = containersSource.FirstOrDefault();
+            deck.Children.Clear();
 
+            // TODO..
+            if (firstContainer == null)
+            {
+                SetEmptyDeck(deck);
                 return;
             }
-
-            var firstContainer = containersSource.First();
-            deck.Children.Clear();
-            SetDeckCards(d, containersSource, deck, firstContainer);
+            
+            SetDeckCards(containersSource, deck, firstContainer);
         }
 
-        private static void SetDeckCards(DependencyObject d, List<ContainerViewModel> containersSource, CardContainer baseContainer, ContainerViewModel subContainer)
+        private static void SetEmptyDeck(CardContainer baseContainer)
+        {
+            var cardContainer = new CardContainer();
+            cardContainer.ContainerName = baseContainer.ContainerName;
+
+            cardContainer.Children.Add(new Card()
+            {
+                Source = new BitmapImage(new Uri(Properties.Resources.EmptyCardPath, UriKind.Relative)),
+                Path = Properties.Resources.EmptyCardPath,
+                FrontCardPath = string.Empty,
+                CardName = CardName.Empty,
+                CardShape = CardShape.Empty,
+                CardValue = 0,
+                CurrentDeck = baseContainer.ContainerName,
+                Margin = new Thickness(14, 5, 14, 5),
+                Height = 149,
+            });
+
+            SetZIndex(cardContainer, 0);
+
+            cardContainer.SetValue(IsDraggableProperty, false);
+
+            baseContainer.Children.Add(cardContainer);
+            baseContainer.SubContainer = cardContainer;
+        }
+
+        private static void SetDeckCards(List<ContainerViewModel> containersSource, CardContainer baseContainer, ContainerViewModel subContainer)
         {
             var cardContainer = new CardContainer();
             cardContainer.ContainerName = baseContainer.ContainerName;
@@ -147,9 +174,13 @@ namespace Solitare.UI.Controls.Canvas
                 if (zIndex > 1) cardContainer.Margin = new Thickness(0, 10, 0, 0);
                 cardContainer.SetValue(IsDraggableProperty, false);
             }
+            else if (containersSource.Count == 1)
+            {
+                cardContainer.SetValue(IsDraggableProperty, true);
+            }
             else
             {
-                cardContainer.Margin = new Thickness(0, 20, 0, 0);
+                cardContainer.Margin = new Thickness(0, 30, 0, 0);
                 cardContainer.SetValue(IsDraggableProperty, true);
             }
 
@@ -159,7 +190,7 @@ namespace Solitare.UI.Controls.Canvas
             if (containersSource.ElementAtOrDefault(zIndex) != null)
             {
                 subContainer.SubContainer = containersSource.ElementAt(zIndex);
-                SetDeckCards(d, containersSource, cardContainer, subContainer.SubContainer);
+                SetDeckCards(containersSource, cardContainer, subContainer.SubContainer);
             }
         }
     }

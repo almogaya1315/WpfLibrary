@@ -23,6 +23,7 @@ namespace Solitare.UI.Game.ViewModels
         private Dictionary<DeckName, List<ContainerViewModel>> _openDecks;
 
         public ICommand Deal { get; set; }
+        public ICommand Reset { get; set; }
 
         private CardViewModel _mainDeckCard;
         public CardViewModel MainDeckCard
@@ -171,11 +172,18 @@ namespace Solitare.UI.Game.ViewModels
             CreateOpenDecks();
 
             Deal = new RelayCommand(DealCard);
+            Reset = new RelayCommand(ResetGame);
+        }
+
+        private void ResetGame()
+        {
+            CreateClosedDecks();
+            CreateOpenDecks();
         }
 
         public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, int cardValue, DeckName sourceDeck, string path)
         {
-            _moveableCard = new CardViewModel() { Name = cardName, Shape = cardShape, Value = cardValue, Path = path };
+            _moveableCard = new CardViewModel() { Name = cardName, Shape = cardShape, Value = cardValue, Path = path, CurrentDeck = sourceDeck };
 
             if (_closedDecks.ContainsKey(sourceDeck))
             {
@@ -204,7 +212,10 @@ namespace Solitare.UI.Game.ViewModels
             else
             {
                 _openDecks[sourceDeck].RemoveAll(c => c.CardName == cardName && c.CardShape == cardShape);
-                _openDecks[sourceDeck].Last().SubContainer = null;
+                if (_openDecks[sourceDeck].LastOrDefault() != null)
+                {
+                    _openDecks[sourceDeck].Last().SubContainer = null;
+                }
 
                 switch (sourceDeck)
                 {
@@ -265,8 +276,6 @@ namespace Solitare.UI.Game.ViewModels
                 case DeckName.SeventhDeck:
                     SeventhDeckCards = _openDecks[sourceDeck];
                     break;
-                default:
-                    break;
             }
         }
 
@@ -284,8 +293,6 @@ namespace Solitare.UI.Game.ViewModels
                     else return matchState = DeckMatch.NotFound;
                 }
 
-                if (targetDeck == DeckName.OpenDeckCard) return matchState = DeckMatch.Found;
-
                 matchState = targetCard.Shape == _moveableCard.Shape ? DeckMatch.Found : DeckMatch.NotFound;
                 if (matchState == DeckMatch.NotFound) return matchState;
 
@@ -296,19 +303,34 @@ namespace Solitare.UI.Game.ViewModels
             return matchState;
         }
 
-        public DeckMatch ValidateCard(DeckName targetDeck, CardName cardName, CardShape cardShape)
+        public DeckMatch ValidateCard(DeckName targetDeck, CardName cardName, CardShape cardShape, int cardValue)
         {
             DeckMatch matchState = DeckMatch.NotFound;
 
             if (_openDecks.ContainsKey(targetDeck))
             {
-                var targetCard = _openDecks[targetDeck].Find(c => c.CardName == cardName && c.CardShape == cardShape);
+                var targetCard = _openDecks[targetDeck].Find(c => (c.CardName == cardName && c.CardShape == cardShape));
+                if (targetCard == null) return matchState = DeckMatch.Found;
 
-                if (targetCard.CardPath == Properties.Resources.BackCardPath) return DeckMatch.Found;
+                if (targetCard.CardPath == Properties.Resources.BackCardPath) return matchState = DeckMatch.Found;
 
+                if ((_moveableCard.Shape == CardShape.Hearts || _moveableCard.Shape == CardShape.Diamonds) &&
+                    (targetCard.CardShape == CardShape.Clubs || targetCard.CardShape == CardShape.Spades))
+                {
+                    matchState = DeckMatch.Found;
+                }
+                else if ((_moveableCard.Shape == CardShape.Clubs || _moveableCard.Shape == CardShape.Spades) &&
+                         (targetCard.CardShape == CardShape.Hearts || targetCard.CardShape == CardShape.Diamonds))
+                {
+                    matchState = DeckMatch.Found;
+                }
+                else return DeckMatch.NotFound;
 
-
-                // TODO..
+                if (targetCard.CardValue - _moveableCard.Value == 1)
+                {
+                    matchState = DeckMatch.Found;
+                }
+                else matchState = DeckMatch.NotFound;
             }
             else throw new KeyNotFoundException();
 
@@ -344,7 +366,42 @@ namespace Solitare.UI.Game.ViewModels
             }
             else if (_openDecks.ContainsKey(targetDeck))
             {
-                // TODO..
+                _openDecks[targetDeck].Add(new ContainerViewModel()
+                {
+                    CardPath = _moveableCard.Path,
+                    FrontCardPath = _moveableCard.Path,
+                    CardName = _moveableCard.Name.Value,
+                    CardShape = _moveableCard.Shape.Value,
+                    CardValue = _moveableCard.Value,
+                    DeckName = targetDeck,
+                    TakeCardEventResource = TakeCardEventResource,
+                });
+                _moveableCard = null;
+
+                switch (targetDeck)
+                {
+                    case DeckName.FirstDeck:
+                        FirstDeckCards = new List<ContainerViewModel>(_openDecks[targetDeck]);
+                        break;
+                    case DeckName.SecondDeck:
+                        SecondDeckCards = new List<ContainerViewModel>(_openDecks[targetDeck]);
+                        break;
+                    case DeckName.ThirdDeck:
+                        ThirdDeckCards = new List<ContainerViewModel>(_openDecks[targetDeck]);
+                        break;
+                    case DeckName.FourthDeck:
+                        FourthDeckCards = new List<ContainerViewModel>(_openDecks[targetDeck]);
+                        break;
+                    case DeckName.FifthDeck:
+                        FifthDeckCards = new List<ContainerViewModel>(_openDecks[targetDeck]);
+                        break;
+                    case DeckName.SixthDeck:
+                        SixthDeckCards = new List<ContainerViewModel>(_openDecks[targetDeck]);
+                        break;
+                    case DeckName.SeventhDeck:
+                        SeventhDeckCards = new List<ContainerViewModel>(_openDecks[targetDeck]);
+                        break;
+                }
             }
         }
 
@@ -507,7 +564,7 @@ namespace Solitare.UI.Game.ViewModels
                     CardName = randomCard.Name.Value,
                     CardShape = randomCard.Shape.Value,
                     CardValue = randomCard.Value,
-                    DeckName = randomCard.CurrentDeck,
+                    DeckName = newDeck,
                     TakeCardEventResource = TakeCardEventResource,
                 };
                 _openDecks[newDeck].Add(container);

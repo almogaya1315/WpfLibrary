@@ -62,6 +62,13 @@ namespace Solitare.UI.Game.Views
             else if (_moveableCard.IsOverClubsDeck) DropCard(ClubsDeckCard);
             else if (_moveableCard.IsOverHeartsDeck) DropCard(HeartsDeckCard);
             else if (_moveableCard.IsOverSpadesDeck) DropCard(SpadesDeckCard);
+            else if (_moveableCard.IsOverFirstDeck) DropCard(FirstDeck);
+            else if (_moveableCard.IsOverSecondDeck) DropCard(SecondDeck);
+            else if (_moveableCard.IsOverThirdDeck) DropCard(ThirdDeck);
+            else if (_moveableCard.IsOverFourthDeck) DropCard(FourthDeck);
+            else if (_moveableCard.IsOverFifthDeck) DropCard(FifthDeck);
+            else if (_moveableCard.IsOverSixthDeck) DropCard(SixthDeck);
+            else if (_moveableCard.IsOverSeventhDeck) DropCard(SeventhDeck);
         }
 
         private void DropCard(CardContainer deck)
@@ -101,8 +108,7 @@ namespace Solitare.UI.Game.Views
             if (args.GetPosition(_mainCanvas).X >= point.X && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth &&
                 args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
             {
-                
-                if (_gameViewModel.ValidateCard(frontCard.CurrentDeck, frontCard.CardName, frontCard.CardShape) == DeckMatch.NotFound) return;
+                if (_gameViewModel.ValidateCard(frontCard.CurrentDeck, frontCard.CardName, frontCard.CardShape, frontCard.CardValue) == DeckMatch.NotFound) return;
                 
                 SetIsMouseOver(deck, true, frontCard);
             }
@@ -117,16 +123,7 @@ namespace Solitare.UI.Game.Views
             Card card = null;
             foreach (var child in deck.Children)
             {
-                /*
-                if (child is Card)
-                {
-                    card = (Card)child;
-                    if (deck.SubContainer != null)
-                    {
-                        card = FindFrontCard(deck.SubContainer);
-                    }
-                }
-                else*/ if (child is CardContainer)
+                if (child is CardContainer)
                 {
                     card = FindFrontCard((CardContainer)child);
                 }
@@ -164,41 +161,45 @@ namespace Solitare.UI.Game.Views
                     break;
 
                 case DeckName.FirstDeck:
-                    if (card == null) throw new NullReferenceException();
-                    card.Opacity = isOver ? 50 : 100;
+                    SetCardVisualization(deck, card, isOver);
                     _moveableCard.IsOverFirstDeck = isOver;
                     break;
                 case DeckName.SecondDeck:
-                    if (card == null) throw new NullReferenceException();
-                    card.Opacity = isOver ? 50 : 100;
+                    SetCardVisualization(deck, card, isOver);
                     _moveableCard.IsOverSecondDeck = isOver;
                     break;
                 case DeckName.ThirdDeck:
-                    if (card == null) throw new NullReferenceException();
-                    card.Opacity = isOver ? 50 : 100;
+                    SetCardVisualization(deck, card, isOver);
                     _moveableCard.IsOverThirdDeck = isOver;
                     break;
                 case DeckName.FourthDeck:
-                    if (card == null) throw new NullReferenceException();
-                    card.Opacity = isOver ? 50 : 100;
+                    SetCardVisualization(deck, card, isOver);
                     _moveableCard.IsOverFourthDeck = isOver;
                     break;
                 case DeckName.FifthDeck:
                     if (card == null) throw new NullReferenceException();
-                    card.Opacity = isOver ? 50 : 100;
+                    card.Opacity = isOver ? 0.5 : 1;
                     _moveableCard.IsOverFifthDeck = isOver;
                     break;
                 case DeckName.SixthDeck:
-                    if (card == null) throw new NullReferenceException();
-                    card.Opacity = isOver ? 50 : 100;
+                    SetCardVisualization(deck, card, isOver);
                     _moveableCard.IsOverSixthDeck = isOver;
                     break;
                 case DeckName.SeventhDeck:
-                    if (card == null) throw new NullReferenceException();
-                    card.Opacity = isOver ? 50 : 100;
+                    SetCardVisualization(deck, card, isOver);
                     _moveableCard.IsOverSeventhDeck = isOver;
                     break;
             }
+        }
+
+        private void SetCardVisualization(CardContainer deck, Card card, bool isOver)
+        {
+            if (card == null) throw new NullReferenceException();
+            if (card.Path == Properties.Resources.EmptyCardPath)
+            {
+                deck.Background = isOver ? Brushes.Blue : null;
+            }
+            else card.Opacity = isOver ? 0.7 : 1;
         }
 
         public void TakeCard(object sender, MouseButtonEventArgs args)

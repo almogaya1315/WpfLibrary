@@ -8,6 +8,7 @@ namespace Solitare.UI.Enums
 {
     public enum CardShape
     {
+        Empty,
         Hearts,
         Spades,
         Diamonds,

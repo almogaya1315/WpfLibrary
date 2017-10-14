@@ -8,6 +8,7 @@ namespace Solitare.UI.Enums
 {
     public enum CardName
     {
+        Empty,
         Ace,
         Two,
         Three,
