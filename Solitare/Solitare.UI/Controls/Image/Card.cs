@@ -2,21 +2,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Globalization;
 
 namespace Solitare.UI.Controls.Image
 {
-    public class Card : System.Windows.Controls.Image
+    public class Card : System.Windows.Controls.Image //, IReflect
     {
         public bool isOverOpenDeck { get; set; }
         public bool IsOverDiamondsDeck { get; set; }
         public bool IsOverClubsDeck { get; set; }
         public bool IsOverHeartsDeck { get; set; }
         public bool IsOverSpadesDeck { get; set; }
+        public bool IsOverFirstDeck { get; set; }
+        public bool IsOverSecondDeck { get; set; }
+        public bool IsOverThirdDeck { get; set; }
+        public bool IsOverFourthDeck { get; set; }
+        public bool IsOverFifthDeck { get; set; }
+        public bool IsOverSixthDeck { get; set; }
+        public bool IsOverSeventhDeck { get; set; }
 
         public string FrontCardPath { get; set; }
 
@@ -62,6 +71,14 @@ namespace Solitare.UI.Controls.Image
             set { SetValue(CurrentDeckProperty, value); }
         }
 
+        public Type UnderlyingSystemType
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public static readonly DependencyProperty PathProperty =
             DependencyProperty.Register("Path", typeof(string), typeof(Card), new PropertyMetadata(""));
 
@@ -76,5 +93,63 @@ namespace Solitare.UI.Controls.Image
 
         public static readonly DependencyProperty CurrentDeckProperty =
             DependencyProperty.Register("CurrentDeck", typeof(DeckName), typeof(Card), new PropertyMetadata(null));
+
+        /*
+        #region IReflect
+        public MethodInfo GetMethod(string name, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MethodInfo GetMethod(string name, BindingFlags bindingAttr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MethodInfo[] GetMethods(BindingFlags bindingAttr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FieldInfo GetField(string name, BindingFlags bindingAttr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FieldInfo[] GetFields(BindingFlags bindingAttr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PropertyInfo GetProperty(string name, BindingFlags bindingAttr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PropertyInfo GetProperty(string name, BindingFlags bindingAttr, Binder binder, Type returnType, Type[] types, ParameterModifier[] modifiers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PropertyInfo[] GetProperties(BindingFlags bindingAttr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MemberInfo[] GetMember(string name, BindingFlags bindingAttr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MemberInfo[] GetMembers(BindingFlags bindingAttr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object InvokeMember(string name, BindingFlags invokeAttr, Binder binder, object target, object[] args, ParameterModifier[] modifiers, CultureInfo culture, string[] namedParameters)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion*/
     }
 }

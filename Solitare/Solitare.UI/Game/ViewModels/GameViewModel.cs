@@ -270,11 +270,10 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
-        public DeckMatch ValidateDeck(string deckName)
+        public DeckMatch ValidateDeck(DeckName targetDeck)
         {
             DeckMatch matchState = DeckMatch.NotFound;
 
-            var targetDeck = Enum.GetValues(typeof(DeckName)).Cast<DeckName>().First(e => e.ToString() == deckName);
             if (_closedDecks.ContainsKey(targetDeck))
             {
                 var targetCard = _closedDecks[targetDeck].LastOrDefault();
@@ -292,10 +291,20 @@ namespace Solitare.UI.Game.ViewModels
 
                 matchState = targetCard.Value == _moveableCard.Value - 1 ? DeckMatch.Found : DeckMatch.NotFound;
             }
-            else if (_openDecks.ContainsKey(targetDeck))
+            else throw new KeyNotFoundException();
+
+            return matchState;
+        }
+
+        public DeckMatch ValidateCard(DeckName targetDeck)
+        {
+            DeckMatch matchState = DeckMatch.NotFound;
+
+            if (_openDecks.ContainsKey(targetDeck))
             {
                 // TODO..
             }
+            else throw new KeyNotFoundException();
 
             return matchState;
         }
