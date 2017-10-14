@@ -296,12 +296,18 @@ namespace Solitare.UI.Game.ViewModels
             return matchState;
         }
 
-        public DeckMatch ValidateCard(DeckName targetDeck)
+        public DeckMatch ValidateCard(DeckName targetDeck, CardName cardName, CardShape cardShape)
         {
             DeckMatch matchState = DeckMatch.NotFound;
 
             if (_openDecks.ContainsKey(targetDeck))
             {
+                var targetCard = _openDecks[targetDeck].Find(c => c.CardName == cardName && c.CardShape == cardShape);
+
+                if (targetCard.CardPath == Properties.Resources.BackCardPath) return DeckMatch.Found;
+
+
+
                 // TODO..
             }
             else throw new KeyNotFoundException();

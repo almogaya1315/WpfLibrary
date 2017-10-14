@@ -71,14 +71,6 @@ namespace Solitare.UI.Controls.Image
             set { SetValue(CurrentDeckProperty, value); }
         }
 
-        public Type UnderlyingSystemType
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public static readonly DependencyProperty PathProperty =
             DependencyProperty.Register("Path", typeof(string), typeof(Card), new PropertyMetadata(""));
 
