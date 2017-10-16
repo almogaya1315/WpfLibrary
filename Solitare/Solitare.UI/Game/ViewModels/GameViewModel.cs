@@ -16,8 +16,9 @@ namespace Solitare.UI.Game.ViewModels
     {
         private CardViewModel _backCard;
         private CardViewModel _transparentCard;
-        private ContainerViewModel _transparentContainer;
         private CardViewModel _moveableCard;
+        private ContainerViewModel _transparentContainer;
+        private ContainerViewModel _moveableContainer;
 
         private Dictionary<DeckName, List<CardViewModel>> _closedDecks;
         private Dictionary<DeckName, List<ContainerViewModel>> _openDecks;
@@ -244,6 +245,11 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
+        public void SetMoveableContainerBinding()
+        {
+
+        }
+
         public void SetFllipedCardBinding(DeckName sourceDeck, CardName cardName, CardShape cardShape)
         {
             var containerToFlip = _openDecks[sourceDeck].Find(c => c.CardName == cardName && c.CardShape == cardShape);
@@ -306,6 +312,11 @@ namespace Solitare.UI.Game.ViewModels
         public DeckMatch ValidateCard(DeckName targetDeck, CardName cardName, CardShape cardShape, int cardValue)
         {
             DeckMatch matchState = DeckMatch.NotFound;
+
+            if (_moveableContainer != null)
+            {
+                
+            }
 
             if (_openDecks.ContainsKey(targetDeck))
             {

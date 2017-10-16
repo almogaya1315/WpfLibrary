@@ -37,6 +37,7 @@ namespace Solitare.UI.Controls.Canvas
                 new PropertyMetadata(null, OnContainersSourcePropertyChanged));
 
         public CardContainer SubContainer { get; set; }
+        public Card Card { get; set; }
 
         public DeckName ContainerName
         {
@@ -151,7 +152,7 @@ namespace Solitare.UI.Controls.Canvas
             var cardContainer = new CardContainer();
             cardContainer.ContainerName = baseContainer.ContainerName;
 
-            cardContainer.Children.Add(new Card()
+            var card = new Card()
             {
                 Source = new BitmapImage(new Uri(subContainer.CardPath, UriKind.Relative)),
                 Path = subContainer.CardPath,
@@ -162,7 +163,8 @@ namespace Solitare.UI.Controls.Canvas
                 CurrentDeck = subContainer.DeckName,
                 Margin = new Thickness(14, 5, 14, 5),
                 Height = 149,
-            });
+            };
+            cardContainer.Children.Add(card);
 
             cardContainer.SetValue(TakeCardEventResourceProperty, subContainer.TakeCardEventResource);
 
@@ -186,6 +188,7 @@ namespace Solitare.UI.Controls.Canvas
 
             baseContainer.Children.Add(cardContainer);
             baseContainer.SubContainer = cardContainer;
+            baseContainer.Card = card;
 
             if (containersSource.ElementAtOrDefault(zIndex) != null)
             {

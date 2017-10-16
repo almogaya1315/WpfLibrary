@@ -25,6 +25,7 @@ namespace Solitare.UI.Game.Views
         private List<CardContainer> _openDecks;
         private Canvas _mainCanvas;
         private Card _moveableCard;
+        private CardContainer _moveableContainer;
 
         public GameView()
         {
@@ -69,6 +70,11 @@ namespace Solitare.UI.Game.Views
             else if (_moveableCard.IsOverFifthDeck) DropCard(FifthDeck);
             else if (_moveableCard.IsOverSixthDeck) DropCard(SixthDeck);
             else if (_moveableCard.IsOverSeventhDeck) DropCard(SeventhDeck);
+        }
+
+        private void DropMoveableContainer(object sender, MouseButtonEventArgs args)
+        {
+
         }
 
         private void DropCard(CardContainer deck)
@@ -206,6 +212,7 @@ namespace Solitare.UI.Game.Views
         {
             var cardBase = args.Source as Card;
 
+            /*
             foreach (var child in _mainCanvas.Children)
             {
                 if (child is Card)
@@ -213,13 +220,21 @@ namespace Solitare.UI.Game.Views
                     var card = (Card)child;
                     if (card.Name == cardBase.Name && card.CardShape == cardBase.CardShape) return;
                 }
-            }
+            }*/
 
             if (cardBase.CardValue == 0) return;
 
             if (cardBase.Path == Properties.Resources.BackCardPath)
             {
                 _gameViewModel.SetFllipedCardBinding(cardBase.CurrentDeck, cardBase.CardName, cardBase.CardShape);
+                return;
+            }
+
+            var cardContainer = _openDecks.Find(d => d.ContainerName == cardBase.CurrentDeck);
+            var fllipedCardCount = cardContainer.ContainersSource.Count(c => c.CardPath != Properties.Resources.BackCardPath && c.CardPath != Properties.Resources.EmptyCardPath);
+            if (fllipedCardCount > 1)
+            {
+                SetMoveableContainer(cardContainer, args);
                 return;
             }
 
@@ -238,8 +253,30 @@ namespace Solitare.UI.Game.Views
 
         private void SetMoveableCardPosition(MouseEventArgs args)
         {
-            Canvas.SetLeft(_moveableCard, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
-            Canvas.SetTop(_moveableCard, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
+            UIElement moveable = null;
+            if (_moveableCard != null)
+            {
+                moveable = _moveableCard;
+            }
+            else moveable = _moveableContainer;
+
+            Canvas.SetLeft(moveable, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
+            Canvas.SetTop(moveable, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
+        }
+
+        private void SetMoveableContainer(CardContainer cardContainer, MouseEventArgs args)
+        {
+            _moveableContainer = cardContainer;
+            _moveableContainer.MouseLeftButtonDown += DropMoveableContainer;
+
+            _gameViewModel.SetMoveableContainerBinding();
+
+            _isDrag = true;
+
+            SetMoveableCardPosition(args);
+            _mainCanvas.Children.Add(_moveableContainer);
+
+            _currentDrag = new DropData(_moveableContainer.ContainerName, _moveableContainer.Card);
         }
     }
 
