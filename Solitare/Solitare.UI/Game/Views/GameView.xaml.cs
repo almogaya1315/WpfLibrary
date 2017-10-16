@@ -74,7 +74,13 @@ namespace Solitare.UI.Game.Views
 
         private void DropMoveableContainer(object sender, MouseButtonEventArgs args)
         {
-
+            if (_moveableContainer.IsOverFirstDeck) DropCard(FirstDeck);
+            else if (_moveableContainer.IsOverSecondDeck) DropCard(SecondDeck);
+            else if (_moveableContainer.IsOverThirdDeck) DropCard(ThirdDeck);
+            else if (_moveableContainer.IsOverFourthDeck) DropCard(FourthDeck);
+            else if (_moveableContainer.IsOverFifthDeck) DropCard(FifthDeck);
+            else if (_moveableContainer.IsOverSixthDeck) DropCard(SixthDeck);
+            else if (_moveableContainer.IsOverSeventhDeck) DropCard(SeventhDeck);
         }
 
         private void DropCard(CardContainer deck)
@@ -82,8 +88,16 @@ namespace Solitare.UI.Game.Views
             _gameViewModel.DropCard(deck.ContainerName);
 
             deck.Background = null;
-            _mainCanvas.Children.Remove(_moveableCard);
-            _moveableCard = null;
+            if (_moveableContainer != null)
+            {
+                _mainCanvas.Children.Remove(_moveableContainer);
+                _moveableContainer = null;
+            }
+            else
+            {
+                _mainCanvas.Children.Remove(_moveableCard);
+                _moveableCard = null;
+            }
             _isDrag = false;
         }
 
@@ -168,31 +182,65 @@ namespace Solitare.UI.Game.Views
 
                 case DeckName.FirstDeck:
                     SetCardVisualization(deck, card, isOver);
+                    if (_moveableContainer != null)
+                    {
+                        _moveableContainer.IsOverFirstDeck = isOver;
+                        break;
+                    }
                     _moveableCard.IsOverFirstDeck = isOver;
                     break;
                 case DeckName.SecondDeck:
                     SetCardVisualization(deck, card, isOver);
+                    if (_moveableContainer != null)
+                    {
+                        _moveableContainer.IsOverSecondDeck = isOver;
+                        break;
+                    }
                     _moveableCard.IsOverSecondDeck = isOver;
                     break;
                 case DeckName.ThirdDeck:
                     SetCardVisualization(deck, card, isOver);
+                    if (_moveableContainer != null)
+                    {
+                        _moveableContainer.IsOverThirdDeck = isOver;
+                        break;
+                    }
                     _moveableCard.IsOverThirdDeck = isOver;
                     break;
                 case DeckName.FourthDeck:
                     SetCardVisualization(deck, card, isOver);
+                    if (_moveableContainer != null)
+                    {
+                        _moveableContainer.IsOverFourthDeck = isOver;
+                        break;
+                    }
                     _moveableCard.IsOverFourthDeck = isOver;
                     break;
                 case DeckName.FifthDeck:
-                    if (card == null) throw new NullReferenceException();
-                    card.Opacity = isOver ? 0.5 : 1;
+                    SetCardVisualization(deck, card, isOver);
+                    if (_moveableContainer != null)
+                    {
+                        _moveableContainer.IsOverFifthDeck = isOver;
+                        break;
+                    }
                     _moveableCard.IsOverFifthDeck = isOver;
                     break;
                 case DeckName.SixthDeck:
                     SetCardVisualization(deck, card, isOver);
+                    if (_moveableContainer != null)
+                    {
+                        _moveableContainer.IsOverSixthDeck = isOver;
+                        break;
+                    }
                     _moveableCard.IsOverSixthDeck = isOver;
                     break;
                 case DeckName.SeventhDeck:
                     SetCardVisualization(deck, card, isOver);
+                    if (_moveableContainer != null)
+                    {
+                        _moveableContainer.IsOverSeventhDeck = isOver;
+                        break;
+                    }
                     _moveableCard.IsOverSeventhDeck = isOver;
                     break;
             }
@@ -253,15 +301,15 @@ namespace Solitare.UI.Game.Views
 
         private void SetMoveableCardPosition(MouseEventArgs args)
         {
-            UIElement moveable = null;
+            FrameworkElement moveable = null;
             if (_moveableCard != null)
             {
                 moveable = _moveableCard;
             }
             else moveable = _moveableContainer;
 
-            Canvas.SetLeft(moveable, args.GetPosition(_mainCanvas).X - _moveableCard.ActualWidth / 2);
-            Canvas.SetTop(moveable, args.GetPosition(_mainCanvas).Y - _moveableCard.ActualHeight / 2);
+            Canvas.SetLeft(moveable, args.GetPosition(_mainCanvas).X - moveable.ActualWidth / 2);
+            Canvas.SetTop(moveable, args.GetPosition(_mainCanvas).Y - moveable.ActualHeight / 2);
         }
 
         private void SetMoveableContainer(CardContainer cardContainer, MouseEventArgs args)
@@ -269,14 +317,41 @@ namespace Solitare.UI.Game.Views
             _moveableContainer = cardContainer;
             _moveableContainer.MouseLeftButtonDown += DropMoveableContainer;
 
-            _gameViewModel.SetMoveableContainerBinding();
+            var firstContainer = _openDecks.Find(d => d.ContainerName == _moveableContainer.ContainerName);
+            _gameViewModel.SetMoveableContainerBinding(SetContainersList(firstContainer));
 
             _isDrag = true;
 
             SetMoveableCardPosition(args);
+            var parent = _moveableContainer.Parent;
             _mainCanvas.Children.Add(_moveableContainer);
 
             _currentDrag = new DropData(_moveableContainer.ContainerName, _moveableContainer.Card);
+        }
+
+        private List<ContainerViewModel> SetContainersList(CardContainer container)
+        {
+            var containers = new List<ContainerViewModel>();
+
+            ContainerViewModel containerViewModel = new ContainerViewModel()
+            {
+                CardName = container.Card.CardName,
+                CardShape = container.Card.CardShape,
+                CardValue = container.Card.CardValue,
+                DeckName = container.Card.CurrentDeck,
+                CardPath = container.Card.Path,
+            };
+            containers.Add(containerViewModel);
+
+            if (container.SubContainer != null)
+            {
+                containers = SetContainersList(container.SubContainer);
+
+                var currentIndex = containers.IndexOf(containerViewModel);
+                containerViewModel.SubContainer = containers.ElementAt(currentIndex + 1);
+            }
+
+            return containers;
         }
     }
 

@@ -99,11 +99,11 @@
                                             TakeCardEvent="TakeCard"
                                             TakeCardEventResource="{Binding TakeCardEventResource}">
 
-                    <cardControls:Card Source="{Binding OpenDeckCard.Path}"
-                                       Path="{Binding OpenDeckCard.Path}"
-                                       CardName="{Binding OpenDeckCard.Name}"
-                                       CardShape="{Binding OpenDeckCard.Shape}"
-                                       CardValue="{Binding OpenDeckCard.Value}"
+                    <cardControls:Card Source="{Binding OpenDeckCard.CardPath}"
+                                       Path="{Binding OpenDeckCard.CardPath}"
+                                       CardName="{Binding OpenDeckCard.CardName}"
+                                       CardShape="{Binding OpenDeckCard.CardShape}"
+                                       CardValue="{Binding OpenDeckCard.CardValue}"
                                        CurrentDeck="OpenDeckCard"
                                        Height="149"
                                        Margin="14 5" />
@@ -127,11 +127,11 @@
                         </Style>
                     </deckControls:CardContainer.Resources>
 
-                    <cardControls:Card Source="{Binding HeartsDeckCard.Path}"
-                                       Path="{Binding HeartsDeckCard.Path}"
-                                       CardName="{Binding HeartsDeckCard.Name}"
-                                       CardShape="{Binding HeartsDeckCard.Shape}"
-                                       CardValue="{Binding HeartsDeckCard.Value}"
+                    <cardControls:Card Source="{Binding HeartsDeckCard.CardPath}"
+                                       Path="{Binding HeartsDeckCard.CardPath}"
+                                       CardName="{Binding HeartsDeckCard.CardName}"
+                                       CardShape="{Binding HeartsDeckCard.CardShape}"
+                                       CardValue="{Binding HeartsDeckCard.CardValue}"
                                        CurrentDeck="HeartsDeckCard"
                                        Panel.ZIndex="1"
                                        Height="149"
@@ -162,11 +162,11 @@
                         </Style>
                     </deckControls:CardContainer.Resources>
 
-                    <cardControls:Card Source="{Binding ClubsDeckCard.Path}"
-                                       Path="{Binding ClubsDeckCard.Path}"
-                                       CardName="{Binding ClubsDeckCard.Name}"
-                                       CardShape="{Binding ClubsDeckCard.Shape}"
-                                       CardValue="{Binding ClubsDeckCard.Value}"
+                    <cardControls:Card Source="{Binding ClubsDeckCard.CardPath}"
+                                       Path="{Binding ClubsDeckCard.CardPath}"
+                                       CardName="{Binding ClubsDeckCard.CardName}"
+                                       CardShape="{Binding ClubsDeckCard.CardShape}"
+                                       CardValue="{Binding ClubsDeckCard.CardValue}"
                                        CurrentDeck="ClubsDeckCard"
                                        Panel.ZIndex="1"
                                        Height="149"
@@ -196,11 +196,11 @@
                         </Style>
                     </deckControls:CardContainer.Resources>
 
-                    <cardControls:Card Source="{Binding DiamondsDeckCard.Path}"
-                                       Path="{Binding DiamondsDeckCard.Path}"
-                                       CardName="{Binding DiamondsDeckCard.Name}"
-                                       CardShape="{Binding DiamondsDeckCard.Shape}"
-                                       CardValue="{Binding DiamondsDeckCard.Value}"
+                    <cardControls:Card Source="{Binding DiamondsDeckCard.CardPath}"
+                                       Path="{Binding DiamondsDeckCard.CardPath}"
+                                       CardName="{Binding DiamondsDeckCard.CardName}"
+                                       CardShape="{Binding DiamondsDeckCard.CardShape}"
+                                       CardValue="{Binding DiamondsDeckCard.CardValue}"
                                        CurrentDeck="DiamondsDeckCard"
                                        Panel.ZIndex="1"
                                        Height="149"
@@ -231,11 +231,11 @@
                         </Style>
                     </deckControls:CardContainer.Resources>
 
-                    <cardControls:Card Source="{Binding SpadesDeckCard.Path}"
-                                       Path="{Binding SpadesDeckCard.Path}"
-                                       CardName="{Binding SpadesDeckCard.Name}"
-                                       CardShape="{Binding SpadesDeckCard.Shape}"
-                                       CardValue="{Binding SpadesDeckCard.Value}"
+                    <cardControls:Card Source="{Binding SpadesDeckCard.CardPath}"
+                                       Path="{Binding SpadesDeckCard.CardPath}"
+                                       CardName="{Binding SpadesDeckCard.CardName}"
+                                       CardShape="{Binding SpadesDeckCard.CardShape}"
+                                       CardValue="{Binding SpadesDeckCard.CardValue}"
                                        CurrentDeck="SpadesDeckCard"
                                        Panel.ZIndex="1"
                                        Height="149"

@@ -10,15 +10,15 @@ using System.Windows.Media;
 
 namespace Solitare.UI.Game.ViewModels
 {
-    public class ContainerViewModel : ViewModelBase
+    public class ContainerViewModel : ViewModelBase, IMoveable
     {
         public string CardPath { get; set; }
 
         public string FrontCardPath { get; set; }
 
-        public CardName CardName { get; set; }
+        public CardName? CardName { get; set; }
 
-        public CardShape CardShape { get; set; }
+        public CardShape? CardShape { get; set; }
 
         public DeckName DeckName { get; set; }
 

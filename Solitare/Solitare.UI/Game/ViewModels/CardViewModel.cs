@@ -3,7 +3,7 @@ using Solitare.UI.Enums;
 
 namespace Solitare.UI.Game.ViewModels
 {
-    public class CardViewModel : ViewModelBase
+    public class CardViewModel : ViewModelBase, IMoveable
     {
         public CardViewModel()
         {
@@ -12,30 +12,32 @@ namespace Solitare.UI.Game.ViewModels
 
         public CardViewModel(CardViewModel card)
         {
-            Value = card.Value;
-            Shape = card.Shape;
-            Name = card.Name;
+            CardValue = card.CardValue;
+            CardShape = card.CardShape;
+            CardName = card.CardName;
             CurrentDeck = card.CurrentDeck;
-            Path = card.Path;
+            CardPath = card.CardPath;
         }
-
-        public int Value { get; set; }
-
-        public CardShape? Shape { get; set; }
-
-        public CardName? Name { get; set; }
 
         public DeckName CurrentDeck { get; set; }
 
-        private string _path;
-        public string Path
+        private string _cardPath;
+        public string CardPath
         {
-            get { return _path; }
+            get { return _cardPath; }
             set
             {
-                _path = value;
+                _cardPath = value;
                 RaisePropertyChanged();
             }
         }
+
+        public string FrontCardPath { get; set; }
+
+        public CardName? CardName { get; set; }
+
+        public CardShape? CardShape { get; set; }
+
+        public int CardValue { get; set; }
     }
 }

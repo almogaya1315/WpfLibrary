@@ -104,6 +104,7 @@
     <Compile Include="Game\ViewModels\ContainerViewModel.cs" />
     <Compile Include="Game\ViewModels\GameViewModel.cs" />
     <Compile Include="Controls\Canvas\EventResource.cs" />
+    <Compile Include="Game\ViewModels\IMoveable.cs" />
     <Compile Include="Game\Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>

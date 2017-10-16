@@ -39,6 +39,14 @@ namespace Solitare.UI.Controls.Canvas
         public CardContainer SubContainer { get; set; }
         public Card Card { get; set; }
 
+        public bool IsOverFirstDeck { get; set; }
+        public bool IsOverSecondDeck { get; set; }
+        public bool IsOverThirdDeck { get; set; }
+        public bool IsOverFourthDeck { get; set; }
+        public bool IsOverFifthDeck { get; set; }
+        public bool IsOverSixthDeck { get; set; }
+        public bool IsOverSeventhDeck { get; set; }
+
         public DeckName ContainerName
         {
             get { return (DeckName)GetValue(ContainerNameProperty); }
@@ -157,8 +165,8 @@ namespace Solitare.UI.Controls.Canvas
                 Source = new BitmapImage(new Uri(subContainer.CardPath, UriKind.Relative)),
                 Path = subContainer.CardPath,
                 FrontCardPath = subContainer.FrontCardPath,
-                CardName = subContainer.CardName,
-                CardShape = subContainer.CardShape,
+                CardName = subContainer.CardName.Value,
+                CardShape = subContainer.CardShape.Value,
                 CardValue = subContainer.CardValue,
                 CurrentDeck = subContainer.DeckName,
                 Margin = new Thickness(14, 5, 14, 5),
