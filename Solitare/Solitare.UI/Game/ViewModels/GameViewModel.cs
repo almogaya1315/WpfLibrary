@@ -163,7 +163,7 @@ namespace Solitare.UI.Game.ViewModels
 
         public GameViewModel()
         {
-            _transparentCard = new CardViewModel() { Path = Properties.Resources.EmptyCardPath};
+            _transparentCard = new CardViewModel() { Path = Properties.Resources.EmptyCardPath };
             _transparentContainer = new ContainerViewModel() { CardPath = _transparentCard.Path };
             _backCard = new CardViewModel() { Path = Properties.Resources.BackCardPath };
 
@@ -315,7 +315,32 @@ namespace Solitare.UI.Game.ViewModels
 
             if (_moveableContainer != null)
             {
-                
+                if (_openDecks.ContainsKey(targetDeck))
+                {
+                    var targetCard = _openDecks[targetDeck].Find(c => (c.CardName == cardName && c.CardShape == cardShape));
+                    if (targetCard == null) return matchState = DeckMatch.Found;
+
+                    if (targetCard.CardPath == Properties.Resources.BackCardPath) return matchState = DeckMatch.Found;
+
+                    if ((_moveableContainer.CardShape == CardShape.Hearts || _moveableContainer.CardShape == CardShape.Diamonds) &&
+                        (targetCard.CardShape == CardShape.Clubs || targetCard.CardShape == CardShape.Spades))
+                    {
+                        matchState = DeckMatch.Found;
+                    }
+                    else if ((_moveableContainer.CardShape == CardShape.Clubs || _moveableContainer.CardShape == CardShape.Spades) &&
+                             (targetCard.CardShape == CardShape.Hearts || targetCard.CardShape == CardShape.Diamonds))
+                    {
+                        matchState = DeckMatch.Found;
+                    }
+                    else return DeckMatch.NotFound;
+
+                    if (targetCard.CardValue - _moveableContainer.CardValue == 1)
+                    {
+                        matchState = DeckMatch.Found;
+                    }
+                    else matchState = DeckMatch.NotFound;
+                }
+                else throw new KeyNotFoundException();
             }
 
             if (_openDecks.ContainsKey(targetDeck))
