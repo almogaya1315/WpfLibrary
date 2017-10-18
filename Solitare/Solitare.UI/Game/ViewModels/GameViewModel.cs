@@ -249,8 +249,6 @@ namespace Solitare.UI.Game.ViewModels
         {
             foreach (var container in moveableCardsSet)
             {
-                //TODO: remove each from _openDecks[_moveableContainer.DeckName]
-
                 _openDecks[container.DeckName].RemoveAll(c=> c.CardName == container.CardName && c.CardShape == container.CardShape);
             }
 

@@ -173,6 +173,7 @@ namespace Solitare.UI.Controls.Canvas
                 Height = 149,
             };
             cardContainer.Children.Add(card);
+            cardContainer.Card = card;
 
             cardContainer.SetValue(TakeCardEventResourceProperty, subContainer.TakeCardEventResource);
 
@@ -196,7 +197,6 @@ namespace Solitare.UI.Controls.Canvas
 
             baseContainer.Children.Add(cardContainer);
             baseContainer.SubContainer = cardContainer;
-            baseContainer.Card = card;
 
             if (containersSource.ElementAtOrDefault(zIndex) != null)
             {

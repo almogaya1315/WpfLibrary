@@ -157,6 +157,8 @@ namespace Solitare.UI.Game.Views
 
         private void SetIsMouseOver(CardContainer deck, bool isOver, Card card = null)
         {
+            if (_moveableCard == null) return;
+
             switch (deck.ContainerName)
             {
                 case DeckName.OpenDeckCard:
@@ -312,16 +314,18 @@ namespace Solitare.UI.Game.Views
             Canvas.SetTop(moveable, args.GetPosition(_mainCanvas).Y - moveable.ActualHeight / 2);
         }
 
+        ContainerViewModel _lastContainer;
+        CardContainer _parentContainer;
+        List<ContainerViewModel> _containers;
         private void SetMoveableContainer(CardContainer cardContainer, MouseEventArgs args)
         {
-            _moveableContainer = cardContainer;
-            _moveableContainer.MouseLeftButtonDown += DropMoveableContainer;
+            FindFirstContainer(cardContainer);
 
-            var firstContainer = _openDecks.Find(d => d.ContainerName == _moveableContainer.ContainerName);
+            _moveableContainer.MouseLeftButtonDown += DropMoveableContainer;
 
             _containers = new List<ContainerViewModel>();
             _lastContainer = new ContainerViewModel();
-            SetContainersList(firstContainer);
+            SetContainersList(_moveableContainer);
             _gameViewModel.SetMoveableContainerBinding(_containers);
 
             _isDrag = true;
@@ -333,9 +337,21 @@ namespace Solitare.UI.Game.Views
             _currentDrag = new DropData(_moveableContainer.ContainerName, _moveableContainer.Card);
         }
 
-        ContainerViewModel _lastContainer;
-        CardContainer _parentContainer;
-        List<ContainerViewModel> _containers;
+        private void FindFirstContainer(CardContainer container)
+        {
+            if (container.Card.Path == Properties.Resources.BackCardPath && container.SubContainer.Card.Path != Properties.Resources.BackCardPath)
+            {
+                _moveableContainer = container.SubContainer;
+                _parentContainer = container;
+
+                
+
+                return;
+            }
+
+            FindFirstContainer(container.SubContainer);
+        }
+
         private void SetContainersList(CardContainer container)
         {
             var containerViewModel = new ContainerViewModel();
