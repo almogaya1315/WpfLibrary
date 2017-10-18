@@ -249,17 +249,9 @@ namespace Solitare.UI.Game.ViewModels
         {
             foreach (var container in moveableCardsSet)
             {
-                _moveableContainer = new ContainerViewModel()
-                {
-                    CardName = container.CardName,
-                    CardShape = container.CardShape,
-                    CardValue = container.CardValue,
-                    CardPath = container.CardPath,
-                    DeckName = container.DeckName,
-                    SubContainer = container.SubContainer
-                };
+                //TODO: remove each from _openDecks[_moveableContainer.DeckName]
 
-                // TODO: remove each from _openDecks[_moveableContainer.DeckName]
+                _openDecks[container.DeckName].RemoveAll(c=> c.CardName == container.CardName && c.CardShape == container.CardShape);
             }
 
             _moveableContainer = moveableCardsSet.First();

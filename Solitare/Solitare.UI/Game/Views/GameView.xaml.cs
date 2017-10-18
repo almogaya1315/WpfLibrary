@@ -122,14 +122,14 @@ namespace Solitare.UI.Game.Views
         private void FindOverCard(CardContainer deck, MouseEventArgs args)
         {
             var frontCard = FindFrontCard(deck);
-        
+
             var point = frontCard.TransformToAncestor(Application.Current.MainWindow).Transform(new Point(0, 0));
 
             if (args.GetPosition(_mainCanvas).X >= point.X && args.GetPosition(_mainCanvas).X <= point.X + deck.ActualWidth &&
                 args.GetPosition(_mainCanvas).Y >= point.Y - 70 && args.GetPosition(_mainCanvas).Y <= point.Y + deck.ActualHeight + 70)
             {
                 if (_gameViewModel.ValidateCard(frontCard.CurrentDeck, frontCard.CardName, frontCard.CardShape, frontCard.CardValue) == DeckMatch.NotFound) return;
-                
+
                 SetIsMouseOver(deck, true, frontCard);
             }
             else
@@ -318,40 +318,57 @@ namespace Solitare.UI.Game.Views
             _moveableContainer.MouseLeftButtonDown += DropMoveableContainer;
 
             var firstContainer = _openDecks.Find(d => d.ContainerName == _moveableContainer.ContainerName);
-            _gameViewModel.SetMoveableContainerBinding(SetContainersList(firstContainer));
+
+            _containers = new List<ContainerViewModel>();
+            _lastContainer = new ContainerViewModel();
+            SetContainersList(firstContainer);
+            _gameViewModel.SetMoveableContainerBinding(_containers);
 
             _isDrag = true;
 
             SetMoveableCardPosition(args);
-            var parent = _moveableContainer.Parent;
+            _parentContainer.Children.Remove(_moveableContainer);
             _mainCanvas.Children.Add(_moveableContainer);
 
             _currentDrag = new DropData(_moveableContainer.ContainerName, _moveableContainer.Card);
         }
 
-        private List<ContainerViewModel> SetContainersList(CardContainer container)
+        ContainerViewModel _lastContainer;
+        CardContainer _parentContainer;
+        List<ContainerViewModel> _containers;
+        private void SetContainersList(CardContainer container)
         {
-            var containers = new List<ContainerViewModel>();
-
-            ContainerViewModel containerViewModel = new ContainerViewModel()
+            var containerViewModel = new ContainerViewModel();
+            if (container.Card != null)
             {
-                CardName = container.Card.CardName,
-                CardShape = container.Card.CardShape,
-                CardValue = container.Card.CardValue,
-                DeckName = container.Card.CurrentDeck,
-                CardPath = container.Card.Path,
-            };
-            containers.Add(containerViewModel);
+                if (container.Card.Path != Properties.Resources.BackCardPath)
+                {
+                    containerViewModel.CardName = container.Card.CardName;
+                    containerViewModel.CardShape = container.Card.CardShape;
+                    containerViewModel.CardValue = container.Card.CardValue;
+                    containerViewModel.DeckName = container.Card.CurrentDeck;
+                    containerViewModel.CardPath = container.Card.Path;
+
+                    _containers.Add(containerViewModel);
+
+                    _lastContainer = containerViewModel;
+                }
+                else
+                {
+                    _parentContainer = container;
+                }
+            }
 
             if (container.SubContainer != null)
             {
-                containers = SetContainersList(container.SubContainer);
+                SetContainersList(container.SubContainer);
 
-                var currentIndex = containers.IndexOf(containerViewModel);
-                containerViewModel.SubContainer = containers.ElementAt(currentIndex + 1);
+                var currentIndex = _containers.IndexOf(containerViewModel);
+                if (containerViewModel != _lastContainer && currentIndex >= 0)
+                {
+                    containerViewModel.SubContainer = _containers.ElementAt(currentIndex + 1);
+                }
             }
-
-            return containers;
         }
     }
 
