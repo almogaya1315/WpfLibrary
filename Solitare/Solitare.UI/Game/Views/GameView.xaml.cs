@@ -48,7 +48,7 @@ namespace Solitare.UI.Game.Views
         {
             if (_isDrag)
             {
-                SetMoveableCardPosition(args);
+                SetMoveableItemPosition(args);
 
                 _closedDecks.ForEach(d => FindOverDeck(d, args));
 
@@ -281,11 +281,14 @@ namespace Solitare.UI.Game.Views
             }
 
             var cardContainer = _openDecks.Find(d => d.ContainerName == cardBase.CurrentDeck);
-            var fllipedCardCount = cardContainer.ContainersSource.Count(c => c.CardPath != Properties.Resources.BackCardPath && c.CardPath != Properties.Resources.EmptyCardPath);
-            if (fllipedCardCount > 1)
+            if (cardContainer != null)
             {
-                SetMoveableContainer(cardContainer, args);
-                return;
+                var fllipedCardCount = cardContainer.ContainersSource.Count(c => c.CardPath != Properties.Resources.BackCardPath && c.CardPath != Properties.Resources.EmptyCardPath);
+                if (fllipedCardCount > 1)
+                {
+                    SetMoveableContainer(cardContainer, args);
+                    return;
+                }
             }
 
             _moveableCard = new Card(cardBase);
@@ -295,23 +298,26 @@ namespace Solitare.UI.Game.Views
 
             _isDrag = true;
 
-            SetMoveableCardPosition(args);
+            SetMoveableItemPosition(args);
             _mainCanvas.Children.Add(_moveableCard);
 
             _currentDrag = new DropData(_moveableCard.CurrentDeck, _moveableCard);
         }
 
-        private void SetMoveableCardPosition(MouseEventArgs args)
+        private void SetMoveableItemPosition(MouseEventArgs args)
         {
             FrameworkElement moveable = null;
             if (_moveableCard != null)
             {
                 moveable = _moveableCard;
+                Canvas.SetLeft(moveable, args.GetPosition(_mainCanvas).X - moveable.ActualWidth / 2);
+                Canvas.SetTop(moveable, args.GetPosition(_mainCanvas).Y - moveable.ActualHeight / 2);
+                return;
             }
             else moveable = _moveableContainer;
 
-            Canvas.SetLeft(moveable, args.GetPosition(_mainCanvas).X - moveable.ActualWidth / 2);
-            Canvas.SetTop(moveable, args.GetPosition(_mainCanvas).Y - moveable.ActualHeight / 2);
+            Canvas.SetLeft(moveable, args.GetPosition(_mainCanvas).X - 60);
+            Canvas.SetTop(moveable, args.GetPosition(_mainCanvas).Y - 100);
         }
 
         ContainerViewModel _lastContainer;
@@ -330,7 +336,7 @@ namespace Solitare.UI.Game.Views
 
             _isDrag = true;
 
-            SetMoveableCardPosition(args);
+            SetMoveableItemPosition(args);
             _parentContainer.Children.Remove(_moveableContainer);
             _mainCanvas.Children.Add(_moveableContainer);
 
@@ -339,7 +345,7 @@ namespace Solitare.UI.Game.Views
 
         private void FindFirstContainer(CardContainer container)
         {
-            if (container.Card.Path == Properties.Resources.BackCardPath && container.SubContainer.Card.Path != Properties.Resources.BackCardPath)
+            if (container.Card != null && container.Card.Path == Properties.Resources.BackCardPath && container.SubContainer.Card.Path != Properties.Resources.BackCardPath)
             {
                 _moveableContainer = container.SubContainer;
                 _parentContainer = container;

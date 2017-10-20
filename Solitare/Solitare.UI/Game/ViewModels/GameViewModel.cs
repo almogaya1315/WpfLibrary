@@ -543,7 +543,7 @@ namespace Solitare.UI.Game.ViewModels
             _closedDecks = new Dictionary<DeckName, List<CardViewModel>>();
 
             _closedDecks[DeckName.MainDeckCard] = CreateMainDeck();
-            MainDeckCard = _backCard;
+            MainDeckCard = new CardViewModel(_backCard) { CurrentDeck = DeckName.MainDeckCard };
 
             _closedDecks[DeckName.OpenDeckCard] = new List<CardViewModel>() { new CardViewModel(_transparentCard) };
             OpenDeckCard = _closedDecks[DeckName.OpenDeckCard].Last();

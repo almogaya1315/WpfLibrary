@@ -19,7 +19,7 @@ namespace Solitare.UI.Game.ViewModels
             CardPath = card.CardPath;
         }
 
-        public DeckName CurrentDeck { get; set; }
+        public DeckName? CurrentDeck { get; set; }
 
         private string _cardPath;
         public string CardPath

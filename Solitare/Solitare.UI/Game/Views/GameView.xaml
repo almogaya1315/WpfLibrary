@@ -78,7 +78,7 @@
                 <Button Command="{Binding Deal}">
                     <Button.Template>
                         <ControlTemplate>
-                            <Image Source="{Binding MainDeckCard.Path}"
+                            <Image Source="{Binding MainDeckCard.CardPath}"
                                    Margin="5"
                                    Opacity="1" />
                         </ControlTemplate>

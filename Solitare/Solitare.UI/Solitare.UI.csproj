@@ -165,7 +165,6 @@
   <ItemGroup>
     <Resource Include="Images\MainBackground.jpg" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Spades\AceOfSpades.jpg" />
     <Resource Include="Images\Spades\BlackJoker.jpg" />
