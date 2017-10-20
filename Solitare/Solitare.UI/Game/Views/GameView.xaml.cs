@@ -50,7 +50,10 @@ namespace Solitare.UI.Game.Views
             {
                 SetMoveableItemPosition(args);
 
-                _closedDecks.ForEach(d => FindOverDeck(d, args));
+                if (_moveableContainer == null)
+                {
+                    _closedDecks.ForEach(d => FindOverDeck(d, args));
+                }
 
                 _openDecks.ForEach(d => FindOverCard(d, args));
             }
@@ -157,7 +160,7 @@ namespace Solitare.UI.Game.Views
 
         private void SetIsMouseOver(CardContainer deck, bool isOver, Card card = null)
         {
-            if (_moveableCard == null) return;
+            if (_moveableCard == null && _moveableContainer == null) return;
 
             switch (deck.ContainerName)
             {
@@ -260,6 +263,8 @@ namespace Solitare.UI.Game.Views
 
         public void TakeCard(object sender, MouseButtonEventArgs args)
         {
+            if (_isDrag) return;
+
             var cardBase = args.Source as Card;
 
             /*

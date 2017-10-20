@@ -439,9 +439,9 @@ namespace Solitare.UI.Game.ViewModels
             if (moveableItem is CardViewModel) _moveableCard = null;
             else if (moveableItem is ContainerViewModel)
             {
-                if (_moveableContainer.SubContainer != null)
+                if ((moveableItem as ContainerViewModel).SubContainer != null)
                 {
-                    deckCards = SetDeckCards(deckCards, targetDeck, _moveableContainer.SubContainer);
+                    deckCards = SetDeckCards(deckCards, targetDeck, (moveableItem as ContainerViewModel).SubContainer);
                 }
                 _moveableContainer = null;
             }
