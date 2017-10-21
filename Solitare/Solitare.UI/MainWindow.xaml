@@ -12,12 +12,12 @@
         xmlns:gameViews="clr-namespace:Solitare.UI.Game.Views"
         mc:Ignorable="d"
         Title="S O L I T A R E"
+        Icon="Images\icon_256.png"
         Height="auto"
         Width="auto"
         ResizeMode="CanResizeWithGrip"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="ToolWindow"
         MinHeight="950"
         MinWidth="1350">
     <Window.Resources>
