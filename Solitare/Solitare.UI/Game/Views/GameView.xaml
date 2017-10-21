@@ -62,12 +62,46 @@
 
             <Button Grid.Column="1"
                     Grid.Row="1"
-                    Content="Reset"
-                    FontSize="25"
-                    Command="{Binding Reset}"
-                    Margin="35 10"
-                    Padding="15 0"
-                    HorizontalAlignment="Left"/>
+                    Command="{Binding Reset}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
+                                CornerRadius="3"
+                                Margin="35 10"
+                                HorizontalAlignment="Left"
+                                Width="95"
+                                Height="27"
+                                Background="Red">
+                            <TextBlock Text="Reset"
+                                       FontSize="16"
+                                       Padding="27 0"
+                                       Margin="1">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="Red"/>
+                                                <Setter Property="Foreground"
+                                                        Value="White"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="False">
+                                                <Setter Property="Background"
+                                                        Value="Pink" />
+                                                <Setter Property="Foreground"
+                                                        Value="Red" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
 
             <Border Grid.Row="3"
                     Grid.Column="1">

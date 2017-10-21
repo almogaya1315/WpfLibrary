@@ -16,7 +16,7 @@ namespace Solitare.UI.Controls.Canvas
 {
     public class CardContainer : System.Windows.Controls.Canvas
     {
-        private static MouseButtonEventHandler _takeCardEventHandler;
+        public static MouseButtonEventHandler TakeCardEventHandler;
 
         public static readonly DependencyProperty ContainerNameProperty =
             DependencyProperty.Register("ContainerName", typeof(DeckName), typeof(CardContainer), new PropertyMetadata(null));
@@ -75,11 +75,11 @@ namespace Solitare.UI.Controls.Canvas
         {
             add
             {
-                _takeCardEventHandler += value;
+                TakeCardEventHandler += value;
             }
             remove
             {
-                _takeCardEventHandler -= value;
+                TakeCardEventHandler -= value;
             }
         }
 
@@ -105,7 +105,7 @@ namespace Solitare.UI.Controls.Canvas
             if (resource == null) return;
 
             var style = new Style(resource.TargetType);
-            var setter = new EventSetter(resource.Event, _takeCardEventHandler);
+            var setter = new EventSetter(resource.Event, TakeCardEventHandler);
             style.Setters.Add(setter);
             deck.Resources.Add(resource.TargetType, style);
         }
@@ -119,7 +119,6 @@ namespace Solitare.UI.Controls.Canvas
             var firstContainer = containersSource.FirstOrDefault();
             deck.Children.Clear();
 
-            // TODO..
             if (firstContainer == null)
             {
                 SetEmptyDeck(deck);

@@ -178,6 +178,9 @@ namespace Solitare.UI.Game.ViewModels
 
         private void ResetGame()
         {
+            var result = MessageBox.Show("Are you sure?", "Reset game!", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.Cancel) return;
+
             CreateClosedDecks();
             CreateOpenDecks();
         }
@@ -247,11 +250,18 @@ namespace Solitare.UI.Game.ViewModels
 
         public void SetMoveableContainerBinding(List<ContainerViewModel> moveableCardsSet) 
         {
+            DeckName? currentDeck = null;
             foreach (var container in moveableCardsSet)
             {
                 _openDecks[container.DeckName].RemoveAll(c=> c.CardName == container.CardName && c.CardShape == container.CardShape);
+                currentDeck = container.DeckName;
             }
 
+            if (!currentDeck.HasValue) throw new Exception();
+            if (_openDecks[currentDeck.Value].LastOrDefault() != null)
+            {
+                _openDecks[currentDeck.Value].Last().SubContainer = null;
+            }
             _moveableContainer = moveableCardsSet.First();
         }
 
@@ -314,7 +324,7 @@ namespace Solitare.UI.Game.ViewModels
             return matchState;
         }
 
-        public DeckMatch ValidateCard(DeckName targetDeck, CardName cardName, CardShape cardShape, int cardValue)
+        public DeckMatch ValidateCard(DeckName targetDeck, CardName? cardName, CardShape? cardShape, int cardValue)
         {
             if (_moveableContainer != null)
             {
@@ -331,9 +341,11 @@ namespace Solitare.UI.Game.ViewModels
             throw new KeyNotFoundException();
         }
 
-        private DeckMatch ValidateCard(DeckName targetDeck, CardShape moveableItemCardShape, int moveableItemCardValue, CardName cardName, CardShape cardShape, int cardValue)
+        private DeckMatch ValidateCard(DeckName targetDeck, CardShape moveableItemCardShape, int moveableItemCardValue, CardName? cardName, CardShape? cardShape, int cardValue)
         {
             DeckMatch matchState = DeckMatch.NotFound;
+
+            if (cardName == null && cardShape == null) return matchState = DeckMatch.Found;
 
             var targetCard = _openDecks[targetDeck].Find(c => (c.CardName == cardName && c.CardShape == cardShape));
             if (targetCard == null) return matchState = DeckMatch.Found;
