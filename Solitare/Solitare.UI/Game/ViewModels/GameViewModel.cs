@@ -310,8 +310,11 @@ namespace Solitare.UI.Game.ViewModels
 
                 if (targetDeck == DeckName.OpenDeckCard)
                 {
-                    if (targetCard.CardValue == 0) return matchState = DeckMatch.Found;
-                    else return matchState = DeckMatch.NotFound;
+                    return matchState = DeckMatch.Found;
+
+                    // TODO: only current drag can go back to open deck 
+                    //if (targetCard.CardValue == 0) return matchState = DeckMatch.Found;
+                    //else return matchState = DeckMatch.NotFound;
                 }
 
                 matchState = targetCard.CardShape == _moveableCard.CardShape ? DeckMatch.Found : DeckMatch.NotFound;
