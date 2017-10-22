@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Controls\Canvas\CardContainer.cs" />
     <Compile Include="Controls\Image\Card.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Enums\CardName.cs" />
     <Compile Include="Enums\CardShape.cs" />
     <Compile Include="Enums\DeckMatch.cs" />

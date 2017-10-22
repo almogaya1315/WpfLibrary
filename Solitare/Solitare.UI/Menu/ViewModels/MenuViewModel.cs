@@ -14,9 +14,12 @@ namespace Solitare.UI.Menu.ViewModels
         public ICommand Options { get; set; }
         public ICommand Exit { get; set; }
 
-        public MenuViewModel(MainViewModel mainViewModel)
+        private RuleSetViewModel _ruleSet { get; set; }
+
+        public MenuViewModel(MainViewModel mainViewModel, RuleSetViewModel ruleSet)
         {
             _mainViewModel = mainViewModel;
+            _ruleSet = ruleSet;
 
             Exit = new RelayCommand(ExitGame);
             Options = new RelayCommand(NavigateToOptionsView);
@@ -35,7 +38,7 @@ namespace Solitare.UI.Menu.ViewModels
 
         private void StartNewGame()
         {
-            _mainViewModel.SwitchToGameView(new GameViewModel());
+            _mainViewModel.SwitchToGameView(new GameViewModel(_ruleSet));
         }
     }
 }

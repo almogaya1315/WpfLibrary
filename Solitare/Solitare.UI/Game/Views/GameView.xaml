@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Solitare.UI.Game.Views"
              xmlns:cardControls="clr-namespace:Solitare.UI.Controls.Image"
              xmlns:deckControls="clr-namespace:Solitare.UI.Controls.Canvas"
+             xmlns:converters="clr-namespace:Solitare.UI.Converters"
              mc:Ignorable="d"
              d:DesignHeight="900"
              d:DesignWidth="1600">
@@ -26,6 +27,9 @@
             <Setter Property="VerticalAlignment"
                     Value="Top" />
         </Style>
+
+        <!--<BooleanToVisibilityConverter x:Key="BoolToVis"/>-->
+        <converters:BoolToVisibilityConverter x:Key="BoolToiVis"/>
     </UserControl.Resources>
 
     <Canvas Name="MainCanvas">
@@ -102,6 +106,15 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+
+            <TextBlock Grid.Row="1"
+                       Grid.Column="13"
+                       Margin="15"
+                       Text="{Binding CurrentTimer}"
+                       FontSize="30"
+                       Visibility="{Binding TimerVisible, Converter=BoolToVis}"/>
+
+            
 
             <Border Grid.Row="3"
                     Grid.Column="1">

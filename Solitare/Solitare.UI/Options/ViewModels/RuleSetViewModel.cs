@@ -13,7 +13,7 @@ namespace Solitare.UI.Options.ViewModels
         public RuleSetViewModel()
         {
             Draw = InitialDraw.OneCard;
-            ScoreEnabled = TimerEnabled = CluesEnabled = true;
+            ScoreEnabled = TimerEnabled = CluesEnabled = false;
         }
 
         public InitialDraw Draw { get; set; }

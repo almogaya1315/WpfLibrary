@@ -9,8 +9,57 @@
         Title="MainWindow"
         Height="350"
         Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="ExpandDateTemplate">
+            <Border BorderThickness="1"
+                    BorderBrush="Gray"
+                    CornerRadius="5">
+                <Image Source="expandIcon.png"
+                       Width="9"
+                       Height="11"/>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="CollapseDateTemplate">
+            <Border BorderThickness="1"
+                    BorderBrush="Gray"
+                    CornerRadius="5">
+                <Image Source="expandIcon.png"
+                       Width="9"
+                       Height="11">
+                    <Image.LayoutTransform>
+                        <RotateTransform Angle="180"/>
+                    </Image.LayoutTransform>
+                </Image>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    
     <Grid>
-        <Grid.RowDefinitions>
+
+        <ToggleButton HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Height="20"
+                      Width="20">
+            <ToggleButton.Style>
+                <Style TargetType="ToggleButton">
+                    <Style.Triggers>
+                        <Trigger Property="IsChecked"
+                                 Value="true">
+                            <Setter Property="ContentTemplate"
+                                    Value="{StaticResource ResourceKey=ExpandDateTemplate}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked"
+                                 Value="false">
+                            <Setter Property="ContentTemplate"
+                                    Value="{StaticResource ResourceKey=CollapseDateTemplate}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToggleButton.Style>
+        </ToggleButton>
+        
+        
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="0.6*"/>
             <RowDefinition Height="9*" />
         </Grid.RowDefinitions>
@@ -22,6 +71,6 @@
         <ContentControl Grid.Column="0"
                         Grid.ColumnSpan="2"
                         Grid.Row="1"
-                        Content="{Binding CustomTabControl}" />
+                        Content="{Binding CustomTabControl}" />-->
     </Grid>
 </Window>

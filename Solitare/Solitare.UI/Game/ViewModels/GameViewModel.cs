@@ -9,6 +9,8 @@ using System;
 using System.Windows;
 using Solitare.UI.Controls.Image;
 using Solitare.UI.Controls.Canvas;
+using System.Timers;
+using Solitare.UI.Options.ViewModels;
 
 namespace Solitare.UI.Game.ViewModels
 {
@@ -22,6 +24,18 @@ namespace Solitare.UI.Game.ViewModels
 
         private Dictionary<DeckName, List<CardViewModel>> _closedDecks;
         private Dictionary<DeckName, List<ContainerViewModel>> _openDecks;
+
+        private string _currentTimer;
+        public string CurrentTimer
+        {
+            get { return _currentTimer; }
+            set
+            {
+                _currentTimer = value;
+                RaisePropertyChanged();
+            }
+        }
+        public bool TimerVisible { get; set; }
 
         public ICommand Deal { get; set; }
         public ICommand Reset { get; set; }
@@ -161,8 +175,14 @@ namespace Solitare.UI.Game.ViewModels
 
         public EventResource TakeCardEventResource { get; set; }
 
-        public GameViewModel()
+        private Timer _timer;
+        private TimeSpan _timeSpan;
+        private RuleSetViewModel _ruleSet { get; set; }
+
+        public GameViewModel(RuleSetViewModel ruleSet)
         {
+            _ruleSet = ruleSet;
+
             _transparentCard = new CardViewModel() { CardPath = Properties.Resources.EmptyCardPath };
             _transparentContainer = new ContainerViewModel() { CardPath = _transparentCard.CardPath };
             _backCard = new CardViewModel() { CardPath = Properties.Resources.BackCardPath };
@@ -174,6 +194,22 @@ namespace Solitare.UI.Game.ViewModels
 
             Deal = new RelayCommand(DealCard);
             Reset = new RelayCommand(ResetGame);
+
+            if (_ruleSet.TimerEnabled)
+            {
+                TimerVisible = true;
+                _timer = new Timer(1000);
+                _timer.Elapsed += _timer_Elapsed;
+                _timeSpan = TimeSpan.FromSeconds(1);
+                _timer.Start();
+            }
+        }
+
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            CurrentTimer = _timeSpan.ToString();
+
+            _timeSpan = _timeSpan.Add(TimeSpan.FromSeconds(1));
         }
 
         private void ResetGame()

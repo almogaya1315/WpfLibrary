@@ -26,7 +26,7 @@ namespace Solitare.UI
         {
             RuleSetViewModel = new RuleSetViewModel();
 
-            SwitchToMenuView(new MenuViewModel(this));
+            SwitchToMenuView(new MenuViewModel(this, RuleSetViewModel));
         }
 
         public void SwitchToMenuView(MenuViewModel menuViewModel)
