@@ -38,7 +38,7 @@ namespace Solitare.UI.Menu.ViewModels
 
         private void StartNewGame()
         {
-            _mainViewModel.SwitchToGameView(new GameViewModel(_ruleSet));
+            _mainViewModel.SwitchToGameView(new GameViewModel(_mainViewModel, this, _ruleSet));
         }
     }
 }

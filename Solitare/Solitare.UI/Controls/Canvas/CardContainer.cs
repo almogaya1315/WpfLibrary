@@ -116,6 +116,7 @@ namespace Solitare.UI.Controls.Canvas
             if (deck == null) return;
 
             var containersSource = (List<ContainerViewModel>)d.GetValue(ContainersSourceProperty);
+            if (containersSource == null) return;
             var firstContainer = containersSource.FirstOrDefault();
             deck.Children.Clear();
 

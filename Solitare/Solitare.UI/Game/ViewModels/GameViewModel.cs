@@ -11,11 +11,15 @@ using Solitare.UI.Controls.Image;
 using Solitare.UI.Controls.Canvas;
 using System.Timers;
 using Solitare.UI.Options.ViewModels;
+using Solitare.UI.Menu.ViewModels;
 
 namespace Solitare.UI.Game.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
+        readonly private MainViewModel _mainViewModel;
+        readonly private MenuViewModel _menuViewModel;
+
         private CardViewModel _backCard;
         private CardViewModel _transparentCard;
         private CardViewModel _moveableCard;
@@ -35,10 +39,11 @@ namespace Solitare.UI.Game.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public bool TimerVisible { get; set; }
+        public Visibility TimerVisible { get; set; }
 
         public ICommand Deal { get; set; }
         public ICommand Reset { get; set; }
+        public ICommand Back { get; set; }
 
         private CardViewModel _mainDeckCard;
         public CardViewModel MainDeckCard
@@ -179,8 +184,10 @@ namespace Solitare.UI.Game.ViewModels
         private TimeSpan _timeSpan;
         private RuleSetViewModel _ruleSet { get; set; }
 
-        public GameViewModel(RuleSetViewModel ruleSet)
+        public GameViewModel(MainViewModel mainViewModel, MenuViewModel menuViewModel, RuleSetViewModel ruleSet)
         {
+            _mainViewModel = mainViewModel;
+            _menuViewModel = menuViewModel;
             _ruleSet = ruleSet;
 
             _transparentCard = new CardViewModel() { CardPath = Properties.Resources.EmptyCardPath };
@@ -194,21 +201,30 @@ namespace Solitare.UI.Game.ViewModels
 
             Deal = new RelayCommand(DealCard);
             Reset = new RelayCommand(ResetGame);
+            Back = new RelayCommand(BackToMenu);
 
             if (_ruleSet.TimerEnabled)
             {
-                TimerVisible = true;
+                TimerVisible = Visibility.Visible;
                 _timer = new Timer(1000);
                 _timer.Elapsed += _timer_Elapsed;
                 _timeSpan = TimeSpan.FromSeconds(1);
                 _timer.Start();
+                _timer_Elapsed(this, null);
             }
+        }
+
+        private void BackToMenu()
+        {
+            var result = MessageBox.Show("Are you sure?", "Go back!", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.Cancel) return;
+
+            _mainViewModel.SwitchToMenuView(_menuViewModel);
         }
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             CurrentTimer = _timeSpan.ToString();
-
             _timeSpan = _timeSpan.Add(TimeSpan.FromSeconds(1));
         }
 
@@ -219,6 +235,9 @@ namespace Solitare.UI.Game.ViewModels
 
             CreateClosedDecks();
             CreateOpenDecks();
+
+            _timeSpan = TimeSpan.FromSeconds(1);
+            _timer_Elapsed(this, null);
         }
 
         public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, int cardValue, DeckName sourceDeck, string path)
