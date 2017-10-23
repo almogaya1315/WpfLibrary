@@ -236,7 +236,7 @@ namespace Solitare.UI.Game.ViewModels
 
         private void UndoLastCard()
         {
-            
+
         }
 
         private void BackToMenu()
@@ -266,6 +266,7 @@ namespace Solitare.UI.Game.ViewModels
                 _timeSpan = TimeSpan.FromSeconds(1);
                 _timer_Elapsed(this, null);
             }
+            UndoBtnEnabled = false;
         }
 
         public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, int cardValue, DeckName sourceDeck, string path)
@@ -331,12 +332,12 @@ namespace Solitare.UI.Game.ViewModels
             }
         }
 
-        public void SetMoveableContainerBinding(List<ContainerViewModel> moveableCardsSet) 
+        public void SetMoveableContainerBinding(List<ContainerViewModel> moveableCardsSet)
         {
             DeckName? currentDeck = null;
             foreach (var container in moveableCardsSet)
             {
-                _openDecks[container.DeckName].RemoveAll(c=> c.CardName == container.CardName && c.CardShape == container.CardShape);
+                _openDecks[container.DeckName].RemoveAll(c => c.CardName == container.CardName && c.CardShape == container.CardShape);
                 currentDeck = container.DeckName;
             }
 
@@ -527,6 +528,8 @@ namespace Solitare.UI.Game.ViewModels
                         break;
                 }
             }
+
+            CheckGameStatus();
         }
 
         private List<ContainerViewModel> SetDeckCards(List<ContainerViewModel> deckCards, DeckName targetDeck, IMoveable moveableItem)
@@ -576,6 +579,32 @@ namespace Solitare.UI.Game.ViewModels
                 _closedDecks[DeckName.OpenDeckCard].ForEach(op => _closedDecks[DeckName.MainDeckCard].Add(op));
                 _closedDecks[DeckName.OpenDeckCard].Clear();
                 MainDeckCard = _backCard;
+            }
+        }
+
+        private void CheckGameStatus()
+        {
+            if (DiamondsDeckCard.CardName == CardName.King && HeartsDeckCard.CardName == CardName.King &&
+                ClubsDeckCard.CardName == CardName.King && SpadesDeckCard.CardName == CardName.King)
+            {
+                var result = MessageBox.Show("Great work!" + Environment.NewLine + "Deal again?", "Game completed!", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    CreateClosedDecks();
+                    CreateOpenDecks();
+
+                    if (_ruleSet.TimerEnabled)
+                    {
+                        _timeSpan = TimeSpan.FromSeconds(1);
+                        _timer_Elapsed(this, null);
+                    }
+                    UndoBtnEnabled = false;
+                    return;
+                }
+                else
+                {
+                    _mainViewModel.SwitchToMenuView(_menuViewModel);
+                }
             }
         }
 
