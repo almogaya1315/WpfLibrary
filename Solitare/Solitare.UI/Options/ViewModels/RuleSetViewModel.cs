@@ -24,7 +24,6 @@ namespace Solitare.UI.Options.ViewModels
 
         public bool CluesEnabled { get; set; }
 
-        // TODO..
-        public bool UndoOnMove { get; set; }
+        public bool UndoEnabled { get; set; }
     }
 }

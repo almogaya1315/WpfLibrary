@@ -24,6 +24,8 @@ namespace Solitare.UI.Game.ViewModels
 
         public int CardValue { get; set; }
 
+        public CardViewModel Card { get; set; }
+
         public ContainerViewModel SubContainer { get; set; }
 
         public EventResource TakeCardEventResource { get; set; }

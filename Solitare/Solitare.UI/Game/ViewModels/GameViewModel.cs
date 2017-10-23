@@ -39,11 +39,25 @@ namespace Solitare.UI.Game.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public Visibility TimerVisible { get; set; }
+        public Visibility UndoBtnVisibility { get; set; }
 
         public ICommand Deal { get; set; }
         public ICommand Reset { get; set; }
         public ICommand Back { get; set; }
+        public ICommand Undo { get; set; }
+        private bool _undoBtnEnabled;
+        public bool UndoBtnEnabled
+        {
+            get { return _undoBtnEnabled; }
+            set
+            {
+                _undoBtnEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private CardViewModel _lastMovedCard;
+        private ContainerViewModel _lastSourceContainer;
 
         private CardViewModel _mainDeckCard;
         public CardViewModel MainDeckCard
@@ -202,16 +216,27 @@ namespace Solitare.UI.Game.ViewModels
             Deal = new RelayCommand(DealCard);
             Reset = new RelayCommand(ResetGame);
             Back = new RelayCommand(BackToMenu);
+            Undo = new RelayCommand(UndoLastCard);
 
             if (_ruleSet.TimerEnabled)
             {
-                TimerVisible = Visibility.Visible;
                 _timer = new Timer(1000);
                 _timer.Elapsed += _timer_Elapsed;
                 _timeSpan = TimeSpan.FromSeconds(1);
                 _timer.Start();
                 _timer_Elapsed(this, null);
             }
+
+            UndoBtnEnabled = false;
+            if (!_ruleSet.UndoEnabled)
+            {
+                UndoBtnVisibility = Visibility.Hidden;
+            }
+        }
+
+        private void UndoLastCard()
+        {
+            
         }
 
         private void BackToMenu()
@@ -236,8 +261,11 @@ namespace Solitare.UI.Game.ViewModels
             CreateClosedDecks();
             CreateOpenDecks();
 
-            _timeSpan = TimeSpan.FromSeconds(1);
-            _timer_Elapsed(this, null);
+            if (_ruleSet.TimerEnabled)
+            {
+                _timeSpan = TimeSpan.FromSeconds(1);
+                _timer_Elapsed(this, null);
+            }
         }
 
         public void SetMoveableCardBinding(CardName cardName, CardShape cardShape, int cardValue, DeckName sourceDeck, string path)
@@ -437,6 +465,7 @@ namespace Solitare.UI.Game.ViewModels
             {
                 _closedDecks[targetDeck].Add(_moveableCard);
                 var dropedCard = _closedDecks[targetDeck].Last();
+                _lastMovedCard = dropedCard;
                 _moveableCard = null;
 
                 switch (targetDeck)
@@ -463,8 +492,15 @@ namespace Solitare.UI.Game.ViewModels
                 if (_moveableContainer != null)
                 {
                     _openDecks[targetDeck] = SetDeckCards(_openDecks[targetDeck], targetDeck, _moveableContainer);
+
+                    // TODO: maintain _moveableContainer.Card
+                    _lastMovedCard = _moveableContainer.Card;
                 }
-                else _openDecks[targetDeck] = SetDeckCards(_openDecks[targetDeck], targetDeck, _moveableCard);
+                else
+                {
+                    _openDecks[targetDeck] = SetDeckCards(_openDecks[targetDeck], targetDeck, _moveableCard);
+                    _lastMovedCard = _moveableCard;
+                }
 
                 switch (targetDeck)
                 {

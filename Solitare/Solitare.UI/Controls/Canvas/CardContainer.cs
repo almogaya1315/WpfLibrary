@@ -185,7 +185,7 @@ namespace Solitare.UI.Controls.Canvas
                 if (zIndex > 1) cardContainer.Margin = new Thickness(0, 10, 0, 0);
                 cardContainer.SetValue(IsDraggableProperty, false);
             }
-            else if (containersSource.Count == 1)
+            else if (zIndex == 1) 
             {
                 cardContainer.SetValue(IsDraggableProperty, true);
             }

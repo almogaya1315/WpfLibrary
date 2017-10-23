@@ -90,6 +90,7 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <TextBlock Text="Draw"
@@ -182,14 +183,33 @@
                 </ToggleButton.Style>
             </ToggleButton>
 
-            <Button Grid.Row="4"
+            <TextBlock Text="Undo"
+                       Grid.Row="4"
+                       FontSize="25"
+                       Margin="10"
+                       Foreground="#0066ff" />
+
+            <ToggleButton Grid.Row="4"
+                          Grid.Column="1"
+                          IsChecked="{Binding UndoEnabled}"
+                          BorderBrush="White"
+                          BorderThickness="0"
+                          Background="White"
+                          Margin="0 17 47 17">
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton"
+                           BasedOn="{StaticResource ToggleButtonStyle}" />
+                </ToggleButton.Style>
+            </ToggleButton>
+
+            <Button Grid.Row="5"
                     Content="Back"
                     Margin="20"
                     BorderBrush="#ff1a1a"
                     Background="#ff1a1a"
                     Command="{Binding BackToMenu}"/>
 
-            <Button Grid.Row="4"
+            <Button Grid.Row="5"
                     Grid.Column="1"
                     Content="Save"
                     Margin="20"

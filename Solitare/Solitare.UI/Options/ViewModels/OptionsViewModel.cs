@@ -24,6 +24,7 @@ namespace Solitare.UI.Options.ViewModels
         public bool ScoreEnabled { get; set; }
         public bool TimerEnabled { get; set; }
         public bool CluesEnabled { get; set; }
+        public bool UndoEnabled { get; set; }
 
         public ICommand BackToMenu { get; set; }
         public ICommand SetDraw { get; set; }
@@ -63,12 +64,14 @@ namespace Solitare.UI.Options.ViewModels
             if (_ruleSetViewModel.ScoreEnabled != ScoreEnabled) _ruleSetViewModel.ScoreEnabled = ScoreEnabled;
             if (_ruleSetViewModel.TimerEnabled != TimerEnabled) _ruleSetViewModel.TimerEnabled = TimerEnabled;
             if (_ruleSetViewModel.ScoreEnabled != ScoreEnabled) _ruleSetViewModel.ScoreEnabled = ScoreEnabled;
+            if (_ruleSetViewModel.UndoEnabled != UndoEnabled) _ruleSetViewModel.UndoEnabled = UndoEnabled; 
         }
 
         private bool CanSave()
         {
             return ScoreEnabled != _ruleSetViewModel.ScoreEnabled || CluesEnabled != _ruleSetViewModel.CluesEnabled ||
-                   TimerEnabled != _ruleSetViewModel.TimerEnabled || _draw != _ruleSetViewModel.Draw;
+                   TimerEnabled != _ruleSetViewModel.TimerEnabled || UndoEnabled != _ruleSetViewModel.UndoEnabled || 
+                   _draw != _ruleSetViewModel.Draw;
         }
     }
 }

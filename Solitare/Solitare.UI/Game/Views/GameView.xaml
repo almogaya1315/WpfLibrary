@@ -28,6 +28,26 @@
                     Value="Top" />
         </Style>
 
+        <Style x:Key="ButtonStyle" 
+               TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+                    <Setter Property="Background"
+                            Value="Red" />
+                    <Setter Property="Foreground"
+                            Value="White" />
+                </Trigger>
+                <Trigger Property="IsMouseOver"
+                         Value="False">
+                    <Setter Property="Background"
+                            Value="AliceBlue" />
+                    <Setter Property="Foreground"
+                            Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <!--<BooleanToVisibilityConverter x:Key="BoolToVis"/>-->
         <converters:BoolToVisibilityConverter x:Key="BoolToiVis"/>
     </UserControl.Resources>
@@ -82,24 +102,37 @@
                                        Padding="27 0"
                                        Margin="1">
                                 <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver"
-                                                     Value="True">
-                                                <Setter Property="Background"
-                                                        Value="Red"/>
-                                                <Setter Property="Foreground"
-                                                        Value="White"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver"
-                                                     Value="False">
-                                                <Setter Property="Background"
-                                                        Value="Pink" />
-                                                <Setter Property="Foreground"
-                                                        Value="Red" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
+                                    <Style TargetType="TextBlock"
+                                           BasedOn="{StaticResource ButtonStyle}"/>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Grid.Column="3"
+                    Grid.Row="1"
+                    Command="{Binding Undo}"
+                    IsEnabled="{Binding UndoBtnEnabled}"
+                    Visibility="{Binding UndoBtnVisibility}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border BorderThickness="1"
+                                BorderBrush="Red"
+                                CornerRadius="3"
+                                Margin="35 10"
+                                HorizontalAlignment="Left"
+                                Width="95"
+                                Height="27"
+                                Background="Red">
+                            <TextBlock Text="Undo"
+                                       FontSize="16"
+                                       Padding="27 0"
+                                       Margin="1">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock"
+                                           BasedOn="{StaticResource ButtonStyle}" />
                                 </TextBlock.Style>
                             </TextBlock>
                         </Border>
@@ -119,7 +152,7 @@
                        Margin="25 15"
                        Text="{Binding CurrentTimer}"
                        FontSize="30"
-                       Visibility="{Binding TimerVisible}"/>
+                       />
 
             
 
