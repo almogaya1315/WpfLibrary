@@ -25,6 +25,7 @@ namespace Solitare.UI.Game.Views
         private List<CardContainer> _openDecks;
         private Canvas _mainCanvas;
         private Card _moveableCard;
+        //private CardContainer _moveableCardSource;
         private CardContainer _moveableContainer;
 
         public GameView()
@@ -196,7 +197,7 @@ namespace Solitare.UI.Game.Views
                     break;
 
                 case DeckName.FirstDeck:
-                    if (!IsKingCardOnEmptyOpenDeck(deck)) return;
+                    if (!IsKingCardOnEmptyOpenCardsDeck(deck)) return;
 
                     SetCardVisualization(deck, card, isOver);
                     if (_moveableContainer != null)
@@ -263,14 +264,16 @@ namespace Solitare.UI.Game.Views
             }
         }
 
-        private bool IsKingCardOnEmptyOpenDeck(CardContainer deck)
+        private bool IsKingCardOnEmptyOpenCardsDeck(CardContainer deck)
         {
             var deckChildren = deck.Children.Cast<Panel>();
             var deckSubContainer = deckChildren.First(c => c.GetType() == typeof(CardContainer));
-            var subContainerCard = deckSubContainer.Children.Cast<Panel>().First(c => c.GetType() == typeof(Card));
+            var subContainerCard = (Card)deckSubContainer.Children.Cast<UIElement>().First(c => c.GetType() == typeof(Card));
 
-            if ((subContainerCard == null && _moveableContainer != null && !_moveableContainer.Card.Name.Contains("king"))) return false;
-            if (deck.Card == null && _moveableCard != null && !(Enum.GetName(typeof(CardName), _moveableCard.CardName.Value)).Contains("king")) return false;
+            if (_parentContainer.ContainerName == deck.ContainerName) return true;
+
+            if ((subContainerCard.Path != Properties.Resources.BackCardPath && _moveableContainer != null && !_moveableContainer.Card.Name.Contains("king"))) return false;
+            if (subContainerCard.Path != Properties.Resources.BackCardPath && _moveableCard != null && !(Enum.GetName(typeof(CardName), _moveableCard.CardName.Value)).Contains("king")) return false;
             return true;
         }
 
@@ -279,6 +282,8 @@ namespace Solitare.UI.Game.Views
             if (card == null) throw new NullReferenceException();
             if (card.Path == Properties.Resources.EmptyCardPath || card.Path == string.Empty)
             {
+                //if (!((Enum.GetName(typeof(CardName), _moveableCard.CardName.Value)).Contains("king"))) return;
+
                 deck.Background = isOver ? Brushes.Blue : null;
             }
             else card.Opacity = isOver ? 0.7 : 1;
