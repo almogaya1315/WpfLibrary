@@ -170,6 +170,8 @@ namespace Solitare.UI.Game.Views
         {
             if (_moveableCard == null && _moveableContainer == null) return;
 
+            
+
             switch (deck.ContainerName)
             {
                 case DeckName.OpenDeckCard:
@@ -194,6 +196,8 @@ namespace Solitare.UI.Game.Views
                     break;
 
                 case DeckName.FirstDeck:
+                    if (!IsKingCardOnEmptyOpenDeck(deck)) return;
+
                     SetCardVisualization(deck, card, isOver);
                     if (_moveableContainer != null)
                     {
@@ -257,6 +261,17 @@ namespace Solitare.UI.Game.Views
                     _moveableCard.IsOverSeventhDeck = isOver;
                     break;
             }
+        }
+
+        private bool IsKingCardOnEmptyOpenDeck(CardContainer deck)
+        {
+            var deckChildren = deck.Children.Cast<Panel>();
+            var deckSubContainer = deckChildren.First(c => c.GetType() == typeof(CardContainer));
+            var subContainerCard = deckSubContainer.Children.Cast<Panel>().First(c => c.GetType() == typeof(Card));
+
+            if ((subContainerCard == null && _moveableContainer != null && !_moveableContainer.Card.Name.Contains("king"))) return false;
+            if (deck.Card == null && _moveableCard != null && !(Enum.GetName(typeof(CardName), _moveableCard.CardName.Value)).Contains("king")) return false;
+            return true;
         }
 
         private void SetCardVisualization(CardContainer deck, Card card, bool isOver)
