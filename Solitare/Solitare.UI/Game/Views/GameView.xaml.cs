@@ -197,7 +197,7 @@ namespace Solitare.UI.Game.Views
                     break;
 
                 case DeckName.FirstDeck:
-                    if (!IsKingCardOnEmptyOpenCardsDeck(deck)) return;
+                    if (!IsKingCardOrCurrentMoveableOnEmptyOpenCardsDeck(deck)) return;
 
                     SetCardVisualization(deck, card, isOver);
                     if (_moveableContainer != null)
@@ -264,7 +264,7 @@ namespace Solitare.UI.Game.Views
             }
         }
 
-        private bool IsKingCardOnEmptyOpenCardsDeck(CardContainer deck)
+        private bool IsKingCardOrCurrentMoveableOnEmptyOpenCardsDeck(CardContainer deck)
         {
             var deckChildren = deck.Children.Cast<Panel>();
             var deckSubContainer = deckChildren.First(c => c.GetType() == typeof(CardContainer));
