@@ -197,7 +197,8 @@ namespace Solitare.UI.Game.Views
                     break;
 
                 case DeckName.FirstDeck:
-                    if (!IsKingCardOrCurrentMoveableOnEmptyOpenCardsDeck(deck)) return;
+                    //if (!IsMoveableCardOnSourceDeck(deck)) return;
+                    if (!IsKingCardOnEmptyOpenCardsDeck(deck)) return;
 
                     SetCardVisualization(deck, card, isOver);
                     if (_moveableContainer != null)
@@ -264,7 +265,7 @@ namespace Solitare.UI.Game.Views
             }
         }
 
-        private bool IsKingCardOrCurrentMoveableOnEmptyOpenCardsDeck(CardContainer deck)
+        private bool IsKingCardOnEmptyOpenCardsDeck(CardContainer deck)
         {
             var deckChildren = deck.Children.Cast<Panel>();
             var deckSubContainer = deckChildren.First(c => c.GetType() == typeof(CardContainer));
@@ -275,6 +276,17 @@ namespace Solitare.UI.Game.Views
             if ((subContainerCard.Path != Properties.Resources.BackCardPath && _moveableContainer != null && !_moveableContainer.Card.Name.Contains("king"))) return false;
             if (subContainerCard.Path != Properties.Resources.BackCardPath && _moveableCard != null && !(Enum.GetName(typeof(CardName), _moveableCard.CardName.Value)).Contains("king")) return false;
             return true;
+        }
+
+        private bool IsMoveableCardOnSourceDeck(CardContainer deck)
+        {
+            var deckChildren = deck.Children.Cast<Panel>();
+            var deckSubContainer = deckChildren.First(c => c.GetType() == typeof(CardContainer));
+            var subContainerCard = (Card)deckSubContainer.Children.Cast<UIElement>().First(c => c.GetType() == typeof(Card));
+
+            if (_parentContainer.ContainerName == deck.ContainerName) return true;
+
+            return false;
         }
 
         private void SetCardVisualization(CardContainer deck, Card card, bool isOver)
