@@ -439,6 +439,8 @@ namespace Solitare.UI.Game.ViewModels
 
             if (targetCard.CardPath == Properties.Resources.BackCardPath) return matchState = DeckMatch.Found;
 
+            if (targetCard.CardPath == Properties.Resources.EmptyCardPath && moveableItemCardValue == 14) return matchState = DeckMatch.Found;
+
             if ((moveableItemCardShape == CardShape.Hearts || moveableItemCardShape == CardShape.Diamonds) &&
                 (targetCard.CardShape == CardShape.Clubs || targetCard.CardShape == CardShape.Spades))
             {
