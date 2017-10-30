@@ -197,11 +197,6 @@ namespace Solitare.UI.Game.Views
                     break;
 
                 case DeckName.FirstDeck:
-
-                    // || !IsMoveableCardOnSourceDeck(deck)
-
-                    // if (!IsKingCardOnEmptyOpenCardsDeck(deck)) return;
-
                     SetCardVisualization(deck, card, isOver);
                     if (_moveableContainer != null)
                     {
@@ -267,38 +262,11 @@ namespace Solitare.UI.Game.Views
             }
         }
 
-        private bool IsKingCardOnEmptyOpenCardsDeck(CardContainer deck)
-        {
-            var deckChildren = deck.Children.Cast<Panel>();
-            var deckSubContainer = deckChildren.First(c => c.GetType() == typeof(CardContainer));
-            var subContainerCard = (Card)deckSubContainer.Children.Cast<UIElement>().First(c => c.GetType() == typeof(Card));
-
-            //if (_parentContainer.ContainerName == deck.ContainerName) return true;
-
-            if ((subContainerCard.Path == Properties.Resources.EmptyCardPath && _moveableContainer != null && _moveableContainer.Card.Name == "King")) return true;
-            var cardName = Enum.GetName(typeof(CardName), _moveableCard.CardName.Value);
-            if (subContainerCard.Path == Properties.Resources.EmptyCardPath && _moveableCard != null && cardName == "King") return true;
-            return false;
-        }
-
-        private bool IsMoveableCardOnSourceDeck(CardContainer deck)
-        {
-            var deckChildren = deck.Children.Cast<Panel>();
-            var deckSubContainer = deckChildren.First(c => c.GetType() == typeof(CardContainer));
-            var subContainerCard = (Card)deckSubContainer.Children.Cast<UIElement>().First(c => c.GetType() == typeof(Card));
-
-            if (_parentContainer.ContainerName == deck.ContainerName) return true;
-
-            return false;
-        }
-
         private void SetCardVisualization(CardContainer deck, Card card, bool isOver)
         {
             if (card == null) throw new NullReferenceException();
             if (card.Path == Properties.Resources.EmptyCardPath || card.Path == string.Empty)
             {
-                //if (!((Enum.GetName(typeof(CardName), _moveableCard.CardName.Value)).Contains("king"))) return;
-
                 deck.Background = isOver ? Brushes.Blue : null;
             }
             else card.Opacity = isOver ? 0.7 : 1;

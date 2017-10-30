@@ -395,10 +395,6 @@ namespace Solitare.UI.Game.ViewModels
                 if (targetDeck == DeckName.OpenDeckCard)
                 {
                     return matchState = DeckMatch.Found;
-
-                    // TODO: only current drag can go back to open deck 
-                    //if (targetCard.CardValue == 0) return matchState = DeckMatch.Found;
-                    //else return matchState = DeckMatch.NotFound;
                 }
 
                 matchState = targetCard.CardShape == _moveableCard.CardShape ? DeckMatch.Found : DeckMatch.NotFound;
@@ -435,11 +431,12 @@ namespace Solitare.UI.Game.ViewModels
             if (cardName == null && cardShape == null) return matchState = DeckMatch.Found;
 
             var targetCard = _openDecks[targetDeck].Find(c => (c.CardName == cardName && c.CardShape == cardShape));
-            if (targetCard == null) return matchState = DeckMatch.Found;
+            if (targetCard == null && moveableItemCardValue == 13) return matchState = DeckMatch.Found;
+            if (targetCard == null) return matchState = DeckMatch.NotFound;
 
             if (targetCard.CardPath == Properties.Resources.BackCardPath) return matchState = DeckMatch.Found;
 
-            if (targetCard.CardPath == Properties.Resources.EmptyCardPath && moveableItemCardValue == 14) return matchState = DeckMatch.Found;
+            //if (targetCard.CardPath == Properties.Resources.EmptyCardPath && moveableItemCardValue == 14) return matchState = DeckMatch.Found;
 
             if ((moveableItemCardShape == CardShape.Hearts || moveableItemCardShape == CardShape.Diamonds) &&
                 (targetCard.CardShape == CardShape.Clubs || targetCard.CardShape == CardShape.Spades))
@@ -497,12 +494,12 @@ namespace Solitare.UI.Game.ViewModels
                     _openDecks[targetDeck] = SetDeckCards(_openDecks[targetDeck], targetDeck, _moveableContainer);
 
                     // TODO: maintain _moveableContainer.Card
-                    _lastMovedCard = _moveableContainer.Card;
+                    //_lastMovedCard = _moveableContainer.Card;
                 }
                 else
                 {
                     _openDecks[targetDeck] = SetDeckCards(_openDecks[targetDeck], targetDeck, _moveableCard);
-                    _lastMovedCard = _moveableCard;
+                    //_lastMovedCard = _moveableCard;
                 }
 
                 switch (targetDeck)
