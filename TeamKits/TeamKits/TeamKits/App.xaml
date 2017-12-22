@@ -1,9 +1,11 @@
-<Application x:Class="TeamKits.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:converters="clr-namespace:TeamKits.Converters"
+             xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             x:Class="TeamKits.App"
              Startup="Application_Startup"
              d1p1:Ignorable="d">
     <Application.Resources>
@@ -22,7 +24,7 @@
 
                 <ResourceDictionary>
 
-                    <converters:StringColorToBrushConverter x:Key="stringToBrush"/>
+                    <converters:StringColorToBrushConverter x:Key="stringToBrush" />
 
                     <ControlTemplate x:Key="ButtonTemplate">
                         <Border Width="100"
@@ -30,7 +32,7 @@
                                 Margin="10 0">
 
                             <Border.Style>
-                                <Style TargetType="Border">
+                                <Style TargetType="{x:Type Border}">
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver"
                                                  Value="True">
@@ -48,11 +50,55 @@
 
                             <TextBlock TextAlignment="Center"
                                        Margin="0 5"
-                                       Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Content}" />
+                                       Text="{Binding Content, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
                         </Border>
                     </ControlTemplate>
-                </ResourceDictionary>
 
+                    <Style TargetType="{x:Type TextBlock}"
+                           x:Key="TeamKitTextBlock">
+                        <Setter Property="Foreground"
+                                Value="White" />
+                        <Setter Property="FontWeight"
+                                Value="Bold" />
+                        <Setter Property="FontSize"
+                                Value="16" />
+                        <Setter Property="Margin"
+                                Value="10" />
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center" />
+                    </Style>
+
+                    <Style TargetType="{x:Type Border}"
+                           x:Key="TeamKitBorder">
+                        <Setter Property="Margin"
+                                Value="10" />
+                        <Setter Property="Height"
+                                Value="100" />
+                        <Setter Property="Width"
+                                Value="100" />
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center" />
+                    </Style>
+
+                    <Style TargetType="{x:Type Image}"
+                           x:Key="TeamKitImage">
+                        <Setter Property="Height"
+                                Value="100" />
+                        <Setter Property="Width"
+                                Value="100" />
+                    </Style>
+
+                    <!--BasedOn="{StaticResource {x:Type ComboBox}}"-->
+                    
+                    <Style TargetType="ComboBox"
+                           x:Key="TeamKitComboBox">
+                        <Setter Property="Width"
+                                Value="150"/>
+                        <Setter Property="Background"
+                                Value="White" />
+                    </Style>
+
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

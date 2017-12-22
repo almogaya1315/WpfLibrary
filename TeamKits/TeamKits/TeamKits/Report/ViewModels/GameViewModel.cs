@@ -12,6 +12,7 @@ namespace TeamKits.Report.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Season { get; set; }
 
         public TeamViewModel HomeTeam { get; set; }
         public TeamViewModel AwayTeam { get; set; }

@@ -1,12 +1,115 @@
 ﻿<UserControl x:Class="TeamKits.Report.Views.TeamKitView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TeamKits.Report.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d"
+             d:DesignHeight="400"
+             d:DesignWidth="1200">
+    <Grid Background="#404040">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Style="{StaticResource TeamKitTextBlock}"
+                       Text="{Binding RelativeSource={RelativeSource 
+                                      AncestorType={x:Type mahapps:MetroWindow}}, 
+                                      Path=DataContext.Game.Season, StringFormat={} Home Kit 1 - {0}}" />
+            <Border Style="{StaticResource TeamKitBorder}">
+                <Image Source="{Binding TeamHomeKit1PicturePath}"
+                       Style="{StaticResource TeamKitImage}" />
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Style="{StaticResource TeamKitTextBlock}"
+                       Text="{Binding RelativeSource={RelativeSource 
+                                      AncestorType={x:Type mahapps:MetroWindow}}, 
+                                      Path=DataContext.Game.Season, StringFormat={} Home Kit 2 - {0}}" /> 
+            <Border Style="{StaticResource TeamKitBorder}">
+                <Image Source="{Binding TeamHomeKit2PicturePath}"
+                       Style="{StaticResource TeamKitImage}" />
+            </Border>
+        </StackPanel>
+
+
+        <TextBlock Style="{StaticResource TeamKitTextBlock}"
+                   Grid.Column="1">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} Team - {1}">
+                    <Binding Path="Type" />
+                    <Binding Path="Name" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <StackPanel Grid.Column="1"
+                    Grid.Row="1"
+                    Grid.RowSpan="2">
+            <TextBlock Style="{StaticResource TeamKitTextBlock}"
+                       Text="{Binding RelativeSource={RelativeSource 
+                                      AncestorType={x:Type mahapps:MetroWindow}}, 
+                                      Path=DataContext.Game.Season, 
+                                      StringFormat={}Symbol - {0}}" />
+
+            <Border Style="{StaticResource TeamKitBorder}"
+                    Height="150"
+                    Width="150">
+                <Image Source="{Binding TeamSymbolPicturePath}"
+                       Style="{StaticResource TeamKitImage}"
+                       Height="150"
+                       Width="150" />
+            </Border>
+
+            <TextBlock Text="Color"
+                       Style="{StaticResource TeamKitTextBlock}" />
+
+            <ComboBox Style="{StaticResource TeamKitComboBox}"
+                      SelectedItem="{Binding HomeKitColor}"
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type mahapps:MetroWindow}}, Path=DataContext.TeamColors}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Height="15"
+                                Width="130"
+                                Background="{Binding Converter={StaticResource stringToBrush}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="1"
+                    Grid.Column="2">
+            <TextBlock Style="{StaticResource TeamKitTextBlock}"
+                       Text="{Binding RelativeSource={RelativeSource 
+                                      AncestorType={x:Type mahapps:MetroWindow}}, 
+                                      Path=DataContext.Game.Season, StringFormat={} Away Kit 1 - {0}}" /> 
+            <Border Style="{StaticResource TeamKitBorder}">
+                <Image Source="{Binding TeamAwayKit1PicturePath}"
+                       Style="{StaticResource TeamKitImage}" />
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2"
+                    Grid.Column="2">
+            <TextBlock Style="{StaticResource TeamKitTextBlock}"
+                       Text="{Binding RelativeSource={RelativeSource 
+                                      AncestorType={x:Type mahapps:MetroWindow}}, 
+                                      Path=DataContext.Game.Season, StringFormat={} Away Kit 2 - {0}}" />
+            <Border Style="{StaticResource TeamKitBorder}">
+                <Image Source="{Binding TeamAwayKit2PicturePath}"
+                       Style="{StaticResource TeamKitImage}" />
+            </Border>
+        </StackPanel>
+
     </Grid>
 </UserControl>

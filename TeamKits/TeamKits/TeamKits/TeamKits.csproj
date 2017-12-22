@@ -141,5 +141,17 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\bfc_awaykit1.png" />
+    <Resource Include="Resources\Images\bfc_awaykit2.png" />
+    <Resource Include="Resources\Images\bfc_homekit1.png" />
+    <Resource Include="Resources\Images\bfc_homekit2.png" />
+    <Resource Include="Resources\Images\bfc_symbol.png" />
+    <Resource Include="Resources\Images\rm_awaykit1.png" />
+    <Resource Include="Resources\Images\rm_awaykit2.png" />
+    <Resource Include="Resources\Images\rm_homekit1.png" />
+    <Resource Include="Resources\Images\rm_symbol.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

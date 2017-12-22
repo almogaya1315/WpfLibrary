@@ -4,12 +4,20 @@
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:local="clr-namespace:TeamKits.Report.Views"
+                     xmlns:views="clr-namespace:TeamKits.Report.Views"
                      mc:Ignorable="d"
                      Title="TeamKitsWindow"
-                     Height="300"
-                     Width="300">
+                     Height="800"
+                     Width="1200">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
+        <views:TeamKitView DataContext="{Binding Game.HomeTeam}" />
+
+        <views:TeamKitView DataContext="{Binding Game.AwayTeam}"
+                            Grid.Row="1" />
     </Grid>
 </mahapps:MetroWindow>

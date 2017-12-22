@@ -14,9 +14,10 @@ namespace TeamKits.Report.ViewModels
     {
         private readonly WindowManager _windowManager;
 
-        private GameViewModel _game;
+        public GameViewModel Game { get; set; }
 
         public List<EventViewModel> Events { get; set; }
+        public List<string> TeamColors { get; set; }
 
         public ICommand ShowTeamKits { get; set; }
 
@@ -24,24 +25,40 @@ namespace TeamKits.Report.ViewModels
         {
             _windowManager = windowManager;
 
+            SetTeamColors();
             SetGame();
             SetEvents();
 
             ShowTeamKits = new RelayCommand(ShowTeamKitsWindow);
         }
 
+        private void SetTeamColors()
+        {
+            TeamColors = new List<string>()
+            {
+                "#ffff00", "#00b300", "#ff0000", "#0066ff", "#9900ff", "#e6e6e6", "#1a1a1a", "#ff9900",
+            };
+        }
         private void SetGame()
         {
-            _game = new GameViewModel()
+            Game = new GameViewModel()
             {
                 Id = 10001,
                 Name = "Test",
-                HomeTeam = new TeamViewModel()
+                Season = "17/18",
+                HomeTeam = new TeamViewModel(this, homeKitColor: "#4d4dff")
                 {
                     Id = 100001,
                     Name = "Barcelona FC",
-                    HomeKitColor = "#4d4dff",
+                    Type = TeamType.Home,
                     AwayKitColor = "#dfff80",
+
+                    TeamSymbolPicturePath = "/Resources/Images/bfc_symbol.png",
+                    TeamHomeKit1PicturePath = "/Resources/Images/bfc_homekit1.png",
+                    TeamHomeKit2PicturePath = "/Resources/Images/bfc_homekit2.png",
+                    TeamAwayKit1PicturePath = "/Resources/Images/bfc_awaykit1.png",
+                    TeamAwayKit2PicturePath = "/Resources/Images/bfc_awaykit2.png",
+
                     Squad = new List<PlayerViewModel>()
                     {
                       new PlayerViewModel() { Id = 100 },
@@ -51,12 +68,19 @@ namespace TeamKits.Report.ViewModels
                       new PlayerViewModel() { Id = 104 },
                     },
                 },
-                AwayTeam = new TeamViewModel()
+                AwayTeam = new TeamViewModel(this, homeKitColor: "#e6e6e6")
                 {
                     Id = 100002,
                     Name = "Real Madrid",
-                    HomeKitColor = "#e6e6e6",
+                    Type = TeamType.Away,
                     AwayKitColor = "#404040",
+
+                    TeamSymbolPicturePath = "/Resources/Images/rm_symbol.png",
+                    TeamHomeKit1PicturePath = "/Resources/Images/rm_homekit1.png",
+                    TeamHomeKit2PicturePath = "/Resources/Images/rm_homekit2.png",
+                    TeamAwayKit1PicturePath = "/Resources/Images/rm_awaykit1.png",
+                    TeamAwayKit2PicturePath = "/Resources/Images/rm_awaykit2.png",
+
                     Squad = new List<PlayerViewModel>()
                     {
                         new PlayerViewModel() { Id = 105 },
@@ -75,42 +99,52 @@ namespace TeamKits.Report.ViewModels
                 new EventViewModel()
                 {
                     Id = 1,
-                    TeamColor = _game.HomeTeam.HomeKitColor,
-                    Player1 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[0].Id },
-                    Player2 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[4].Id },
-                    Player3 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[2].Id },
+                    TeamId = Game.HomeTeam.Id,
+                    TeamName = Game.HomeTeam.Name,
+                    TeamColor = Game.HomeTeam.HomeKitColor,
+                    Player1 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[0].Id },
+                    Player2 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[4].Id },
+                    Player3 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[2].Id },
                 },
                 new EventViewModel()
                 {
                     Id = 2,
-                    TeamColor = _game.HomeTeam.HomeKitColor,
-                    Player1 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[3].Id },
-                    Player2 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[1].Id },
-                    Player3 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[0].Id },
+                    TeamId = Game.HomeTeam.Id,
+                    TeamName = Game.HomeTeam.Name,
+                    TeamColor = Game.HomeTeam.HomeKitColor,
+                    Player1 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[3].Id },
+                    Player2 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[1].Id },
+                    Player3 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[0].Id },
                 },
                 new EventViewModel()
                 {
                     Id = 3,
-                    TeamColor = _game.HomeTeam.AwayKitColor,
-                    Player1 = new PlayerViewModel() { Id = _game.AwayTeam.Squad[4].Id },
-                    Player2 = new PlayerViewModel() { Id = _game.AwayTeam.Squad[0].Id },
-                    Player3 = new PlayerViewModel() { Id = _game.AwayTeam.Squad[2].Id },
+                    TeamId = Game.AwayTeam.Id,
+                    TeamName = Game.AwayTeam.Name,
+                    TeamColor = Game.HomeTeam.AwayKitColor,
+                    Player1 = new PlayerViewModel() { Id = Game.AwayTeam.Squad[4].Id },
+                    Player2 = new PlayerViewModel() { Id = Game.AwayTeam.Squad[0].Id },
+                    Player3 = new PlayerViewModel() { Id = Game.AwayTeam.Squad[2].Id },
                 },
                 new EventViewModel()
                 {
                     Id = 4,
-                    TeamColor = _game.HomeTeam.HomeKitColor,
-                    Player1 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[4].Id },
-                    Player2 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[2].Id },
-                    Player3 = new PlayerViewModel() { Id = _game.HomeTeam.Squad[3].Id },
+                    TeamId = Game.HomeTeam.Id,
+                    TeamName = Game.HomeTeam.Name,
+                    TeamColor = Game.HomeTeam.HomeKitColor,
+                    Player1 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[4].Id },
+                    Player2 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[2].Id },
+                    Player3 = new PlayerViewModel() { Id = Game.HomeTeam.Squad[3].Id },
                 },
                 new EventViewModel()
                 {
                     Id = 5,
-                    TeamColor = _game.HomeTeam.AwayKitColor,
-                    Player1 = new PlayerViewModel() { Id = _game.AwayTeam.Squad[1].Id },
-                    Player2 = new PlayerViewModel() { Id = _game.AwayTeam.Squad[0].Id },
-                    Player3 = new PlayerViewModel() { Id = _game.AwayTeam.Squad[3].Id },
+                    TeamId = Game.AwayTeam.Id,
+                    TeamName = Game.AwayTeam.Name,
+                    TeamColor = Game.HomeTeam.AwayKitColor,
+                    Player1 = new PlayerViewModel() { Id = Game.AwayTeam.Squad[1].Id },
+                    Player2 = new PlayerViewModel() { Id = Game.AwayTeam.Squad[0].Id },
+                    Player3 = new PlayerViewModel() { Id = Game.AwayTeam.Squad[3].Id },
                 },
             };
         }
@@ -118,6 +152,11 @@ namespace TeamKits.Report.ViewModels
         private void ShowTeamKitsWindow()
         {
             _windowManager.ShowTeamKitsWindow(this);
+        }
+
+        public void ChangeTeamColor(int teamId, string newColor)
+        {
+            Events.ForEach(e => e.TeamColor = e.TeamId == teamId ? newColor : e.TeamColor);
         }
     }
 }

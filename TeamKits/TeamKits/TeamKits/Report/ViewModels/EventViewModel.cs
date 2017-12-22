@@ -10,7 +10,20 @@ namespace TeamKits.Report.ViewModels
     public class EventViewModel : ViewModelBase
     {
         public int Id { get; set; }
-        public string TeamColor { get; set; }
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
+
+        private string _teamColor;
+        public string TeamColor
+        {
+            get { return _teamColor; }
+            set
+            {
+                _teamColor = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public PlayerViewModel Player1 { get; set; }
         public PlayerViewModel Player2 { get; set; }
         public PlayerViewModel Player3 { get; set; }
