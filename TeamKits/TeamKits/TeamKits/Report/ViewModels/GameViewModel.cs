@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamKits.Report.ViewModels;
 
-namespace TeamKits.Report
+namespace TeamKits.Report.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {

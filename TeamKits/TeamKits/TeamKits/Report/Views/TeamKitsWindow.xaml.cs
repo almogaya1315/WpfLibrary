@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,17 +11,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace TeamKits.Report.Views
 {
     /// <summary>
-    /// Interaction logic for TeamKitsView.xaml
+    /// Interaction logic for TeamKitsWindow.xaml
     /// </summary>
-    public partial class TeamKitsView : UserControl
+    public partial class TeamKitsWindow : MetroWindow
     {
-        public TeamKitsView()
+        public TeamKitsWindow()
         {
             InitializeComponent();
         }

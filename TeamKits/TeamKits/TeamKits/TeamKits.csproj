@@ -85,7 +85,7 @@
     </Compile>
     <Compile Include="Base\WindowManager.cs" />
     <Compile Include="Converters\StringColorToBrushConverter.cs" />
-    <Compile Include="Report\GameViewModel.cs" />
+    <Compile Include="Report\ViewModels\GameViewModel.cs" />
     <Compile Include="Report\ViewModels\EventViewModel.cs" />
     <Compile Include="Report\ViewModels\PlayerViewModel.cs" />
     <Compile Include="Report\ViewModels\ReportViewModel.cs" />
@@ -93,8 +93,11 @@
     <Compile Include="Report\Views\ReportWindow.xaml.cs">
       <DependentUpon>ReportWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Report\Views\TeamKitsView.xaml.cs">
-      <DependentUpon>TeamKitsView.xaml</DependentUpon>
+    <Compile Include="Report\Views\TeamKitsWindow.xaml.cs">
+      <DependentUpon>TeamKitsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Views\TeamKitView.xaml.cs">
+      <DependentUpon>TeamKitView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -129,7 +132,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Report\Views\TeamKitsView.xaml">
+    <Page Include="Report\Views\TeamKitsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Report\Views\TeamKitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

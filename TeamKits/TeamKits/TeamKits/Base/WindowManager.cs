@@ -15,17 +15,18 @@ namespace TeamKits.Base
     {
         public void ShowTeamKitsWindow(ReportViewModel report)
         {
-            var kitsWindow = new MetroWindow()
+            var window = new TeamKitsWindow()
             {
                 Title = "Team Kits",
                 DataContext = report,
-                Content = new TeamKitsView(),
                 Topmost = true,
+                Height = 800,
+                Width = 1200,
                 BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#41b1e1"),
                 BorderThickness = new Thickness(1.0),
             };
 
-            kitsWindow.Show();
+            window.Show();
         }
     }
 }
