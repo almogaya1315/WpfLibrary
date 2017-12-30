@@ -26,67 +26,21 @@ namespace TeamKits.Base
                 return FindParent<T>(parentObject);
         }
 
-        public static T GetChildOfType<T>(this DependencyObject depObj) where T : DependencyObject
+        public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
         {
-            if (depObj == null) return null;
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
-                var child = VisualTreeHelper.GetChild(depObj, i);
-
-                var result = (child as T) ?? GetChildOfType<T>(child);
-                if (result != null) return result;
-            }
-            return null;
-        }
-
-        public static T GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
-        {
-            T child = default(T);
-            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < numVisuals; i++)
-            {
-                var v = VisualTreeHelper.GetChild(parent, i);
-                child = v as T;
-                if (child == null)
-                    child = GetVisualChild<T>(v);
-                if (child != null)
-                    break;
-            }
-            return child;
-        }
-
-        public static T FindChild<T>(DependencyObject parent, string childName) where T : DependencyObject
-        {
-            if (parent == null) return null;
-            T foundChild = null;
-
-            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < childrenCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                T childType = child as T;
-                if (childType == null)
-                {
-                    foundChild = FindChild<T>(child, childName);
-                    if (foundChild != null) break;
-                }
-                else if (!string.IsNullOrEmpty(childName))
-                {
-                    var frameworkElement = child as FrameworkElement;
-                    if (frameworkElement != null && frameworkElement.Name == childName)
-                    {
-                        foundChild = (T)child;
-                        break;
-                    }
-                }
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                    return (T)child;
                 else
                 {
-                    foundChild = (T)child;
-                    break;
+                    T childOfChild = FindVisualChild<T>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
                 }
             }
-            return foundChild;
+            return null;
         }
     }
 }

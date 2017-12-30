@@ -12,6 +12,8 @@ namespace TeamKits.Controls
 {
     public class DsDataGrid : System.Windows.Controls.DataGrid
     {
+        private DataGridCell _focusedCall;
+
         public DsDataGrid()
         {
             AddHandler(GotFocusEvent, new RoutedEventHandler(OnAnyGotFocus));
@@ -19,22 +21,11 @@ namespace TeamKits.Controls
 
         private void OnAnyGotFocus(object sender, RoutedEventArgs e)
         {
-            DataGridCell cell = null;
-            TextBlock box = null;
-            
             if (e.OriginalSource is DataGridCell)
             {
-                cell = (DataGridCell)e.OriginalSource;
-                cell.IsEditing = true;
-
-                box = XamlHelper.GetChildOfType<TextBlock>(cell);
-                box.Focus();
+                _focusedCall = (DataGridCell)e.OriginalSource;
+                _focusedCall.IsEditing = true;
             }
-            //else if (e.OriginalSource is DsTextBox)
-            //{
-            //    box = (DsTextBox)e.OriginalSource;
-            //    box.Focus();
-            //}
         }
     }
 }
