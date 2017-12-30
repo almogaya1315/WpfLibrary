@@ -16,12 +16,15 @@ namespace TeamKits.Controls
             AddHandler(GotFocusEvent, new RoutedEventHandler(OnAnyGotFocus));
         }
 
-        private void OnAnyGotFocus(object sender, EventArgs e)
+        private void OnAnyGotFocus(object sender, RoutedEventArgs e)
         {
-            foreach (var item in Items)
-            {
+            if (e.OriginalSource.GetType() != typeof(DataGridCell)) return;
+            var cell = (DataGridCell)e.OriginalSource;
 
-                var row = XamlHelper.FindParent<DataGridRow>(item);
+            if (cell.IsEditing)
+            {
+                cell.Focus();
+                
             }
         }
     }

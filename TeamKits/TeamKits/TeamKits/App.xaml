@@ -98,6 +98,7 @@
                     </Style>
 
                     <Style TargetType="DataGridCell"
+                           BasedOn="{StaticResource {x:Type DataGridCell}}"
                            x:Key="EditingDataGridCellStyle">
                         <Setter Property="IsEditing"
                                 Value="True"/>

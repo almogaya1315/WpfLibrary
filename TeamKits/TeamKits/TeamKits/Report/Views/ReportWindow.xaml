@@ -20,7 +20,8 @@
 
         <materialDesign:Card Margin="5">
             <custom:DsDataGrid ItemsSource="{Binding Events}"
-                      AutoGenerateColumns="False">
+                               AutoGenerateColumns="False"
+                               RowHeight="40">
 
                 <custom:DsDataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
@@ -28,6 +29,9 @@
                                 Value="False" />
                         <Setter Property="Focusable"
                                 Value="False" />
+
+                        <!--<Setter Property="HorizontalContentAlignment"
+                                Value="Center"/>-->
 
                         <Style.Triggers>
                             <Trigger Property="IsReadOnly"
@@ -37,6 +41,13 @@
                                 <Setter Property="Focusable"
                                         Value="True" />
                             </Trigger>
+
+                            <Trigger Property="IsFocused"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        Value="{Binding TeamColor, Converter={StaticResource ResourceKey=stringToBrush}}" />
+                            </Trigger>
+
                         </Style.Triggers>
                     </Style>
                 </custom:DsDataGrid.CellStyle>
@@ -44,13 +55,23 @@
                 <custom:DsDataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">
                         <Setter Property="Background"
-                                Value="{Binding TeamColor, Converter={StaticResource ResourceKey=stringToBrush}}"/>
+                                Value="{Binding TeamColor, Converter={StaticResource ResourceKey=stringToBrush}}" />
+
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        Value="{Binding TeamColor, Converter={StaticResource ResourceKey=stringToBrush}}" />
+                            </Trigger>
+                        </Style.Triggers>
+
                     </Style>
                 </custom:DsDataGrid.RowStyle>
 
                 <custom:DsDataGrid.Columns>
 
-                    <DataGridTemplateColumn Header="Event">
+                    <DataGridTemplateColumn Header="Event"
+                                            CellStyle="{StaticResource {x:Type DataGridCell}}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Id}" />
@@ -58,7 +79,8 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="Team">
+                    <DataGridTemplateColumn Header="Team"
+                                            CellStyle="{StaticResource {x:Type DataGridCell}}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding TeamName}" />
@@ -91,7 +113,7 @@
         <materialDesign:Card Grid.Row="1"
                              Height="50">
             <StackPanel Orientation="Horizontal">
-                <Button Content="Team Kits" 
+                <Button Content="Team Kits"
                         Command="{Binding ShowTeamKits}"
                         Template="{StaticResource ButtonTemplate}" />
 
