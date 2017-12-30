@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TeamKits.Base;
 
 namespace TeamKits.Controls
@@ -18,14 +19,22 @@ namespace TeamKits.Controls
 
         private void OnAnyGotFocus(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource.GetType() != typeof(DataGridCell)) return;
-            var cell = (DataGridCell)e.OriginalSource;
-
-            if (cell.IsEditing)
+            DataGridCell cell = null;
+            TextBlock box = null;
+            
+            if (e.OriginalSource is DataGridCell)
             {
-                cell.Focus();
-                
+                cell = (DataGridCell)e.OriginalSource;
+                cell.IsEditing = true;
+
+                box = XamlHelper.GetChildOfType<TextBlock>(cell);
+                box.Focus();
             }
+            //else if (e.OriginalSource is DsTextBox)
+            //{
+            //    box = (DsTextBox)e.OriginalSource;
+            //    box.Focus();
+            //}
         }
     }
 }

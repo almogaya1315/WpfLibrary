@@ -89,19 +89,16 @@
                     </DataGridTemplateColumn>
 
                     <DataGridTemplateColumn Header="Player 1"
-                                            CellStyle="{StaticResource EditingDataGridCellStyle}"
                                             CellEditingTemplate="{StaticResource EditingNumericTemplate}"
                                             CellTemplate="{StaticResource ReadOnlyNumericTemplate}">
                     </DataGridTemplateColumn>
 
                     <DataGridTemplateColumn Header="Player 2"
-                                            CellStyle="{StaticResource EditingDataGridCellStyle}"
                                             CellEditingTemplate="{StaticResource EditingNumericTemplate}"
                                             CellTemplate="{StaticResource ReadOnlyNumericTemplate}">
                     </DataGridTemplateColumn>
 
                     <DataGridTemplateColumn Header="Player 3"
-                                            CellStyle="{StaticResource EditingDataGridCellStyle}"
                                             CellEditingTemplate="{StaticResource EditingNumericTemplate}"
                                             CellTemplate="{StaticResource ReadOnlyNumericTemplate}">
                     </DataGridTemplateColumn>

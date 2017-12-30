@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace TeamKits.Base
 {
-    public class XamlHelper
+    public static class XamlHelper
     {
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
@@ -24,6 +24,36 @@ namespace TeamKits.Base
                 return parent;
             else
                 return FindParent<T>(parentObject);
+        }
+
+        public static T GetChildOfType<T>(this DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null) return null;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+
+                var result = (child as T) ?? GetChildOfType<T>(child);
+                if (result != null) return result;
+            }
+            return null;
+        }
+
+        public static T GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            T child = default(T);
+            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < numVisuals; i++)
+            {
+                var v = VisualTreeHelper.GetChild(parent, i);
+                child = v as T;
+                if (child == null)
+                    child = GetVisualChild<T>(v);
+                if (child != null)
+                    break;
+            }
+            return child;
         }
 
         public static T FindChild<T>(DependencyObject parent, string childName) where T : DependencyObject

@@ -96,14 +96,9 @@
                                 Value="White" />
                     </Style>
 
-                    <Style TargetType="{x:Type DataGridCell}"
-                           x:Key="EditingDataGridCellStyle">
-                        <Setter Property="IsEditing"
-                                Value="True" />
-                    </Style>
-
                     <DataTemplate x:Key="ReadOnlyNumericTemplate">
-                        <TextBlock Text="{Binding Id}">
+                        <TextBlock Text="{Binding Id}"
+                                   x:Name="player">
 
                         </TextBlock>
                     </DataTemplate>
@@ -116,7 +111,7 @@
                     </DataTemplate>
 
                     <!-- Metro CellStyle -->
-                    <Style TargetType="{x:Type DataGridCell}"
+                    <!--<Style TargetType="{x:Type DataGridCell}"
                            x:Key="MetroDataGridCell">
                         <Setter Property="Background"
                                 Value="Transparent" />
@@ -151,7 +146,7 @@
                         <Setter Property="VerticalContentAlignment"
                                 Value="Center" />
                         <Style.Triggers>
-                            <!--  IsSelected  -->
+                            --><!--  IsSelected  --><!--
                             <Trigger Property="IsSelected"
                                      Value="True">
                                 <Setter Property="Foreground"
@@ -170,7 +165,7 @@
                                         Value="{DynamicResource MetroDataGrid.HighlightBrush}" />
                             </MultiTrigger>
 
-                            <!--  IsKeyboardFocusWithin  -->
+                            --><!--  IsKeyboardFocusWithin  --><!--
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
@@ -182,7 +177,7 @@
                                         Value="{DynamicResource MetroDataGrid.FocusBorderBrush}" />
                             </MultiTrigger>
 
-                            <!--  IsSelected and Selector.IsSelectionActive  -->
+                            --><!--  IsSelected and Selector.IsSelectionActive  --><!--
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsSelected"
@@ -208,7 +203,7 @@
                                         Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}" />
                             </MultiTrigger>
 
-                            <!--  IsMouseOver  -->
+                            --><!--  IsMouseOver  --><!--
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
@@ -222,14 +217,14 @@
                                         Value="{DynamicResource MetroDataGrid.MouseOverHighlightBrush}" />
                             </MultiTrigger>
 
-                            <!--  IsEnabled  -->
+                            --><!--  IsEnabled  --><!--
                             <Trigger Property="IsEnabled"
                                      Value="False">
                                 <Setter Property="Foreground"
                                         Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                             </Trigger>
 
-                            <!--  IsEnabled and IsSelected  -->
+                            --><!--  IsEnabled and IsSelected  --><!--
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsEnabled"
@@ -256,7 +251,7 @@
                             </MultiTrigger>
 
                         </Style.Triggers>
-                    </Style>
+                    </Style>-->
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
