@@ -3,8 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:converters="clr-namespace:TeamKits.Converters"
-             xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:custom="clr-namespace:TeamKits.Controls"
              x:Class="TeamKits.App"
              Startup="Application_Startup"
@@ -55,7 +54,7 @@
                         </Border>
                     </ControlTemplate>
 
-                    <Style TargetType="TextBlock"
+                    <Style TargetType="{x:Type TextBlock}"
                            x:Key="TeamKitTextBlock">
                         <Setter Property="Foreground"
                                 Value="White" />
@@ -69,7 +68,7 @@
                                 Value="Center" />
                     </Style>
 
-                    <Style TargetType="Border"
+                    <Style TargetType="{x:Type Border}"
                            x:Key="TeamKitBorder">
                         <Setter Property="Margin"
                                 Value="10" />
@@ -81,7 +80,7 @@
                                 Value="Center" />
                     </Style>
 
-                    <Style TargetType="Image"
+                    <Style TargetType="{x:Type Image}"
                            x:Key="TeamKitImage">
                         <Setter Property="Height"
                                 Value="100" />
@@ -89,7 +88,7 @@
                                 Value="100" />
                     </Style>
 
-                    <Style TargetType="ComboBox"
+                    <Style TargetType="{x:Type ComboBox}"
                            x:Key="TeamKitComboBox">
                         <Setter Property="Width"
                                 Value="150" />
@@ -97,11 +96,10 @@
                                 Value="White" />
                     </Style>
 
-                    <Style TargetType="DataGridCell"
-                           BasedOn="{StaticResource {x:Type DataGridCell}}"
+                    <Style TargetType="{x:Type DataGridCell}"
                            x:Key="EditingDataGridCellStyle">
                         <Setter Property="IsEditing"
-                                Value="True"/>
+                                Value="True" />
                     </Style>
 
                     <DataTemplate x:Key="ReadOnlyNumericTemplate">
@@ -116,6 +114,149 @@
 
                         </custom:DsTextBox>
                     </DataTemplate>
+
+                    <!-- Metro CellStyle -->
+                    <Style TargetType="{x:Type DataGridCell}"
+                           x:Key="MetroDataGridCell">
+                        <Setter Property="Background"
+                                Value="Transparent" />
+                        <Setter Property="BorderBrush"
+                                Value="Transparent" />
+                        <Setter Property="Controls:DataGridCellHelper.SelectionUnit"
+                                Value="{Binding Path=(Controls:DataGridRowHelper.SelectionUnit), Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Stretch" />
+                        <Setter Property="Padding"
+                                Value="0" />
+                        <Setter Property="SnapsToDevicePixels"
+                                Value="True" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="VerticalContentAlignment"
+                                Value="Center" />
+                        <Style.Triggers>
+                            <!--  IsSelected  -->
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter Property="Foreground"
+                                        Value="{DynamicResource MetroDataGrid.HighlightTextBrush}" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
+                                               Value="True" />
+                                    <Condition Property="IsSelected"
+                                               Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background"
+                                        Value="{DynamicResource MetroDataGrid.HighlightBrush}" />
+                                <Setter Property="BorderBrush"
+                                        Value="{DynamicResource MetroDataGrid.HighlightBrush}" />
+                            </MultiTrigger>
+
+                            <!--  IsKeyboardFocusWithin  -->
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
+                                               Value="True" />
+                                    <Condition Property="IsKeyboardFocusWithin"
+                                               Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="BorderBrush"
+                                        Value="{DynamicResource MetroDataGrid.FocusBorderBrush}" />
+                            </MultiTrigger>
+
+                            <!--  IsSelected and Selector.IsSelectionActive  -->
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected"
+                                               Value="True" />
+                                    <Condition Property="Selector.IsSelectionActive"
+                                               Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Foreground"
+                                        Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightTextBrush}" />
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
+                                               Value="True" />
+                                    <Condition Property="IsSelected"
+                                               Value="True" />
+                                    <Condition Property="Selector.IsSelectionActive"
+                                               Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background"
+                                        Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}" />
+                                <Setter Property="BorderBrush"
+                                        Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}" />
+                            </MultiTrigger>
+
+                            <!--  IsMouseOver  -->
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
+                                               Value="True" />
+                                    <Condition Property="IsMouseOver"
+                                               Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background"
+                                        Value="{DynamicResource MetroDataGrid.MouseOverHighlightBrush}" />
+                                <Setter Property="BorderBrush"
+                                        Value="{DynamicResource MetroDataGrid.MouseOverHighlightBrush}" />
+                            </MultiTrigger>
+
+                            <!--  IsEnabled  -->
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter Property="Foreground"
+                                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            </Trigger>
+
+                            <!--  IsEnabled and IsSelected  -->
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsEnabled"
+                                               Value="False" />
+                                    <Condition Property="IsSelected"
+                                               Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Foreground"
+                                        Value="{DynamicResource MetroDataGrid.HighlightTextBrush}" />
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
+                                               Value="True" />
+                                    <Condition Property="IsEnabled"
+                                               Value="False" />
+                                    <Condition Property="IsSelected"
+                                               Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background"
+                                        Value="{DynamicResource MetroDataGrid.DisabledHighlightBrush}" />
+                                <Setter Property="BorderBrush"
+                                        Value="{DynamicResource MetroDataGrid.DisabledHighlightBrush}" />
+                            </MultiTrigger>
+
+                        </Style.Triggers>
+                    </Style>
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
