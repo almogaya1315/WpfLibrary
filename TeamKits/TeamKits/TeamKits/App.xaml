@@ -98,20 +98,28 @@
 
                     <DataTemplate x:Key="ReadOnlyNumericTemplate">
                         <TextBlock Text="{Binding Id}"
-                                   x:Name="player">
+                                   x:Name="player"
+                                   TextAlignment="Center"
+                                   Padding="10">
 
                         </TextBlock>
                     </DataTemplate>
 
                     <DataTemplate x:Key="EditingNumericTemplate">
-                        <custom:DsTextBox Text="{Binding Id}"
-                                          Input="Numeric">
-
-                        </custom:DsTextBox>
+                        <Border BorderBrush="Red"
+                                BorderThickness="1">
+                            <custom:DsTextBox Text="{Binding Id}"
+                                              Input="Numeric"
+                                              FontSize="18"
+                                              Padding="5"
+                                              FontWeight="Bold"
+                                              TextAlignment="Center">
+                            </custom:DsTextBox>
+                        </Border>
                     </DataTemplate>
 
-                    <!-- Metro CellStyle -->
-                    <!--<Style TargetType="{x:Type DataGridCell}"
+                    <!--Metro CellStyle-->
+                    <Style TargetType="{x:Type DataGridCell}"
                            x:Key="MetroDataGridCell">
                         <Setter Property="Background"
                                 Value="Transparent" />
@@ -146,7 +154,7 @@
                         <Setter Property="VerticalContentAlignment"
                                 Value="Center" />
                         <Style.Triggers>
-                            --><!--  IsSelected  --><!--
+                            <!--IsSelected-->
                             <Trigger Property="IsSelected"
                                      Value="True">
                                 <Setter Property="Foreground"
@@ -165,7 +173,7 @@
                                         Value="{DynamicResource MetroDataGrid.HighlightBrush}" />
                             </MultiTrigger>
 
-                            --><!--  IsKeyboardFocusWithin  --><!--
+                            <!--IsKeyboardFocusWithin-->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
@@ -177,7 +185,7 @@
                                         Value="{DynamicResource MetroDataGrid.FocusBorderBrush}" />
                             </MultiTrigger>
 
-                            --><!--  IsSelected and Selector.IsSelectionActive  --><!--
+                            <!--IsSelected and Selector.IsSelectionActive-->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsSelected"
@@ -203,7 +211,7 @@
                                         Value="{DynamicResource MetroDataGrid.InactiveSelectionHighlightBrush}" />
                             </MultiTrigger>
 
-                            --><!--  IsMouseOver  --><!--
+                            <!--IsMouseOver-->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="Controls:DataGridCellHelper.IsCellOrRowHeader"
@@ -217,14 +225,14 @@
                                         Value="{DynamicResource MetroDataGrid.MouseOverHighlightBrush}" />
                             </MultiTrigger>
 
-                            --><!--  IsEnabled  --><!--
+                            <!--IsEnabled-->
                             <Trigger Property="IsEnabled"
                                      Value="False">
                                 <Setter Property="Foreground"
                                         Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                             </Trigger>
 
-                            --><!--  IsEnabled and IsSelected  --><!--
+                            <!--IsEnabled and IsSelected-->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsEnabled"
@@ -251,7 +259,7 @@
                             </MultiTrigger>
 
                         </Style.Triggers>
-                    </Style>-->
+                    </Style>
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

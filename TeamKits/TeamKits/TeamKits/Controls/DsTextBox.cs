@@ -10,6 +10,17 @@ namespace TeamKits.Controls
 {
     public class DsTextBox : System.Windows.Controls.TextBox
     {
+        public DsTextBox()
+        {
+            AddHandler(LoadedEvent, new RoutedEventHandler(OnLoad));
+        }
+
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            Focus();
+            SelectAll();
+        }
+
         public InputType Input
         {
             get { return (InputType)GetValue(InputProperty); }
@@ -61,7 +72,28 @@ namespace TeamKits.Controls
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
+            if (e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Return)
+            {
+                FocusNavigationDirection? direction = null;
+                switch (e.Key)
+                {
+                    case Key.Left:
+                        direction = FocusNavigationDirection.Previous;
+                        break;
+                    case Key.Right:
+                        direction = FocusNavigationDirection.Next;
+                        break;
+                    case Key.Down:
+                    case Key.Return:
+                        direction = FocusNavigationDirection.Down;
+                        break;
+                    case Key.Up:
+                        direction = FocusNavigationDirection.Up;
+                        break;
+                }
 
+                if (direction.HasValue) MoveFocus(new TraversalRequest(direction.Value));
+            }
 
             base.OnPreviewKeyDown(e);
         }
