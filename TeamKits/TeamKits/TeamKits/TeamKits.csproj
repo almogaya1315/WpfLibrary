@@ -84,6 +84,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Base\WindowManager.cs" />
+    <Compile Include="Base\XamlHelper.cs" />
+    <Compile Include="Controls\DsDataGrid.cs" />
+    <Compile Include="Controls\DsTextBox.cs" />
     <Compile Include="Converters\StringColorToBrushConverter.cs" />
     <Compile Include="Report\ViewModels\GameViewModel.cs" />
     <Compile Include="Report\ViewModels\EventViewModel.cs" />

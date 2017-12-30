@@ -5,6 +5,7 @@
              xmlns:converters="clr-namespace:TeamKits.Converters"
              xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:custom="clr-namespace:TeamKits.Controls"
              x:Class="TeamKits.App"
              Startup="Application_Startup"
              d1p1:Ignorable="d">
@@ -54,7 +55,7 @@
                         </Border>
                     </ControlTemplate>
 
-                    <Style TargetType="{x:Type TextBlock}"
+                    <Style TargetType="TextBlock"
                            x:Key="TeamKitTextBlock">
                         <Setter Property="Foreground"
                                 Value="White" />
@@ -68,7 +69,7 @@
                                 Value="Center" />
                     </Style>
 
-                    <Style TargetType="{x:Type Border}"
+                    <Style TargetType="Border"
                            x:Key="TeamKitBorder">
                         <Setter Property="Margin"
                                 Value="10" />
@@ -80,7 +81,7 @@
                                 Value="Center" />
                     </Style>
 
-                    <Style TargetType="{x:Type Image}"
+                    <Style TargetType="Image"
                            x:Key="TeamKitImage">
                         <Setter Property="Height"
                                 Value="100" />
@@ -88,15 +89,32 @@
                                 Value="100" />
                     </Style>
 
-                    <!--BasedOn="{StaticResource {x:Type ComboBox}}"-->
-                    
                     <Style TargetType="ComboBox"
                            x:Key="TeamKitComboBox">
                         <Setter Property="Width"
-                                Value="150"/>
+                                Value="150" />
                         <Setter Property="Background"
                                 Value="White" />
                     </Style>
+
+                    <Style TargetType="DataGridCell"
+                           x:Key="EditingDataGridCellStyle">
+                        <Setter Property="IsEditing"
+                                Value="True"/>
+                    </Style>
+
+                    <DataTemplate x:Key="ReadOnlyNumericTemplate">
+                        <TextBlock Text="{Binding Id}">
+
+                        </TextBlock>
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="EditingNumericTemplate">
+                        <custom:DsTextBox Text="{Binding Id}"
+                                          Input="Numeric">
+
+                        </custom:DsTextBox>
+                    </DataTemplate>
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
