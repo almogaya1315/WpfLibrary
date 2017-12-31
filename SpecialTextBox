@@ -1,0 +1,98 @@
+public class DsTextBox : System.Windows.Controls.TextBox
+    {
+        public DsTextBox()
+        {
+            Loaded += DsTextBox_Loaded;
+        }
+
+        private void DsTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            Focus();
+
+            var grid = XamlHelper.FindParent<DsDataGrid>(this);
+            var row = XamlHelper.FindParent<DataGridRow>(this);
+            grid.SelectedItem = row.DataContext;
+
+            var cell = DataContext as CellViewModel;
+            FocusPlayer(cell);
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.Right || e.Key == Key.Left || e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Enter)
+            {
+                BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom(Colors.Red.ToString());
+                BorderThickness = new Thickness(1.0);
+
+                e.Handled = true;
+
+                var direction = FocusNavigationDirection.Next;
+                switch (e.Key)
+                {
+                    case Key.Left:
+                        direction = FocusNavigationDirection.Previous;
+                        break;
+                    case Key.Right:
+                        direction = FocusNavigationDirection.Next;
+                        break;
+                    case Key.Down:
+                    case Key.Enter:
+                        direction = FocusNavigationDirection.Down;
+                        break;
+                    case Key.Up:
+                        direction = FocusNavigationDirection.Up;
+                        break;
+                }
+
+                MoveFocus(new TraversalRequest(direction));
+            }
+
+            base.OnPreviewKeyDown(e);
+        }
+
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnGotKeyboardFocus(e);
+            DispatcherHelper.UIDispatcher.InvokeAsync(() =>
+            {
+                SelectAll();
+            }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        }
+
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e)
+        {
+            base.OnPreviewTextInput(e);
+            if ((e.Text.Length > 0 && !char.IsDigit(e.Text, e.Text.Length - 1)) || Text.Length > 2)
+                e.Handled = true;
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+
+            var cell = DataContext as CellViewModel;
+            FocusPlayer(cell);
+        }
+
+        private void FocusPlayer(CellViewModel cell)
+        {
+            try
+            {
+                var player = cell.Value as PlayerViewModel;
+                var report = (ReportViewModel)cell.Report;
+
+                DataGridRow eventRow = null;
+                EventViewModel eventVM = null;
+
+                eventRow = XamlHelper.FindParent<DataGridRow>(this);
+                eventVM = (EventViewModel)eventRow.DataContext;
+
+                player.TeamId = eventVM.TeamId;
+                report.FocusPlayer(eventVM, player);
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+    }
