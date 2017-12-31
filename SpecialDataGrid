@@ -1,0 +1,102 @@
+public class DsDataGrid : System.Windows.Controls.DataGrid
+    {
+        public DsDataGrid()
+        {
+            CanUserAddRows = false;
+            CanUserDeleteRows = false;
+            CanUserResizeRows = false;
+            CanSelectMultipleItems = false;
+            CanUserReorderColumns = false;
+            CanUserResizeColumns = false;
+            CanUserSortColumns = false;
+            AutoGenerateColumns = false;
+            SelectionMode = DataGridSelectionMode.Single;
+
+            AddHandler(GotFocusEvent, new RoutedEventHandler(OnAnyGotFocus));
+        }
+
+        public object ItemInView
+        {
+            get { return (object)GetValue(ItemInViewProperty); }
+            set { SetValue(ItemInViewProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemInViewProperty =
+            DependencyProperty.Register("ItemInView", typeof(object), typeof(DsDataGrid), new PropertyMetadata(null,OnItemInViewChanged));
+
+        private static void OnItemInViewChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var grid = d as DsDataGrid;
+
+            if (e.NewValue == null) return;
+
+            grid.ScrollIntoView(e.NewValue);
+        }
+
+        private void OnAnyGotFocus(object sender, RoutedEventArgs e)
+        {
+            var cell = e.OriginalSource as DataGridCell;
+            if (cell == null)
+            {
+                var element = e.OriginalSource as FrameworkElement;
+                cell = XamlHelper.FindParent<DataGridCell>(element);
+            }
+            if (cell != null && !cell.IsReadOnly)
+            {
+                cell.IsEditing = true;
+            }
+        }
+
+        public List<ViewModels.ColumnViewModel> ColumnBindings
+        {
+            get { return (List<ViewModels.ColumnViewModel>)GetValue(ColumnsProperty); }
+            set { SetValue(ColumnsProperty, value); }
+        }
+
+        public static readonly DependencyProperty ColumnsProperty =
+            DependencyProperty.Register("ColumnBindings",
+            typeof(List<ViewModels.ColumnViewModel>), typeof(DsDataGrid),
+            new PropertyMetadata(null, ColumnsChanged));
+
+        private static void ColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var grid = (DsDataGrid)d;
+            if (grid == null) return;
+
+            var columns = (List<ViewModels.ColumnViewModel>)d.GetValue(ColumnsProperty);
+            if (columns == null || columns.Count == 0) return;
+
+            double gridWidth = 0;
+            grid.Columns.Clear();
+            foreach (var c in columns)
+            {
+                var column = new DsDataGridColumn()
+                {
+                    Header = c.Header,
+                    CellTemplate = (DataTemplate)grid.FindResource(c.TemplateName),
+                    DataContextPath = c.DataContextPath,
+                };
+
+                if (c.HeaderTemplate != null)
+                    column.HeaderTemplate = (DataTemplate)grid.FindResource(c.HeaderTemplate);
+
+                //if (c.IsSizeToHeader)
+                //    column.Width = DataGridLength.SizeToHeader;
+                //else column.Width = new DataGridLength(c.Width, DataGridLengthUnitType.Pixel);
+
+                if (c.Width > 0)
+                {
+                    column.Width = new DataGridLength(c.Width, DataGridLengthUnitType.Pixel);
+                }
+
+                if (c.EditingTemplateName != null)
+                    column.CellEditingTemplate = (DataTemplate)grid.FindResource(c.EditingTemplateName);
+                else column.IsReadOnly = true;
+
+                gridWidth += c.Width;
+                grid.Columns.Add(column);
+            }
+
+            //grid.Width = gridWidth + 30;
+        }
+    }
