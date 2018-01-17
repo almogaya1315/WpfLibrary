@@ -1,0 +1,67 @@
+/*    ==Scripting Parameters==
+
+    Source Server Version : SQL Server 2016 (13.0.4457)
+    Source Database Engine Edition : Microsoft SQL Server Standard Edition
+    Source Database Engine Type : Standalone SQL Server
+
+    Target Server Version : SQL Server 2017
+    Target Database Engine Edition : Microsoft SQL Server Standard Edition
+    Target Database Engine Type : Standalone SQL Server
+*/
+
+USE [DangerPlus]
+GO
+/****** Object:  StoredProcedure [dbo].[stp_DangerPlusAdmin_UpsertTargetManReports]    Script Date: 17/01/2018 11:24:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[stp_DangerPlusAdmin_UpsertTargetManReports]
+	@Reports			AS		TargetManReport			READONLY
+   ,@ModifiedUserId		AS		INT	
+AS
+BEGIN
+	MERGE TblTargetManReports	AS reportTarget
+	USING @Reports				AS reprotSource
+	ON reportTarget.Id = reprotSource.Id
+	WHEN MATCHED THEN
+		UPDATE 
+		SET  reportTarget.UserId = reprotSource.UserId
+		    ,reportTarget.ShiftId = reprotSource.ShiftId
+			,reportTarget.Done = reprotSource.Done
+			,reportTarget.Irrelevant = reprotSource.Irrelevant
+			,reportTarget.ShiftManagerComments = reprotSource.ShiftManagerComments
+			,reportTarget.SendByUserId = reprotSource.SendByUserId
+			,reportTarget.SendDate = reprotSource.SendDate
+			,reportTarget.PrimarySent = reprotSource.PrimarySent
+			,reportTarget.SuccessTargetManDateTime = reprotSource.SuccessTargetManDateTime
+			,reportTarget.SuccessLogicDateTime = reprotSource.SuccessLogicDateTime
+			,reportTarget.ModifiedByUserId = @ModifiedUserId
+			,reportTarget.ModifiedByDate = GETDATE()
+	WHEN NOT MATCHED BY TARGET  THEN
+		INSERT(DangerReportId
+			   ,GameId
+			   ,UserId
+			   ,ShiftId
+			   ,Done
+			   ,Irrelevant
+			   ,ShiftManagerComments
+			   ,SendByUserId
+			   ,SendDate
+			   ,PrimarySent
+			   ,SuccessTargetManDateTime
+			   ,SuccessLogicDateTime)
+		VALUES(reprotSource.DangerReportId
+			   ,reprotSource.GameId
+			   ,reprotSource.UserId
+			   ,reprotSource.ShiftId
+			   ,reprotSource.Done
+			   ,reprotSource.Irrelevant
+			   ,reprotSource.ShiftManagerComments
+			   ,reprotSource.SendByUserId
+			   ,reprotSource.SendDate
+			   ,reprotSource.PrimarySent
+			   ,reprotSource.SuccessTargetManDateTime
+			   ,reprotSource.SuccessLogicDateTime)
+	;
+END
