@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TeamKits.Base;
+using TeamKits.Enums;
 
 namespace TeamKits.Report.ViewModels
 {
@@ -20,6 +21,7 @@ namespace TeamKits.Report.ViewModels
         public List<string> TeamColors { get; set; }
 
         public ICommand ShowTeamKits { get; set; }
+        public ICommand UserDone { get; set; }
 
         public ReportViewModel(WindowManager windowManager)
         {
@@ -30,6 +32,7 @@ namespace TeamKits.Report.ViewModels
             SetEvents();
 
             ShowTeamKits = new RelayCommand(ShowTeamKitsWindow);
+            UserDone = new RelayCommand(UserDoneConfimation);
         }
 
         private void SetTeamColors()
@@ -147,6 +150,16 @@ namespace TeamKits.Report.ViewModels
                     Player3 = new PlayerViewModel() { Id = Game.AwayTeam.Squad[3].Id },
                 },
             };
+        }
+
+        private void UserDoneConfimation()
+        {
+            _windowManager.ShowMessageBox("Are you sure?", "User done", "Yes", true, "No", BoxOperation.UserDone, UserDoneConfirmed);
+        }
+
+        public void UserDoneConfirmed()
+        {
+            // ..
         }
 
         private void ShowTeamKitsWindow()

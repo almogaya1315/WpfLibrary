@@ -19,18 +19,18 @@ namespace TeamKits.Report.Views
 {
     public partial class ReportWindow : MetroWindow
     {
-        readonly private IDialogService _dialogService;
+        readonly private WindowManager _windowManager;
 
-        public ReportWindow(IDialogService dialogService)
+        public ReportWindow(WindowManager windowManager)
         {
             InitializeComponent();
 
-            _dialogService = dialogService;
+            _windowManager = windowManager;
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            _dialogService.ShowMessageBox($"Are you sure?", "Exit", showNoBtn: true);
+            _windowManager.ShowMessageBox($"Are you sure?", "Exit", showNoBtn: true, operation: Enums.BoxOperation.Exit);
 
             e.Cancel = true;
             base.OnClosing(e);

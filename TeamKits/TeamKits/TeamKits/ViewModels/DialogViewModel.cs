@@ -7,11 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using TeamKits.Enums;
 
 namespace TeamKits.ViewModels
 {
     public class DialogViewModel : ViewModelBase
     {
+        private BoxOperation _operation;
+        private Action _action;
+
         public string Message { get; set; }
         public string Caption { get; set; }
         public string Yes { get; set; }
@@ -21,8 +25,11 @@ namespace TeamKits.ViewModels
         public ICommand YesBtn { get; set; }
         public ICommand NoBtn { get; set; }
 
-        public DialogViewModel(string message, string caption, string yesBtn, bool showNoBtn, string noBtn)
+        public DialogViewModel(string message, string caption, string yesBtn, bool showNoBtn, string noBtn, BoxOperation operation, Action action)
         {
+            _operation = operation;
+            _action = action;
+
             Message = message;
             Caption = caption;
             Yes = yesBtn;
@@ -35,12 +42,27 @@ namespace TeamKits.ViewModels
 
         private void NoButtonPressed()
         {
-            //Application.Current.Windows.Cast<>
+            CloseMessageBox();
         }
 
         private void YesButtonPressed()
         {
-            Application.Current.Shutdown();
+            switch (_operation)
+            {
+                case BoxOperation.Exit:
+                    Application.Current.Shutdown();
+                    break;
+                case BoxOperation.UserDone:
+                    _action?.Invoke();
+                    break;
+            }
+
+            CloseMessageBox();
+        }
+
+        private void CloseMessageBox()
+        {
+            Application.Current.Windows.Cast<Window>().Single(w => w.DataContext == this).Close();
         }
     }
 }

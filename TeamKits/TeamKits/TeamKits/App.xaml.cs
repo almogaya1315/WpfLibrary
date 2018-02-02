@@ -16,9 +16,8 @@ namespace TeamKits
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             var windowManager = new WindowManager();
-            var dialogService = new DialogService();
 
-            var report = new ReportWindow(dialogService);
+            var report = new ReportWindow(windowManager);
             report.DataContext = new ReportViewModel(windowManager);
             report.Show();
         }

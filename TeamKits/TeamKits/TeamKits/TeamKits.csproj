@@ -83,12 +83,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Base\DialogService.cs" />
     <Compile Include="Base\WindowManager.cs" />
     <Compile Include="Base\XamlHelper.cs" />
     <Compile Include="Controls\DsDataGrid.cs" />
     <Compile Include="Controls\DsTextBox.cs" />
     <Compile Include="Converters\StringColorToBrushConverter.cs" />
+    <Compile Include="Enums\BoxOperation.cs" />
     <Compile Include="Report\ViewModels\GameViewModel.cs" />
     <Compile Include="Report\ViewModels\EventViewModel.cs" />
     <Compile Include="Report\ViewModels\PlayerViewModel.cs" />

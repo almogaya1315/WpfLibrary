@@ -113,7 +113,9 @@
                 <Button Content="Team Kits"
                         Command="{Binding ShowTeamKits}"
                         Template="{StaticResource ButtonTemplate}" />
-
+                <Button Template="{StaticResource ButtonTemplate}"
+                        Content="User done"
+                        Command="{Binding UserDone}"/>
             </StackPanel>
         </materialDesign:Card>
 

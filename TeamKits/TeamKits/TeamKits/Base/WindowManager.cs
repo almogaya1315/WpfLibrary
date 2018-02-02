@@ -6,8 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using TeamKits.Enums;
 using TeamKits.Report.ViewModels;
 using TeamKits.Report.Views;
+using TeamKits.ViewModels;
+using TeamKits.Views;
 
 namespace TeamKits.Base
 {
@@ -27,6 +30,24 @@ namespace TeamKits.Base
             };
 
             window.Show();
+        }
+
+        public void ShowMessageBox(string message, string caption, string yesBtn = "OK", bool showNoBtn = false, string noBtn = "Cancel", BoxOperation operation = BoxOperation.Message, Action action = null)
+        {
+            var dialogViewModel = new DialogViewModel(message, caption, yesBtn, showNoBtn, noBtn, operation, action);
+
+            var window = new DialogView()
+            {
+                DataContext = dialogViewModel,
+                Topmost = true,
+                Title = caption,
+                ResizeMode = ResizeMode.NoResize,
+                Height = 150,
+                Width = 300,
+                BorderBrush = Brushes.LightBlue,
+            };
+
+            window.ShowDialog();
         }
     }
 }
