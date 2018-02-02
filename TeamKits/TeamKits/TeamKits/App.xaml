@@ -5,6 +5,8 @@
              xmlns:converters="clr-namespace:TeamKits.Converters"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:custom="clr-namespace:TeamKits.Controls"
+             xmlns:viewModels="clr-namespace:TeamKits.ViewModels"
+             xmlns:views="clr-namespace:TeamKits.Views"
              x:Class="TeamKits.App"
              Startup="Application_Startup"
              d1p1:Ignorable="d">
@@ -25,6 +27,11 @@
                 <ResourceDictionary>
 
                     <converters:StringColorToBrushConverter x:Key="stringToBrush" />
+                    <BooleanToVisibilityConverter x:Key="boolToVis"/>
+
+                    <DataTemplate DataType="{x:Type viewModels:DialogViewModel}">
+                        <views:DialogView />
+                    </DataTemplate>
 
                     <ControlTemplate x:Key="ButtonTemplate">
                         <Border Width="100"

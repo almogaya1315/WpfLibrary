@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,14 +13,27 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TeamKits.Base;
 
 namespace TeamKits.Report.Views
 {
     public partial class ReportWindow : MetroWindow
     {
-        public ReportWindow()
+        readonly private IDialogService _dialogService;
+
+        public ReportWindow(IDialogService dialogService)
         {
             InitializeComponent();
+
+            _dialogService = dialogService;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            _dialogService.ShowMessageBox($"Are you sure?", "Exit", showNoBtn: true);
+
+            e.Cancel = true;
+            base.OnClosing(e);
         }
     }
 }
