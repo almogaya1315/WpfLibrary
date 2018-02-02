@@ -45,6 +45,7 @@ namespace TeamKits.Base
                 Height = 150,
                 Width = 300,
                 BorderBrush = Brushes.LightBlue,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
             };
 
             window.ShowDialog();

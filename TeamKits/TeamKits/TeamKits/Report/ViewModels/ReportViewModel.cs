@@ -32,7 +32,7 @@ namespace TeamKits.Report.ViewModels
             SetEvents();
 
             ShowTeamKits = new RelayCommand(ShowTeamKitsWindow);
-            UserDone = new RelayCommand(UserDoneConfimation);
+            UserDone = new RelayCommand(UserDoneConfirmation);
         }
 
         private void SetTeamColors()
@@ -152,9 +152,20 @@ namespace TeamKits.Report.ViewModels
             };
         }
 
-        private void UserDoneConfimation()
+        private void UserDoneConfirmation()
         {
-            _windowManager.ShowMessageBox("Are you sure?", "User done", "Yes", true, "No", BoxOperation.UserDone, UserDoneConfirmed);
+            if (!ReportValid())
+            {
+                _windowManager.ShowMessageBox("Are you sure?", "User done", "Yes", true, "No", BoxOperation.UserDone, UserDoneConfirmed);
+                return;
+            }
+
+            UserDoneConfirmed();
+        }
+
+        private bool ReportValid()
+        {
+            return false;
         }
 
         public void UserDoneConfirmed()
