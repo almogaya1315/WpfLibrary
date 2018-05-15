@@ -1,0 +1,81 @@
+public class ConstructorParameter
+    {
+        public ConstructorParameter(string name, object value)
+        {
+            Name = name;
+            Value = value;
+        }
+
+
+        public string Name { get; private set; }
+
+        public object Value { get; private set; }
+    }
+    
+    public interface IInjector
+    {
+        T Get<T>();
+        T Get<T>(params ConstructorParameter[] args);
+
+        void Bind<I, T>() where T : I;
+
+        void Bind<T>(T obj);  
+    }
+    
+    
+    public class Injector : IInjector
+    {
+        private IKernel _container;
+
+
+        public Injector(IKernel container)
+        {
+            _container = container;
+        }
+
+        public Injector()
+        {
+            var kernel = new StandardKernel();
+            _container = kernel;
+
+            Bind<IInjector>(this);
+            Bind(new Configuration());
+            Bind<IChangesManager, ChangesManager>();
+            Bind<IUserBoxLauncher, UserBoxLauncher>();
+            Bind<ILogin,LoginService>();
+            //Bind<IDialogService,DialogService>();
+
+            Bind<ICricketRepository,CricketRepository>();
+
+            Bind<ICsdRepository,CsdRepository>();
+
+            Bind<IVmtRepository,VmtRepository>();
+
+            Bind<IBssProducer, BssProducer>();
+
+            Bind<IBssBroker, BssBroker>();
+
+        }
+
+        public void Bind<I, T>() where T : I
+        {
+            _container.Bind<I>().To<T>().InSingletonScope();
+        }
+
+        public void Bind<T>(T obj)
+        {
+            _container.Bind<T>().ToConstant(obj).InSingletonScope();
+        }
+
+        public T Get<T>()
+        {
+            return _container.Get<T>();
+        }
+
+
+        public T Get<T>(params ConstructorParameter[] args)
+        {
+            return _container.Get<T>(args.Select(e => new ConstructorArgument(e.Name, e.Value, true)).ToArray());
+        }
+    }
+}
