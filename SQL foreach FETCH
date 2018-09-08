@@ -1,0 +1,85 @@
+USE [CentralDB-Test]
+GO
+/****** Object:  StoredProcedure [dbo].[stp_GsmImportMatches_AddOrUpdateMatches]    Script Date: 9/8/2018 1:02:13 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER PROCEDURE [dbo].[stp_GsmImportMatches_AddOrUpdateMatches]
+@FixtureIds TwoInts READONLY,
+@UserId INT = NULL,
+@GeckoMode BIT,
+@SecUser INT
+AS
+
+DECLARE @Output AS TABLE (RequestId INT,Id INT,AnyCsdMissing BIT,AnyGsmMissing BIT,Exception NVARCHAR(4000))
+
+
+DECLARE db_cursor CURSOR FOR  
+SELECT	Int1 AS RequestId ,
+		Int2 AS FixtureId
+FROM @FixtureIds 
+
+DECLARE @RequestId	INT,
+		@FixtureId	INT
+		
+
+OPEN db_cursor   
+FETCH NEXT FROM db_cursor INTO @RequestId, @FixtureId
+
+WHILE @@FETCH_STATUS = 0   
+BEGIN   
+    
+	DECLARE	@AnyCsdMissing BIT,
+		@AnyGsmMissing BIT;
+		BEGIN TRY
+		
+			EXEC stp_GsmImportMatches_AddOrUpdateMatch @Id = @FixtureId, -- int
+				@UserId = @UserId, -- int
+				@AnyCsdMissing = @AnyCsdMissing OUTPUT, -- bit
+				@AnyGsmMissing = @AnyGsmMissing OUTPUT, -- bit
+				@GeckoMode = @GeckoMode, -- bit
+				@SecUser = @SecUser -- int
+	   
+			INSERT INTO @Output
+					(
+						RequestId,
+						Id,
+						AnyCsdMissing,
+						AnyGsmMissing,
+						Exception
+					)
+			VALUES	(
+						@RequestId,
+						@FixtureId, -- Id - int
+						@AnyCsdMissing, -- AnyCsdMissing - bit
+						@AnyGsmMissing, -- AnyGsmMissing - bit
+						NULL  -- Exception - nvarchar(2500)
+					)
+	   END TRY
+	   BEGIN CATCH
+			INSERT INTO @Output
+					(
+						RequestId,
+						Id,
+						Exception
+					)
+			VALUES	(
+						@RequestId,
+						@FixtureId, -- Id - int
+						ERROR_MESSAGE()  -- Exception - nvarchar(2500)
+					)
+
+	   END CATCH
+
+	FETCH NEXT FROM db_cursor INTO @RequestId, @FixtureId
+
+END   
+
+CLOSE db_cursor   
+DEALLOCATE db_cursor
+
+SELECT *
+FROM @Output
